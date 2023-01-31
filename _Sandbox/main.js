@@ -23,11 +23,15 @@ let portList = [
         ['Lisbon', 'Spain', '0', '2023-06-15', '-', '20:00'],
         ['At Sea', 'NCL Getaway', '1', '2023-06-16', '00:00', '24:00']
 ];
-let ActivityList = {
+let activityList = {
     'Lisbon': { '00': [['Hang Out', 'Beach'], ['Dinner', 'Hotel Restaurant']] },
     'Lisbon': { '0': [['Repack', 'Hotel'], ['Lunch', 'Hotel Restaurant'], ['Transit to Ship', 'Shuttle', '16:00', '17:00']] },
     'At Sea': { '1': [['Ship Activity 1'], ['Ship Activity 2']]},
 };
+
+let activityType = ['Sleep', 'Breakfast', 'Lunch', 'Dinner', 'Free time', 'Transit', 'Check -in', 'Check - out', 'Shopping', 'Snorkling', 'SCUBA',
+    'Swimming', 'Workout', 'Reading', 'Planning', 'Group Tour', 'Private Tour', 'NCL Tour', 'Wikipedia Tour'];
+]
 
 function validateForm(frmItem, type) {
 
