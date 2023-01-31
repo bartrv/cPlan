@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Testing JS data save local</title>
+    <script defer="defer" type="application/javascript" src="main.js"></script>
+    <script>
+        //https://www.w3schools.com/jsref/prop_win_localstorage.asp
+
+        let dataList = { "isDataSaved": 0, "inputName": "", "inputDate": "", "inputCity": "", "inputTime": "", "inputInteger": 0, "inputDescription": "" };
+        let toggleFlags = { "shipDetails": 1, "portOfCallList": 1, "tripMap": 1, "emergancyInfo": 1, "configOptions": 1 };
+
+        function storeData(formData) {
+            //alert(formData.inputName.value);
+            for (const [key, value] of Object.entries(dataList)) {
+                //itemName = formData[i].name;
+                dataList[key] = formData[key].value;
+            }
+            for (const [key, value] of Object.entries(dataList)) {
+                console.log(`${key}: ${value}`);
+                localStorage.setItem(key, value);
+            }
+        }
+
+        function getData() {
+            if (localStorage.getItem("isDataSaved")) {
+                for (const [key, value] of Object.entries(dataList)) {
+                    //itemName = formData[i].name;
+                    dataList[key] = localStorage.getItem(key);
+                }
+                for (const [key, value] of Object.entries(dataList)) {
+                    switch (key) {
+                        case "inputName":
+                            document.getElementById("outName").value = localStorage.getItem(key);
+                            break;
+                        case "inputDate":
+                            document.getElementById("outDate").value = localStorage.getItem(key);
+                            break;
+                        case "inputCity":
+                            document.getElementById("outCity").value = localStorage.getItem(key);
+                            break;
+                        case "inputTime":
+                            document.getElementById("outTime").value = localStorage.getItem(key);
+                            break;
+                        case "inputInteger":
+                            document.getElementById("outInteger").value = localStorage.getItem(key);
+                            break;
+                        case "inputDescription":
+                            document.getElementById("outDescription").value = localStorage.getItem(key);
+                            break;
+
+                    }
+
+                }
+            }
+
+        }
+
+        function getMachineId() {
+
+            let machineId = localStorage.getItem('MachineId');
+
+            if (!machineId) {
+                machineId = crypto.randomUUID();
+                localStorage.setItem('MachineId', machineId);
+            }
+
+            return machineId;
+        }
+    </script>
+    <style>
+        html, body {
+            padding: 0px;
+            margin: 0px;
+            height: 100%;
+            width: 100%;
+            background-color: #FFF;
+        }
+
+        #toggleRight {
+            cursor: pointer;
+        }
+
+        #toggleRight:disabled {
+            cursor: not-allowed;
+        }
+        #menuMain {
+            padding: 0px;
+            margin: 0px;
+            height: 210px;
+            width: 55px;
+            position: fixed;
+            right: 0px;
+            top: 10px;
+            background-color: #eeeeee00;
+            border: none;
+            z-index: 20;
+        }
+        #menuMain .button{position: static; right: 0px; width:45px; height:45px; margin-bottom:2px; background-color: #f9f9f9; border:outset 1px; border-right: none; border-radius:5px 0px 0px 5px; margin-left: auto;}
+        #portOfCallList {position:absolute; right:0px; top:5px; width: calc(100% - 30px); border:#000 solid 1px; background-color:#BBBBBBEE;z-index:10;}
+    </style>
+</head>
+<body>
+    <div style="position: relative; width: 100%; height:252px; background-color: #d4d4d4; overflow:hidden; z-index:0">
+        <div id="divOverview" style="position: relative; width: 300px; height: 250px; border: #000 solid 1px;">
+            <form action="#" onsubmit="storeData(this);" accept-charset="utf-8" id="storeForm" name="storeForm">
+                <input type="hidden" value="1" name="isDataSaved" />
+                <table>
+                    <tr><td><label for="inputName">Name</label></td><td><input type="text" oninput="validateForm(this,'plainText')" name="inputName" /></td></tr>
+                    <tr>
+                        <td>
+                            <label for="inputDate">Date</label>
+                        </td>
+                        <td>
+                            <input type="datetime-local" name="inputDate" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="inputCity">City</label>
+                        </td>
+                        <td>
+                            <input type="text" oninput="validateForm(this,'plainText')" name="inputCity" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="inputTime">Time</label>
+                        </td>
+                        <td>
+                            <input type="time" name="inputTime" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="inputInteger">Integer</label>
+                        </td>
+                        <td>
+                            <input type="text" name="inputInteger" oninput="validateForm(this,'number')" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="inputDescription">Description</label>
+                        </td>
+                        <td>
+                            <textarea name="inputDescription" oninput="validateForm(this,'mixedText')" style="width:150px; height:50px;"></textarea>
+                        </td>
+                    </tr>
+                </table>
+                <input type="submit" value="Save Form Data" />
+            </form>
+        </div>
+    </div>
+    <div id="portOfCallList">
+        <input type="button" onclick="GeneratePOCList()" value="Generate Port List"/>
+        <div id="portHeader">
+            <input type="button" name="getData" value="Get Current Data" onclick="getData()" />
+            <table>
+                <tr><td><label for="outName">Name</label></td><td><input type="text" name="outName" id="outName" /></td></tr>
+                <tr>
+                    <td>
+                        <label for="outDate">Date</label>
+                    </td>
+                    <td>
+                        <input type="text" name="outDate" id="outDate" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="outCity">City</label>
+                    </td>
+                    <td>
+                        <input type="text" name="outCity" id="outCity" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="outTime">Time</label>
+                    </td>
+                    <td>
+                        <input type="text" name="outTime" id="outTime" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="outInteger">Integer</label>
+                    </td>
+                    <td>
+                        <input type="text" name="outInteger" id="outInteger" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="outDescription">Description</label>
+                    </td>
+                    <td>
+                        <textarea name="outDescription" id="outDescription" style="width:150px; height:50px;"></textarea>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div id="itineraryList">
+            
+        </div>
+        
+    </div>
+    <div id="shipDetails"></div>
+    <div id="tripMap"></div>
+    <div id="emergancyInfo"></div>
+    <div id="configOptions"></div>
+    <div id="menuMain">
+        <div id="btn_shipDetail" class="button" onmouseover="mouseIn(this)" onmouseout="mouseOut(this,'shipDetails')" onclick="mouseClick(this,'shipDetails')"><img src="..\images\ship.svg" style="padding: 4px; height: 36px; width: 36px;" /></div>
+        <div id="btn_dayPlans" class="button" onmouseover="mouseIn(this)" onmouseout="mouseOut(this,'portOfCallList')" onclick="mouseClick(this,'portOfCallList')"><img src="..\images\listMenu.svg" style="padding:4px; height:36px; width:36px;" /></div>
+        <div id="btn_tripMap" class="button" onmouseover="mouseIn(this)" onmouseout="mouseOut(this,'tripMap')" onclick="mouseClick(this,'tripMap')"><img src="..\images\compass.svg" style="padding:4px; height:36px; width:36px;" /></div>
+        <div id="btn_emergency" class="button" onmouseover="mouseIn(this)" onmouseout="mouseOut(this,'emergancyInfo')" onclick="mouseClick(this,'emergancyInfo')"><img src="..\images\emergency.svg" style="padding:4px; height:36px; width:36px;" /></div>
+        <div id="btn_config" class="button" onmouseover="mouseIn(this)" onmouseout="mouseOut(this,'configOptions')" onclick="mouseClick(this,'configOptions')"><img src="..\images\hammer.svg" style="padding:4px; height:36px; width:36px;" /></div>
+    </div>
+    <input type="button" value="toggle Move" name="toggleRight" id="toggleRight" onclick="toggleMove('portOfCallList', 150, 0, 300, this)" />
+    <hr />
+
+
+</body>
+</html>
