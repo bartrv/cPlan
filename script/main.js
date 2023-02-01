@@ -18,35 +18,17 @@
  Detail:    Drop-Off/End location
 
  */
-let portList = [
-    ['Lisbon', 'Spain', '00', '2023-06-14', '18:00', '-'],
-    ['Lisbon', 'Spain', '0', '2023-06-15', '-', '20:00'],
-    ['At Sea', 'NCL Getaway', '1', '2023-06-16', '00:00', '24:00']
-];
-let activityList = {
-    'Lisbon': { '00': [['Hang Out', 'Beach'], ['Dinner', 'Hotel Restaurant']] },
-    'Lisbon': { '0': [['Repack', 'Hotel'], ['Lunch', 'Hotel Restaurant'], ['Transit to Ship', 'Shuttle', '16:00', '17:00']] },
-    'At Sea': { '1': [['Ship Activity 1'], ['Ship Activity 2']] },
-};
-
-let activityType = ['Sleep', 'Breakfast', 'Lunch', 'Dinner', 'Free time', 'Transit', 'Check -in', 'Check - out', 'Shopping', 'Snorkling', 'SCUBA',
-    'Swimming', 'Workout', 'Reading', 'Planning', 'Group Tour', 'Private Tour', 'NCL Tour', 'Wikipedia Tour'];
-
-function validateForm(frmItem, type) {
-
-    let itemValue = frmItem.value;
-    let validOutput = "";
-    let matchString = ""
-    if (type == 'plainText') matchString = "[a-zA-Z \\-'.]";
-    if (type == 'number') matchString = "\\d";
-    if (type == 'mixedText') matchString = "[a-zA-Z \\-'.\\d,@()$?]";
-
-    for (let i = 0; i < itemValue.length; i++) {
-        if (itemValue.charAt(i).match(matchString) != null) validOutput = validOutput + itemValue.charAt(i);
-    }
-
-    frmItem.value = validOutput;
-}
+/* localStorage data schema:
+ * dataList = {
+ * "isDataSaved": "1" or null (yes/no)
+ * "toggleFlags":"Stringified list", 
+ * "tripOvrViewList":"Stringified list",
+ * "portList":"Stringified array",
+ * "activityList":"Stringified list",
+ * "emergencyDataList": "Stringified array"
+ * "activityTypeList": "Stringified array",
+ * };
+ */
 
 function toggleMove(tmObject, tmDistX, tmDistY, tmTiming, caller) {
     caller.disabled = "disabled";
@@ -115,6 +97,27 @@ function mouseClick(mouseObject, actionTarget) {
 }
 
 function GeneratePOCList() {
+    /*
+       <div id="primaryInformation" class="boxStyle_01">
+			<div style="width:100%; text-align:center;">- NCL Getaway -</div>
+			<div id="overviewItems" style="font-weight:normal;width:100%; overflow:hidden;">
+				<div style="float:left; width:30%;padding-left:5px">June 14th - June 25th</div>
+				<div style="float:right;width:50%;text-align:right;padding-right:5px">Lisbon, Portugal - Rome, Italy</div>
+			</div>
+		</div>
+		<div id="dayItem_000" class="boxStyle_01">
+			<table style="width:100%;"><tr><td style="width:60px;">Day:</td><td style="width:20px;">0</td><td style="text-align:right;">Arrive in Lisbon</td><td style="width:30px;"> </td></tr></table>
+		</div>
+		<div id="dayItem_001" class="boxStyle_01">
+			<table style="width:100%;"><tr><td style="width:60px;">Day:</td><td style="width:20px;">0</td><td style="text-align:right;">Arrive in Lisbon</td><td style="width:30px;"> </td></tr></table>
+		</div>
+		<div id="dayItem_002" class="boxStyle_01">
+			<table style="width:100%;"><tr><td style="width:60px;">Day:</td><td style="width:20px;">0</td><td style="text-align:right;">Arrive in Lisbon</td><td style="width:30px;"> </td></tr></table>
+		</div>
+		<div id="dayItem_003" class="boxStyle_01">
+			<table style="width:100%;"><tr><td style="width:60px;">Day:</td><td style="width:20px;">0</td><td style="text-align:right;">Arrive in Lisbon</td><td style="width:30px;"> </td></tr></table>
+		</div>
+    */
     let POCHTML = "";
     for (const portItem of portList) {
         POCHTML = POCHTML + "<div id=\"day" + portItem[2] + "\" class=\"PortOfCallItem\" onclick='' onmouseenter='' onmouseleave=''>";
