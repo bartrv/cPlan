@@ -19,31 +19,32 @@
 
  */
 /* localStorage data schema:
+ * cPlanDataSaved = 0 or 1
+ * cPlanDataList = JSON.stringified(datalist)
  * dataList = {
  * "isDataSaved": "1" or null (yes/no)
- * "toggleFlags":"Stringified list", 
- * "tripOvrViewList":"Stringified list",
- * "portList":"Stringified array",
- * "activityList":"Stringified list",
- * "emergencyDataList": "Stringified array"
- * "activityTypeList": "Stringified array",
+ * "toggleFlags":list, 
+ * "tripOvrViewList":list,
+ * "portList":array,
+ * "activityList":list,
+ * "emergencyDataList": array
+ * "activityTypeList": array,
  * };
  */
 
-let dataList = { "isDataSaved": null, "toggleFlags": null, "tripOvrViewList": null, "portList": null, "activityList": null, "emergencyDataList": null, "activityTypeList": null };
-
 let toggleFlags = { "shipDetails": 1, "portOfCallList": 1, "tripMap": 1, "emergancyInfo": 1, "configOptions": 1 };
 
-let tripOvrViewList = {
-    "TripName": "European Mediterranean Cruise", "Duration": "12",
-    "DateStart": "20230614", "DateEnd": "20230625", "CruiseLine": "Norwegian Cruise Lines(NCL)", "CruiseLineAcronym": "NCL",
-    "ReservationNumber": "1234567890", "StateRoom": "1403", "travelerFName":"Bart","travelerMI":"R","travelerLName":"Voigt","travelerMobileIntnl":"013179979299"
+let tripOverViewList = {
+    "tripName": "European Mediterranean Cruise", "duration": "12",
+    "dateStart": "2023/06/14", "dateEnd": "2023/06/25", "cruiseLine": "Norwegian Cruise Lines(NCL)", "cruiseLineAcronym": "NCL", "shipName": "Getaway",
+    "portCityStart": "Lisbon", "portCountryStart": "Portugal", "portCityEnd": "Civvatchian(Rome)", "portCountryEnd": "Italy",
+    "reservationNumber": "1234567890", "stateRoom": "1403", "travelerFName":"Bart","travelerMI":"R","travelerLName":"Voigt","travelerMobileIntnl":"013179979299"
 };
 
 let portList = [
-    ['Lisbon', 'Spain', '00', '2023-06-14', '18:00', '-'],
-    ['Lisbon', 'Spain', '0', '2023-06-15', '-', '20:00'],
-    ['At Sea', 'NCL Getaway', '1', '2023-06-16', '00:00', '24:00']
+    ['Lisbon', 'Spain', '00', '2023/06/14', '18:00', '24:00'],
+    ['Lisbon', 'Spain', '0', '2023/06/15', '00:00', '20:00'],
+    ['At Sea', 'NCL Getaway', '1', '2023/06/16', '00:00', '24:00']
 ];
 let activityList = {
     'Lisbon': { '00': [['Hang Out', 'Beach'], ['Dinner', 'Hotel Restaurant']] },
@@ -51,55 +52,82 @@ let activityList = {
     'At Sea': { '1': [['Ship Activity 1'], ['Ship Activity 2']] },
 };
 
+let emergencyDataList = [];
+
 let activityTypeList = ['Sleep', 'Breakfast', 'Lunch', 'Dinner', 'Free time', 'Transit', 'Check -in', 'Check - out', 'Shopping', 'Snorkling', 'SCUBA',
     'Swimming', 'Workout', 'Reading', 'Planning', 'Group Tour', 'Private Tour', 'NCL Tour', 'Wikipedia Tour'];
 
+let dataList = { "isDataSaved": 0, "toggleFlags": toggleFlags, "tripOverViewList": tripOverViewList, "portList": portList, "activityList": activityList, "emergencyDataList": emergencyDataList, "activityTypeList": activityTypeList };
+
 function loadUserData() {
-    if (localStorage.getItem("isDataSaved")) {
-        for (const [key, value] of Object.entries(dataList)) {
-            //itemName = formData[i].name;
-            dataList[key] = localStorage.getItem(key);
-        }
+    if (localStorage.getItem("cPlanDataSaved") == "1") {
+        dataList = JSON.parse(localStorage.getItem("cPlanDataList"));
         for (const [key, value] of Object.entries(dataList)) {
             switch (key) {
-                case "inputName":
-                    document.getElementById("outName").value = localStorage.getItem(key);
+                case "toggleFlags":
+                    toggleFlags = value;
                     break;
-                case "inputDate":
-                    document.getElementById("outDate").value = localStorage.getItem(key);
+                case "tripOverViewList":
+                    tripOverViewList = value;
                     break;
-                case "inputCity":
-                    document.getElementById("outCity").value = localStorage.getItem(key);
+                case "portList":
+                    portList = value;
                     break;
-                case "inputTime":
-                    document.getElementById("outTime").value = localStorage.getItem(key);
+                case "activityList":
+                    activityList = value;
                     break;
-                case "inputInteger":
-                    document.getElementById("outInteger").value = localStorage.getItem(key);
+                case "emergencyDataList":
+                    emergencyDataList = value;
                     break;
-                case "inputDescription":
-                    document.getElementById("outDescription").value = localStorage.getItem(key);
+                case "activityTypeList":
+                    activityTypeList = value;
                     break;
-
             }
-
         }
     }
 }
+
 function storeUserData(formData) {
-    //alert(formData.inputName.value);
+    
     for (const [key, value] of Object.entries(dataList)) {
-        //itemName = formData[i].name;
-        dataList[key] = formData[key].value;
-    }
-    for (const [key, value] of Object.entries(dataList)) {
-        console.log(`${key}: ${value}`);
-        localStorage.setItem(key, value);
-    }
+        localStorage.setItem("cPlanDataSaved", 0);
+        switch (key) {
+            case "isDataSaved":
+                dataList[key] = 0;
+                //localStorage.setItem(key,1);
+                break;
+            case "toggleFlags":
+                dataList[key] = toggleFlags;
+                //localStorage.setItem(key, toggleFlags);
+                break;
+            case "tripOverViewList":
+                dataList[key] = tripOverViewList;
+                //localStorage.setItem(key, tripOvrViewList);
+                break;
+            case "portList":
+                dataList[key] = portList;
+                //localStorage.setItem(key, portList);
+                break;
+            case "activityList":
+                dataList[key] = activityList;
+                //localStorage.setItem(key, activityList);
+                break;
+            case "emergencyDataList":
+                dataList[key] = emergencyDataList;
+                //localStorage.setItem(key, emergencyDataList);
+                break;
+            case "activityTypeList":
+                dataList[key] = activityTypeList;
+                //localStorage.setItem(key, activityTypeList);
+                break;
+        }
+    }  
+    localStorage.setItem("cPlanDataList", JSON.stringify(dataList));
+    dataList.isDataSaved = 1;
+    localStorage.setItem("cPlanDataSaved", 1);
 }
 
 function validateForm(frmItem, type) {
-
     let itemValue = frmItem.value;
     let validOutput = "";
     let matchString = ""
