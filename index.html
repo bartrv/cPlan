@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+	<meta charset="UTF-8" />
+	<meta name='viewport' content='width=device-width, initial-scale=1.0' />
+	<script defer="defer" type="application/javascript" src="script\main.js"></script>
+	<script>
+		//https://www.w3schools.com/jsref/prop_win_localstorage.asp
+		//https://javascript.info/localstorage
+
+		let dataList = { "isDataSaved": 0, "inputName": "", "inputDate": "", "inputCity": "", "inputTime": "", "inputInteger": 0, "inputDescription": "" };
+		let toggleFlags = { "shipDetails": 1, "portOfCallList": 1, "tripMap": 1, "emergancyInfo": 1, "configOptions": 1 };
+
+		function storeData(formData) {
+			//alert(formData.inputName.value);
+			for (const [key, value] of Object.entries(dataList)) {
+				//itemName = formData[i].name;
+				dataList[key] = formData[key].value;
+			}
+			for (const [key, value] of Object.entries(dataList)) {
+				console.log(`${key}: ${value}`);
+				localStorage.setItem(key, value);
+			}
+		}
+
+		function getData() {
+			if (localStorage.getItem("isDataSaved")) {
+				for (const [key, value] of Object.entries(dataList)) {
+					//itemName = formData[i].name;
+					dataList[key] = localStorage.getItem(key);
+				}
+				for (const [key, value] of Object.entries(dataList)) {
+					switch (key) {
+						case "inputName":
+							document.getElementById("outName").value = localStorage.getItem(key);
+							break;
+						case "inputDate":
+							document.getElementById("outDate").value = localStorage.getItem(key);
+							break;
+						case "inputCity":
+							document.getElementById("outCity").value = localStorage.getItem(key);
+							break;
+						case "inputTime":
+							document.getElementById("outTime").value = localStorage.getItem(key);
+							break;
+						case "inputInteger":
+							document.getElementById("outInteger").value = localStorage.getItem(key);
+							break;
+						case "inputDescription":
+							document.getElementById("outDescription").value = localStorage.getItem(key);
+							break;
+
+					}
+
+				}
+			}
+
+		}
+
+		function getMachineId() {
+
+			let machineId = localStorage.getItem('MachineId');
+
+			if (!machineId) {
+				machineId = crypto.randomUUID();
+				localStorage.setItem('MachineId', machineId);
+			}
+
+			return machineId;
+		}
+	</script>
+	<link href="css/main.css" rel="stylesheet">
+	<style>
+		body, html {
+			height: 100%;
+			width: 100%;
+			background-color: #441811;
+			padding: 0px;
+			margin: 0px;
+			font-family: arial;
+			-webkit-font-smoothing: antialiased;
+			overflow: hidden
+		}
+
+		table, td {
+			border: 0px;
+			border-spacing: 0px;
+		}
+
+		.daySelectedPanel td {
+			border: #444444 solid 1px;
+			border-spacing: 0px;
+		}
+	</style>
+</head>
+
+<body>
+	<div id="menuContainer" style="width:100%; height:100%; padding:0; margin:0; overflow:hidden; z-index:15; position: absolute;">
+		<div id="daySelectedOverlay" class="daySelectedPanel">
+			<div style="background-color:#EEEEEE;">
+				<table>
+					<tr><td style="width:65px">Plan for:</td><td style="width:250px">Lisbon, Portugal</td><td style="width:50px"></td><td style="width:70px"></td><td style="width:50px">Day:</td><td style="width:70px">0</td></tr>
+					<tr><td>Date:</td><td>Thursday, June 14th, 2023</td><td>Arrive:</td><td>88:00 AM</td><td>Depart:</td><td>88:00 PM</td></tr>
+				</table>
+			</div>
+
+		</div>
+	</div>
+	<div id="portOfCallList">
+		<div id="primaryInformation" class="boxStyle_01">
+			<div style="width:100%; text-align:center;">- NCL Getaway -</div>
+			<div id="overviewItems" style="font-weight:normal;width:100%;overflow:hidden;">
+				<div style="float:left; width:30%;padding-left:5px">June 14th - June 25th</div>
+				<div style="float:right;width:50%;text-align:right;padding-right:5px">Lisbon, Portugal - Rome, Italy</div>
+			</div>
+		</div>
+		<div id="dayItem_000" class="boxStyle_01">
+			<table style="width:100%;"><tr><td style="width:60px;">Day:</td><td style="width:20px;">0</td><td style="text-align:right;">Arrive in Lisbon</td><td style="width:30px;"> </td></tr></table>
+		</div>
+		<div id="dayItem_001" class="boxStyle_01">
+			<table style="width:100%;"><tr><td style="width:60px;">Day:</td><td style="width:20px;">0</td><td style="text-align:right;">Arrive in Lisbon</td><td style="width:30px;"> </td></tr></table>
+		</div>
+		<div id="dayItem_002" class="boxStyle_01">
+			<table style="width:100%;"><tr><td style="width:60px;">Day:</td><td style="width:20px;">0</td><td style="text-align:right;">Arrive in Lisbon</td><td style="width:30px;"> </td></tr></table>
+		</div>
+		<div id="dayItem_003" class="boxStyle_01">
+			<table style="width:100%;"><tr><td style="width:60px;">Day:</td><td style="width:20px;">0</td><td style="text-align:right;">Arrive in Lisbon</td><td style="width:30px;"> </td></tr></table>
+		</div>
+	</div>
+	<div id="shipDetails"></div>
+	<div id="tripMap"></div>
+	<div id="emergancyInfo"></div>
+	<div id="configOptions"></div>
+	<div id="menuMain">
+		<div id="btn_shipDetail" class="button" onmouseover="mouseIn(this)" onmouseout="mouseOut(this,'shipDetails')" onclick="mouseClick(this,'shipDetails')"><img src="images\ship.svg" style="padding: 4px; height: 36px; width: 36px;" /></div>
+		<div id="btn_dayPlans" class="button" onmouseover="mouseIn(this)" onmouseout="mouseOut(this,'portOfCallList')" onclick="mouseClick(this,'portOfCallList')"><img src="images\listMenu.svg" style="padding:4px; height:36px; width:36px;" /></div>
+		<div id="btn_tripMap" class="button" onmouseover="mouseIn(this)" onmouseout="mouseOut(this,'tripMap')" onclick="mouseClick(this,'tripMap')"><img src="images\compass.svg" style="padding:4px; height:36px; width:36px;" /></div>
+		<div id="btn_emergency" class="button" onmouseover="mouseIn(this)" onmouseout="mouseOut(this,'emergancyInfo')" onclick="mouseClick(this,'emergancyInfo')"><img src="images\emergency.svg" style="padding:4px; height:36px; width:36px;" /></div>
+		<div id="btn_config" class="button" onmouseover="mouseIn(this)" onmouseout="mouseOut(this,'configOptions')" onclick="mouseClick(this,'configOptions')"><img src="images\hammer.svg" style="padding:4px; height:36px; width:36px;" /></div>
+	</div>
+</body>
+</html>
