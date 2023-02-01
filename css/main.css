@@ -1,0 +1,5 @@
+.boxStyle_01 {position: relative; margin:auto; margin-bottom:2px; background-color:#BB7744DD; border: #663322EE solid 2px; border-radius:6px; font-weight: bold; font-size:24px; color:#221100EE; filter: drop-shadow(2px 1px 2px #222222);white-space: nowrap;}
+
+.MainList {position: relative; width: calc(100% - 8px); height: calc(100% - 8px); background-color:#FFFEEEAA; border: #994422 solid 2px; border-radius:8px; padding:2px; margin: auto; z-index:1;}
+
+.daySelectedPanel {position: absolute; right:-2px; top: 10px; width: 600px; height:95%; background-color: #CCCCCCEE; border: #000000 solid 2px; border-radius: 8px 0px 0px 8px; overflow:hidden;}
