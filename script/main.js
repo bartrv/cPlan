@@ -36,13 +36,17 @@ function initFullLoadCPlan() {
     GeneratePOCList();
 }
 
+let timeID = null;
 function toggleMove(tmObject, tmDistX, tmDistY, tmTiming, caller) {
-    caller.disabled = "disabled";
+
+    caller.style.pointerEvents = "none";
     let toggleVal = toggleFlags[tmObject];
     toggleFlags[tmObject] = -1 * toggleVal;
     objectToMove = document.getElementById(tmObject);
-    //console.log(tmObject + ", " + tmDistX + ", " + tmDistY + ", " + tmTiming);
-    const objectXY = [objectToMove.style.left == "" ? 0 : Math.round(objectToMove.style.left.match("\\d+")), objectToMove.style.top == "" ? 0 : Math.round(objectToMove.style.top.match("\\d+"))];
+    objectToMove.style.visibility = "visible";
+    console.log("ToggleMove Received = " + tmObject + ", " + tmDistX + ", " + tmDistY + ", " + tmTiming + ", " + caller);
+    console.log("timeID=" + timeID);
+    const objectXY = [objectToMove.style.right == "" ? -100 : -1 * Math.round(objectToMove.style.right.match("\\d+")), objectToMove.style.top == "" ? 0 : Math.round(objectToMove.style.top.match("\\d+"))];
 
     //console.log(objectXY + ", " + toggleVal);
 
@@ -53,38 +57,35 @@ function toggleMove(tmObject, tmDistX, tmDistY, tmTiming, caller) {
     let yX = 0;
     let yY = 0;
     let x = 0;
-    let timeID = setInterval(move, 15);
+    timeID = setInterval(move, 15);
 
     function move() {
         if (timestamp <= endTime) {
-            //x = (timestamp - timestart) / tmTiming;
-            //yX = toggleVal*tmDistX * x;
             x = (Math.PI / 2) * ((timestamp - timestart) / tmTiming);
             yX = toggleVal * tmDistX * Math.sin(x);
-            //yY = toggleVal*tmDistY * x;
             yY = toggleVal * tmDistY * Math.sin(x);
             newLocXY = [Math.round(objectXY[0] + yX), Math.round(objectXY[1] + yY)];
             //console.log(newLocXY);
-            if (newLocXY[0] != 0) objectToMove.style.left = newLocXY[0] + "px";
+            if (newLocXY[0] != 0) objectToMove.style.right = "calc(" + newLocXY[0] + "% + 47px)";
             if (newLocXY[1] != 0) objectToMove.style.top = newLocXY[1] + "px";
             timestamp = Date.now();
         } else {
-            newLocXY = [objectXY[0] + (tmDistX * toggleVal), objectXY[1] + (tmDistY * toggleVal)];
-            if (newLocXY[0] != 0) objectToMove.style.left = newLocXY[0] + "px";
+            objectToMove.style.right = "calc(" + newLocXY[0] + "% + 47px)";
             if (newLocXY[1] != 0) objectToMove.style.top = newLocXY[1] + "px";
             clearInterval(timeID);
-            //toggleFlags[tmObject] = -1 * toggleVal;
-            caller.disabled = "";
+            timeID = null;
+            caller.style.pointerEvents = "";
+            if (toggleFlags[tmObject] == 1) objectToMove.style.visibility = "hidden";
         }
     }
+    //console.log("now.right" + objectToMove.style.right + ", now.newLocXY[0]" + newLocXY[0]);
+    
+    
 }
 
 function mouseIn(mouseObject) {
     if (mouseObject.parentElement.id == "menuMain") {
         mouseObject.style.width = "52px";
-    }
-    if (mouseObject.parentElement.id == "portOfCallList") {
-        mouseObject.style.cursor = "pointer";
     }
 }
 
@@ -95,14 +96,32 @@ function mouseOut(mouseObject, actionTarget) {
 }
 
 function mouseClick(mouseObject, actionTarget) {
-    if (mouseObject.id == "btn_tripHome") {
-        mouseObject.style.width = "45px";
-    }
-    if (mouseObject.id == "btn_dayPlans") {
-        toggleMove(actionTarget, -150, 0, 300, this);
+//    if (mouseObject.id == "btn_shipDetail") {
+  //      mouseObject.style.width = "45px";
+    //}
+    console.log(mouseObject);
+    if (mouseObject.parentElement.id == "menuMain") {
+        console.log("Main Menu Button");
+        for (const [key, value] of Object.entries(toggleFlags)) {
+            //console.log("key = "+key+", value = "+value);
+            if ((key != actionTarget) && (value == -1)) {
+                console.log("in if block: sending-->" + document.getElementById("btn_" + key) + ", "+key);
+                //mouseClick(document.getElementById("btn_"+key),key);
+                //toggleMove(key, 100, 0, 300, mouseObject);
+                document.getElementById(key).style.right = "calc(-100% + 47px)";
+                toggleFlags[key] = 1;
+                document.getElementById("btn_" + key).style.width = "45px";
+            }
+        }
+        toggleMove(actionTarget, 100, 0, 300, mouseObject);
         if (toggleFlags[actionTarget] == 1) mouseObject.style.width = "45px";
     }
 
+}
+
+function sleep(ms) {
+
+    return new Promise(resolve => setTimeout(resolve, ms));
 }
 
 function GeneratePOCList() {
@@ -118,7 +137,7 @@ function GeneratePOCList() {
     
     
     for (const portItem of portList) {
-        POCHTML = POCHTML + "<div id=\"dayItem" + portItem[2] + "\" style=\"position:relative; cursor:pointer; height:40px;\" onmouseover=\"\" onmouseout=\"\" onclick=\"alert('clicked')\">";
+        POCHTML = POCHTML + "<div id=\"dayItem" + portItem[2] + "\" style=\"position:relative; cursor:pointer; height:40px;\" onmouseover=\"\" onmouseout=\"\" onclick=\"alert('clicked item " + portItem[2] +"')\">";
         POCHTML = POCHTML + "<div class=\"boxStyle_01\" style=\"position:relative; float:left; width:27px; height:100%; text-align:center; font-size:24px; border-radius:16px 3px 3px 16px;\"><div style=\"padding-top:5px;\">" + portItem[2] + "</div></div>";
         POCHTML = POCHTML + "<div class=\"boxStyle_01\" style=\"position:relative; float:right; width: calc(100% - 40px); height:40px; border-radius:3px 6px 6px 3px;\"><table cellpadding=\"0\" cellspacing=\"0\" style=\"width: 100%;\"><tr>";
         POCHTML = POCHTML + "<td colspan=\"5\"style=\"text-align:center\">" + portItem[0] + ", " + portItem[1] + "</td></tr>";

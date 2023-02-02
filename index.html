@@ -44,7 +44,14 @@
 </head>
 
 <body onload="initFullLoadCPlan()">
-	<div id="panelContainer" style="width:100%; height:100%; padding:0; margin:0; overflow:hidden; z-index:15; position: absolute; pointer-events:none;">
+	<div id="panelContainer" style="width:100%; height:100%; padding:0; margin:0; overflow:hidden; z-index:15; position: absolute;">
+		<div id="shipDetails">
+			Ship Details
+		</div>
+		<div id="portOfCallList">
+			<div id="primaryInformation" class="boxStyle_01"></div>
+			<div id="dayItem_000" class="boxStyle_01"></div>
+		</div>
 		<div id="daySelectedOverlay">
 			<div style="background-color:#EEEEEE;">
 				<table>
@@ -52,54 +59,19 @@
 					<tr><td>Date:</td><td>Thursday, June 14th, 2023</td><td>Arrive:</td><td>88:00 AM</td><td>Depart:</td><td>88:00 PM</td></tr>
 				</table>
 			</div>
-
 		</div>
+		<div id="tripMap">Trip Map</div>
+		<div id="emergancyInfo">Emergency Information</div>
+		<div id="configOptions">Configuration options</div>
 	</div>
-	<div id="portOfCallList">
-		<div id="primaryInformation" class="boxStyle_01">
-			<div style="width:100%;">
-				<div style="float:left; text-align:left">yyyy/mm/dd</div>
-				<div style="float:right; text-align:left">yyyy/mm/dd</div>
-				<div style="text-align:center">- cnl shipName -</div>
-			</div>
-			<div style="width: 100%; height:30px;">
-				<div style="float: left; text-align: left">portCityStart, portCountryStart</div>
-				<div style="float: right; text-align: right">portCityEnd, portCountryEnd</div>
-			</div>
-		</div>
-		<div id="dayItem_000" class="boxStyle_01">
-			<table style="width:100%;">
-				<tr>
-					<td style="width:60px;">Day:</td>
-					<td style="width:20px;">0</td>
-					<td style="width:100px">2023/06/14</td>
-					<td style="text-align:center;">Lisbon, Portugal</td>
-					<td style="width:100px;">12:00 - 18:00</td>
-				</tr>
-			</table>
-		</div>
-		<div id="dayItem_001" class="boxStyle_01">
-			<table style="width:100%;"><tr><td style="width:60px;">Day:</td><td style="width:20px;">0</td><td style="text-align:right;">Arrive in Lisbon</td><td style="width:30px;"> </td></tr></table>
-		</div>
-		<div id="dayItem_002" class="boxStyle_01">
-			<table style="width:100%;"><tr><td style="width:60px;">Day:</td><td style="width:20px;">0</td><td style="text-align:right;">Arrive in Lisbon</td><td style="width:30px;"> </td></tr></table>
-		</div>
-		<div id="dayItem_003" class="boxStyle_01">
-			<table style="width:100%;"><tr><td style="width:60px;">Day:</td><td style="width:20px;">0</td><td style="text-align:right;">Arrive in Lisbon</td><td style="width:30px;"> </td></tr></table>
-		</div>
-		<div class="button">Testing</div>
-	</div>
+	
 
-	<div id="shipDetails"></div>
-	<div id="tripMap"></div>
-	<div id="emergancyInfo"></div>
-	<div id="configOptions"></div>
 	<div id="menuMain">
-		<div id="btn_shipDetail" class="button" onmouseover="mouseIn(this)" onmouseout="mouseOut(this,'shipDetails')" onclick="mouseClick(this,'shipDetails')"><img src="images\ship.svg" style="padding: 4px; height: 36px; width: 36px;" /></div>
-		<div id="btn_dayPlans" class="button" onmouseover="mouseIn(this)" onmouseout="mouseOut(this,'portOfCallList')" onclick="mouseClick(this,'portOfCallList')"><img src="images\listMenu.svg" style="padding:4px; height:36px; width:36px;" /></div>
+		<div id="btn_shipDetails" class="button" onmouseover="mouseIn(this)" onmouseout="mouseOut(this,'shipDetails')" onclick="mouseClick(this,'shipDetails')"><img src="images\ship.svg" style="padding: 4px; height: 36px; width: 36px;" /></div>
+		<div id="btn_portOfCallList" class="button" onmouseover="mouseIn(this)" onmouseout="mouseOut(this,'portOfCallList')" onclick="mouseClick(this,'portOfCallList')"><img src="images\listMenu.svg" style="padding:4px; height:36px; width:36px;" /></div>
 		<div id="btn_tripMap" class="button" onmouseover="mouseIn(this)" onmouseout="mouseOut(this,'tripMap')" onclick="mouseClick(this,'tripMap')"><img src="images\compass.svg" style="padding:4px; height:36px; width:36px;" /></div>
-		<div id="btn_emergency" class="button" onmouseover="mouseIn(this)" onmouseout="mouseOut(this,'emergancyInfo')" onclick="mouseClick(this,'emergancyInfo')"><img src="images\emergency.svg" style="padding:4px; height:36px; width:36px;" /></div>
-		<div id="btn_config" class="button" onmouseover="mouseIn(this)" onmouseout="mouseOut(this,'configOptions')" onclick="mouseClick(this,'configOptions')"><img src="images\hammer.svg" style="padding:4px; height:36px; width:36px;" /></div>
+		<div id="btn_emergancyInfo" class="button" onmouseover="mouseIn(this)" onmouseout="mouseOut(this,'emergancyInfo')" onclick="mouseClick(this,'emergancyInfo')"><img src="images\emergency.svg" style="padding:4px; height:36px; width:36px;" /></div>
+		<div id="btn_configOptions" class="button" onmouseover="mouseIn(this)" onmouseout="mouseOut(this,'configOptions')" onclick="mouseClick(this,'configOptions')"><img src="images\hammer.svg" style="padding:4px; height:36px; width:36px;" /></div>
 	</div>
 </body>
 </html>
