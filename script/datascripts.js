@@ -31,6 +31,8 @@
  * "activityTypeList": array,
  * };
  */
+//https://www.w3schools.com/jsref/prop_win_localstorage.asp
+//https://javascript.info/localstorage
 
 let toggleFlags = { "shipDetails": 1, "portOfCallList": 1, "tripMap": 1, "emergancyInfo": 1, "configOptions": 1 };
 

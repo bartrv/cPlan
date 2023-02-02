@@ -6,55 +6,6 @@
 	<script defer="defer" type="application/javascript" src="script\main.js"></script>
 	<script defer="defer" type="application/javascript" src="script\datascripts.js"></script>
 	<script>
-		//https://www.w3schools.com/jsref/prop_win_localstorage.asp
-		//https://javascript.info/localstorage
-
-		function storeData(formData) {
-			//alert(formData.inputName.value);
-			for (const [key, value] of Object.entries(dataList)) {
-				//itemName = formData[i].name;
-				dataList[key] = formData[key].value;
-			}
-			for (const [key, value] of Object.entries(dataList)) {
-				console.log(`${key}: ${value}`);
-				localStorage.setItem(key, value);
-			}
-		}
-
-		function getData() {
-			if (localStorage.getItem("isDataSaved")) {
-				for (const [key, value] of Object.entries(dataList)) {
-					//itemName = formData[i].name;
-					dataList[key] = localStorage.getItem(key);
-				}
-				for (const [key, value] of Object.entries(dataList)) {
-					switch (key) {
-						case "inputName":
-							document.getElementById("outName").value = localStorage.getItem(key);
-							break;
-						case "inputDate":
-							document.getElementById("outDate").value = localStorage.getItem(key);
-							break;
-						case "inputCity":
-							document.getElementById("outCity").value = localStorage.getItem(key);
-							break;
-						case "inputTime":
-							document.getElementById("outTime").value = localStorage.getItem(key);
-							break;
-						case "inputInteger":
-							document.getElementById("outInteger").value = localStorage.getItem(key);
-							break;
-						case "inputDescription":
-							document.getElementById("outDescription").value = localStorage.getItem(key);
-							break;
-
-					}
-
-				}
-			}
-
-		}
-
 		function getMachineId() {
 
 			let machineId = localStorage.getItem('MachineId');
