@@ -7,11 +7,12 @@
     background-color: #BB7744DD;
     border: #663322EE solid 1px;
     border-radius: 6px;
-    font-weight: bold;
-    font-size: 24px;
+    font-weight: 400;
+    font-size: 16px;
     color: #221100EE;
     filter: drop-shadow(2px 1px 1px #22222299);
     white-space: nowrap;
+    overflow:hidden;
 }
 
 
@@ -67,7 +68,7 @@
     position: absolute;
     right: 47px;
     top: 5px;
-    width: calc(100% - 77px);
+    width: calc(100% - 57px);
     height: calc(100% - 18px);
     background-color: #FFFEEEAA;
     border: #994422 solid 2px;

@@ -31,15 +31,16 @@
  * "activityTypeList": array,
  * };
  */
-//https://www.w3schools.com/jsref/prop_win_localstorage.asp
-//https://javascript.info/localstorage
+// https://www.w3schools.com/jsref/prop_win_localstorage.asp
+// https://javascript.info/localstorage
+// https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3
 
 let toggleFlags = { "shipDetails": 1, "portOfCallList": 1, "tripMap": 1, "emergancyInfo": 1, "configOptions": 1 };
 
 let tripOverViewList = {
     "tripName": "European Mediterranean Cruise", "duration": "12",
-    "dateStart": "2023/06/14", "dateEnd": "2023/06/25", "cruiseLine": "Norwegian Cruise Lines(NCL)", "cruiseLineAcronym": "NCL", "shipName": "Getaway",
-    "portCityStart": "Lisbon", "portCountryStart": "Portugal", "portCityEnd": "Civvatchian(Rome)", "portCountryEnd": "Italy",
+    "dateStart": "2023/06/14", "dateEnd": "2023/06/25", "cruiseLine": "Norwegian Cruise Lines(NCL)", "cruiseLineAbbr": "NCL", "shipName": "Getaway",
+    "portCityStart": "Lisbon", "portCountryStart": "Portugal", "portCountryStartAbbr": "PRT", "portCityEnd": "Civitavecchia", "portCountryEnd": "Italy", "portCountryEndAbbr": "ITA",
     "reservationNumber": "1234567890", "stateRoom": "1403", "travelerFName":"Bart","travelerMI":"R","travelerLName":"Voigt","travelerMobileIntnl":"013179979299"
 };
 

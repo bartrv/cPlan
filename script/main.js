@@ -108,41 +108,23 @@ function mouseClick(mouseObject, actionTarget) {
 function GeneratePOCList() {
     let POCHTML = "";
     POCHTML = POCHTML + "<div id=\"primaryInformation\" class=\"boxStyle_01\"><div style=\"width:100%\">";
-    POCHTML = POCHTML + "<div style=\"float:left; text-align:left;\">" + tripOverViewList.dateStart + "</div>";
-    POCHTML = POCHTML + "<div style=\"float:right; text-align:left;\">" + tripOverViewList.dateEnd + "</div>";
-    POCHTML = POCHTML + "<div style=\"text-align:center;\">- ";
-    POCHTML = POCHTML + tripOverViewList.cruiseLineAcronym + " " + tripOverViewList.shipName + "-</div></div>";
-    POCHTML = POCHTML + "<div style=\"width:100%; height:30px\"><div style=\"float: left; text-align: left;\">" + tripOverViewList.portCityStart + ", " + tripOverViewList.portCountryStart +"</div>";
-    POCHTML = POCHTML + "<div style=\"float: right; text-align: right;\">" + tripOverViewList.portCityEnd + ", " + tripOverViewList.portCountryEnd+"</div>";
+    POCHTML = POCHTML + "<div style=\"float:left; text-align:left; font-size:.9em;\">" + tripOverViewList.dateStart + "</div>";
+    POCHTML = POCHTML + "<div style=\"float:right; text-align:left; font-size:.9em;\">" + tripOverViewList.dateEnd + "</div>";
+    POCHTML = POCHTML + "<div style=\"text-align:center; font-weight:bold\">";
+    POCHTML = POCHTML + tripOverViewList.cruiseLineAbbr + " " + tripOverViewList.shipName + "</div></div>";
+    POCHTML = POCHTML + "<div style=\"width:100%; height:20px\"><div style=\"float: left; text-align: left;\">" + tripOverViewList.portCityStart + ", " + tripOverViewList.portCountryStartAbbr +"</div>";
+    POCHTML = POCHTML + "<div style=\"float: right; text-align: right;\">" + tripOverViewList.portCityEnd + ", " + tripOverViewList.portCountryEndAbbr+"</div>";
     POCHTML = POCHTML + "</div></div>";
-    /*
-    *   <div id="primaryInformation" class="boxStyle_01">
-	*		<div style="width:100%; text-align:center;">- NCL Getaway -</div>
-	*		<div id="overviewItems" style="font-weight:normal;width:100%; overflow:hidden;">
-	*			<div style="float:left; width:30%;padding-left:5px">June 14th - June 25th</div>
-	*			<div style="float:right;width:50%;text-align:right;padding-right:5px">Lisbon, Portugal - Rome, Italy</div>
-	*		</div>
-	*	</div>
     
-     **	['Lisbon', 'Spain', '0', '2023/06/15', '-', '20:00'] **
-    *	
-        <div id="dayItem_000" class="boxStyle_01">
-			<table style="width:100%;">
-				<tr><td style="width:60px;">Day:</td>
-				<td style="width:20px;">0</td><td style="width:100px">2023/06/14</td>
-				<td style="text-align:center;">Lisbon, Portugal</td>
-				<td style="width:100px;">12:00 - 18:00</td>
-			</tr></table>
-		</div>
-    */
     
     for (const portItem of portList) {
-        POCHTML = POCHTML + "<div id=\"dayItem" + portItem[2] + "\" class=\"boxStyle_01\" style=\"cursor:pointer\" onmouseover=\"\" onmouseout=\"\" onclick=\"alert('clicked')\">";
-        POCHTML = POCHTML + "<table style=\"width: 100%\"><tr><td style=\"width: 50px\">Day:</td>";
-        POCHTML = POCHTML + "<td style=\"width: 35px;text-align:left\">" + portItem[2] + "</td><td style=\"width: 100px; text-align:center\">" + portItem[3] + "</td>";
-        POCHTML = POCHTML + "<td style=\"text-align:center\">" + portItem[0] + ", " + portItem[1] + "</td>";
-        POCHTML = POCHTML + "<td style=\"width:40px; text-align:center\">" + portItem[4] + "</td><td width='10px'>-</td><td width='40px' style='text-align:center'>" + portItem[5] + "</td></tr></table></div>";
+        POCHTML = POCHTML + "<div id=\"dayItem" + portItem[2] + "\" style=\"position:relative; cursor:pointer; height:40px;\" onmouseover=\"\" onmouseout=\"\" onclick=\"alert('clicked')\">";
+        POCHTML = POCHTML + "<div class=\"boxStyle_01\" style=\"position:relative; float:left; width:27px; height:100%; text-align:center; font-size:24px; border-radius:16px 3px 3px 16px;\"><div style=\"padding-top:5px;\">" + portItem[2] + "</div></div>";
+        POCHTML = POCHTML + "<div class=\"boxStyle_01\" style=\"position:relative; float:right; width: calc(100% - 40px); height:40px; border-radius:3px 6px 6px 3px;\"><table cellpadding=\"0\" cellspacing=\"0\" style=\"width: 100%;\"><tr>";
+        POCHTML = POCHTML + "<td colspan=\"5\"style=\"text-align:center\">" + portItem[0] + ", " + portItem[1] + "</td></tr>";
+        POCHTML = POCHTML + "<tr><td style=\"width: 76px; text-align:left; font-size:.9em;\">" + portItem[3] + "</td><td></td>";
+        POCHTML = POCHTML + "<td style=\"text-align:center; width:36px; font-size:.9em\">" + portItem[4] + "</td><td width=\"8px\" style=\"text-align:center\">-</td><td width=\"36px\" style=\"width:36px; text-align:center;font-size:.9em\">" + portItem[5] + "</td></tr></table></div></div>";
     }
-    POCHTML = POCHTML + "<div style=\"position:relative; float:left; width:30px; height:30px; text-align:center; cursor:pointer\" class=\"boxStyle_01\">+</div>";
+    POCHTML = POCHTML + "<div style=\"position:relative; margin-left:10px; float:left; width:40px; height:30px; text-align:center; font-size:24px; cursor:pointer\" class=\"boxStyle_01\">+</div>";
     document.getElementById('portOfCallList').innerHTML = POCHTML;
 }
