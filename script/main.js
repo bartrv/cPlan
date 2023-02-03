@@ -33,10 +33,15 @@
  */
 function initFullLoadCPlan() {
     loadUserData();
-    GeneratePOCList();
+    generateOverview();
+    generateShipDetails();
+    generatePOCList();
+    generateMapPanel();
+    generateEmergencyPanel();
+    populateConfigPanelData();
 }
 
-let timeID = null;
+//let timeID = null;
 function toggleMove(tmObject, tmDistX, tmDistY, tmTiming, caller) {
 
     caller.style.pointerEvents = "none";
@@ -45,7 +50,6 @@ function toggleMove(tmObject, tmDistX, tmDistY, tmTiming, caller) {
     objectToMove = document.getElementById(tmObject);
     objectToMove.style.visibility = "visible";
     console.log("ToggleMove Received = " + tmObject + ", " + tmDistX + ", " + tmDistY + ", " + tmTiming + ", " + caller);
-    console.log("timeID=" + timeID);
     const objectXY = [objectToMove.style.right == "" ? -100 : -1 * Math.round(objectToMove.style.right.match("\\d+")), objectToMove.style.top == "" ? 0 : Math.round(objectToMove.style.top.match("\\d+"))];
 
     //console.log(objectXY + ", " + toggleVal);
@@ -57,7 +61,7 @@ function toggleMove(tmObject, tmDistX, tmDistY, tmTiming, caller) {
     let yX = 0;
     let yY = 0;
     let x = 0;
-    timeID = setInterval(move, 15);
+    let timeID = setInterval(move, 15);
 
     function move() {
         if (timestamp <= endTime) {
@@ -119,12 +123,25 @@ function mouseClick(mouseObject, actionTarget) {
 
 }
 
-function sleep(ms) {
+//function sleep(ms) {
 
-    return new Promise(resolve => setTimeout(resolve, ms));
+//    return new Promise(resolve => setTimeout(resolve, ms));
+//}
+
+function generateOverview() {
+    return true;
 }
 
-function GeneratePOCList() {
+function generateShipDetails() {
+    editInputList = ["shipInfo", "cruiseLine", "shipName", "tonnes", "guests", "shpLength", "maxBeam", "crew", "constructed"];
+    for (let i = 1; i < editInputList.length; i++) {
+        document.getElementById(editInputList[0] + editInputList[i]).disabled = false;
+        tripOverViewList[editInputList[i]] = document.getElementById(editInputList[0] + editInputList[i]).value;
+        document.getElementById(editInputList[0] + editInputList[i]).disabled = true;
+    }
+}
+
+function generatePOCList() {
     let POCHTML = "";
     POCHTML = POCHTML + "<div id=\"primaryInformation\" class=\"boxStyle_01\"><div style=\"width:100%\">";
     POCHTML = POCHTML + "<div style=\"float:left; text-align:left; font-size:.9em;\">" + tripOverViewList.dateStart + "</div>";
@@ -146,4 +163,76 @@ function GeneratePOCList() {
     }
     POCHTML = POCHTML + "<div style=\"position:relative; margin-left:10px; float:left; width:40px; height:30px; text-align:center; font-size:24px; cursor:pointer\" class=\"boxStyle_01\">+</div>";
     document.getElementById('portOfCallList').innerHTML = POCHTML;
+}
+
+function generateMapPanel() {
+    return true;
+}
+function generateEmergencyPanel() {
+    return true;
+}
+
+function populateConfigPanelData(){
+    return true;
+}
+
+var editInputList = [0];
+function initEditPanel(panelID) {
+    editInputList=[0];
+    if (panelID == 'shipDetails') {
+        /*  "cruiseLine": "Norwegian (NCL)",
+            "shipName": "Getaway",
+            "tonnes": "145,655", 
+            "guests": "3963",
+            "shpLength":"1068'",
+            "maxBeam":"170'",
+            "crew":"1646",
+            "constructed":"2020 (2014)",
+         */
+        editInputList = ["shipInfo", "cruiseLine", "shipName", "tonnes", "guests", "shpLength", "maxBeam", "crew", "constructed"];
+        document.getElementById(editInputList[0] + editInputList[1]).disabled = false;
+        document.getElementById(editInputList[0] + editInputList[1]).focus();
+        for (let i = 2; i < editInputList.length; i++) {
+            document.getElementById(editInputList[0] + editInputList[i]).disabled = false;
+        }
+        document.getElementById('btn_Edit'+editInputList[0]+'Accept').style.display = "inline";
+        document.getElementById('btn_Edit' + editInputList[0] +'Cancel').style.display = "inline";
+        document.getElementById('btn_Edit' + editInputList[0]).style.display = "none";
+    }
+}
+
+function acceptEditPanel(panelID) {
+    document.activeElement.blur();
+    if (panelID == 'shipDetails') {
+        document.getElementById(editInputList[0] + editInputList[1]).blur();
+        for (let i = 1; i < editInputList.length; i++) {
+            tripOverViewList[editInputList[i]] = document.getElementById(editInputList[0] + editInputList[i]).value;
+            document.getElementById(editInputList[0] + editInputList[i]).disabled = true;
+        }
+
+        document.getElementById('btn_Edit' + editInputList[0] + 'Accept').style.display = "none";
+        document.getElementById('btn_Edit' + editInputList[0] + 'Cancel').style.display = "none";
+        document.getElementById('btn_Edit' + editInputList[0]).style.display = "inline";
+    }
+    editInputList = [0];
+    toggleFlags[panelID] = 1;
+    storeUserData();
+    toggleFlags[panelID] = -1;
+}
+
+function cancelEditPanel(panelID) {
+    document.activeElement.blur();
+    if (panelID == 'shipDetails') {
+        document.getElementById(editInputList[0] + editInputList[1]).blur();
+        for (let i = 1; i < editInputList.length; i++) {
+            document.getElementById(editInputList[0] + editInputList[i]).value = tripOverViewList[editInputList[i]];
+            document.getElementById(editInputList[0] + editInputList[i]).disabled = true;
+        }
+
+        document.getElementById('btn_Edit' + editInputList[0] + 'Accept').style.display = "none";
+        document.getElementById('btn_Edit' + editInputList[0] + 'Cancel').style.display = "none";
+        document.getElementById('btn_Edit' + editInputList[0]).style.display = "inline";
+
+    }
+    editInputList = [0];
 }

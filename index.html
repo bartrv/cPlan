@@ -44,9 +44,24 @@
 </head>
 
 <body onload="initFullLoadCPlan()">
+<!--<body>-->
 	<div id="panelContainer" style="width:100%; height:100%; padding:0; margin:0; overflow:hidden; z-index:15; position: absolute;">
 		<div id="shipDetails">
-			Ship Details
+			<div>
+				<table style="width:100%; text-align:center;">
+					<tbody>
+						<tr><td colspan="2"><input id="shipInfocruiseLine" type="text" value="Norwegian" disabled style="text-align: center; width:306px; font-size:35px" /></td></tr>
+						<tr><td colspan="2"><input id="shipInfoshipName" type="text" value="Getaway" disabled style="text-align: center; width: 306px; font-size: 35px" /></td></tr>
+						<tr><td style="text-align: right; padding-right: 3px;"><input type="text" value="Tonns:" disabled style="text-align:right; width:147px;" /></td><td style="text-align:left;"><input id="shipInfotonnes" type="text" value="145,655" disabled /></td></tr>
+						<tr><td style="text-align: right; padding-right: 3px;"><input type="text" value="Guests:" disabled style="text-align:right; width:147px;" /></td><td style="text-align:left;"><input id="shipInfoguests" type="text" value="3,963" disabled /></td></tr>
+						<tr><td style="text-align: right; padding-right: 3px;"><input type="text" value="Length:" disabled style="text-align:right; width:147px;" /></td><td style="text-align:left;"><input id="shipInfoshpLength" type="text" value="1068'" disabled /></td></tr>
+						<tr><td style="text-align: right; padding-right: 3px;"><input type="text" value="Max Beam:" disabled style="text-align:right; width:147px;" /></td><td style="text-align:left;"><input id="shipInfomaxBeam" type="text" value="170'" disabled /></td></tr>
+						<tr><td style="text-align: right; padding-right: 3px;"><input type="text" value="Crew:" disabled style="text-align:right; width:147px;" /></td><td style="text-align:left;"><input id="shipInfocrew" type="text" value="1646" disabled /></td></tr>
+						<tr><td style="text-align: right; padding-right: 3px;"><input type="text" value="Construction:" disabled style="text-align:right; width:147px" /></td><td style="text-align:left;"><input id="shipInfoconstructed" type="text" value="2020 (2014)" disabled /></td></tr>
+						<tr><td colspan="2"><img src="images/pencilEdit.svg" id="btn_EditshipInfo" style="position:relative; height:26px; width:26px; cursor:pointer; display: inline;" onclick="initEditPanel('shipDetails')" /><input id="btn_EditshipInfoAccept" type="button" value="Save Edits" onclick="acceptEditPanel('shipDetails')" style="margin-right:15px;margin-top:3px;" /><input id="btn_EditshipInfoCancel" type="button" value="Cancel" onclick="cancelEditPanel('shipDetails')" onfocusout="document.getElementById('shipInfocruiseLine').focus();" /></td></tr>
+					</tbody>
+				</table>
+			</div>
 		</div>
 		<div id="portOfCallList">
 			<div id="primaryInformation" class="boxStyle_01"></div>
@@ -64,7 +79,7 @@
 		<div id="emergancyInfo">Emergency Information</div>
 		<div id="configOptions">Configuration options</div>
 	</div>
-	
+
 
 	<div id="menuMain">
 		<div id="btn_shipDetails" class="button" onmouseover="mouseIn(this)" onmouseout="mouseOut(this,'shipDetails')" onclick="mouseClick(this,'shipDetails')"><img src="images\ship.svg" style="padding: 4px; height: 36px; width: 36px;" /></div>

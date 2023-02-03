@@ -39,7 +39,8 @@ let toggleFlags = { "shipDetails": 1, "portOfCallList": 1, "tripMap": 1, "emerga
 
 let tripOverViewList = {
     "tripName": "European Mediterranean Cruise", "duration": "12",
-    "dateStart": "2023/06/14", "dateEnd": "2023/06/25", "cruiseLine": "Norwegian Cruise Lines(NCL)", "cruiseLineAbbr": "NCL", "shipName": "Getaway",
+    "dateStart": "2023/06/14", "dateEnd": "2023/06/25", "cruiseLine": "Norwegian (NCL)", "cruiseLineAbbr": "NCL", "shipName": "Getaway",
+    "tonnes": "145,655", "guests": "3963","shpLength":"1068'","maxBeam":"170'","crew":"1646","constructed":"2020 (2014)",
     "portCityStart": "Lisbon", "portCountryStart": "Portugal", "portCountryStartAbbr": "PRT", "portCityEnd": "Civitavecchia", "portCountryEnd": "Italy", "portCountryEndAbbr": "ITA",
     "reservationNumber": "1234567890", "stateRoom": "1403", "travelerFName":"Bart","travelerMI":"R","travelerLName":"Voigt","travelerMobileIntnl":"013179979299"
 };
@@ -87,11 +88,12 @@ function loadUserData() {
                     break;
             }
         }
+        generateShipDetails();
+        
     }
 }
 
 function storeUserData(formData) {
-    
     for (const [key, value] of Object.entries(dataList)) {
         localStorage.setItem("cPlanDataSaved", 0);
         switch (key) {

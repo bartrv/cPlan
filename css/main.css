@@ -76,5 +76,42 @@
     padding: 2px;
     margin: auto;
     z-index: 10;
+    overflow:hidden;
     visibility: hidden;
 }
+
+#shipDetails {
+    background-image: url("../images/GETAWAY-ship-mobile-2018.jpg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+#shipDetails div {
+    position:relative;
+    padding:8px;
+    background-color: rgb(175 210 255 / 0.80);
+    left:-5px;
+    top:-5px;
+    height: 100%;
+    width: 100%;
+}
+#shipDetails td {
+    border: none;
+    border-spacing:0px;
+    width:50%;
+}
+#shipDetails input[type=text] {
+    font-size: 20px;
+    border:#00000000 solid 1px;
+    border-radius: 3px;
+    background-color:#EEEEEEaa;
+    text-align:left;
+    width: 150px;
+}
+
+    #shipDetails input[type=button] {
+        width: 120px;
+        text-align: center;
+        font-size:18px;
+        display:none;
+    }

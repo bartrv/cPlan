@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+    <meta charset="UTF-8" />
+    <meta name='viewport' content='width=device-width, initial-scale=1.0' />
+    <script defer="defer" type="application/javascript" src="..\script\main.js"></script>
+    <script defer="defer" type="application/javascript" src="..\script\datascripts.js"></script>
+    <script>
+        function getMachineId() {
+
+            let machineId = localStorage.getItem('MachineId');
+
+            if (!machineId) {
+                machineId = crypto.randomUUID();
+                localStorage.setItem('MachineId', machineId);
+            }
+
+            return machineId;
+        }
+    </script>
+    <link href="../css/main.css" rel="stylesheet">
+    <style>
+        body, html {
+            height: 100%;
+            width: 100%;
+            background-color: #441811;
+            padding: 0px;
+            margin: 0px;
+            font-family: arial;
+            overflow: hidden
+        }
+
+        table, td {
+            border: 0px;
+            border-spacing: 0px;
+            padding: 0px;
+        }
+
+        #daySelectedOverlay td {
+            border: #444444 solid 1px;
+            border-spacing: 0px;
+        }
+    </style>
+</head>
+<body>
+    <div id="shipDetails" style="right:0px; visibility:visible;">
+        <div>
+            <table style="width:100%; text-align:center;">
+                <tbody>
+                    <tr><td colspan="2"><input type="text" value="Norwegian" disabled style="text-align: center; width:306px; font-size:35px" /></td></tr>
+                    <tr><td colspan="2"><input type="text" value="Getaway" disabled style="text-align: center; width: 306px; font-size: 35px" /></td></tr>
+                    <tr><td style="text-align:right; padding-right:3px;"><input type="text" value="Tonns:" disabled style="text-align:right; width:147px;" /></td><td style="text-align:left;"><input type="text" value="145,655" disabled /></td></tr>
+                    <tr><td style="text-align: right; padding-right: 3px;"><input type="text" value="Guests:" disabled style="text-align:right; width:147px;" /></td><td style="text-align:left;"><input type="text" value="3,963" disabled /></td></tr>
+                    <tr><td style="text-align: right; padding-right: 3px;"><input type="text" value="Length:" disabled style="text-align:right; width:147px;" /></td><td style="text-align:left;"><input type="text" value="1068'" disabled /></td></tr>
+                    <tr><td style="text-align: right; padding-right: 3px;"><input type="text" value="Max Beam:" disabled style="text-align:right; width:147px;" /></td><td style="text-align:left;"><input type="text" value="170'" disabled /></td></tr>
+                    <tr><td style="text-align: right; padding-right: 3px;"><input type="text" value="Crew:" disabled style="text-align:right; width:147px;" /></td><td style="text-align:left;"><input type="text" value="1646" disabled /></td></tr>
+                    <tr><td style="text-align: right; padding-right: 3px;"><input type="text" value="Construction:" disabled style="text-align:right; width:147px" /></td><td style="text-align:left;"><input type="text" value="2020 (2014)" disabled /></td></tr>
+                    <tr><td colspan="2"><img src="../images/pencilEdit.svg" style="position:relative; height:26px; width:26px; cursor:pointer;" onclick="initEditPanel('shipDetails')" /></td></tr>
+                </tbody>
+            </table>
+            
+        </div>
+    </div>
+
+</body>
+</html>
