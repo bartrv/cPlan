@@ -129,6 +129,23 @@ function mouseClick(mouseObject, actionTarget) {
 //}
 
 function generateOverview() {
+    /*let ovrvwHTML = "";
+    // Define iterable key list from tripOverViewList
+    editInputList = ["overview", "tripName", "duration", "dateStart", "dateEnd", "embarcationDate", "debarcationDate",
+        "cruiseLine", "cruiseLineCommon", "cruiseLineAbbr", "shipName", "portCityStart", "portCountryStart",
+        "portCountryStartAbbr", "portCityEnd", "portCountryEnd", "portCountryEndAbbr", "reservationNumber", "stateRoom",
+        "travelerFName", "travelerMI", "travelerLName", "travelerMobileIntnl"];
+
+    ovrvwHTML = "<div id=\"overview" + editInputList[1] + "\" style=\"text-align:center;\">" + tripOverViewList[editInputList[1]]+"<br />";
+    ovrvwHTML = ovrvwHTML + tripOverViewList[editInputList[2]] + " Day Cruise</div><table>";
+    for (let i = 3; i < editInputList.length;i++) {
+        ovrvwHTML = ovrvwHTML + "<tr><td></td><td></td></tr>";
+
+    }
+    ovrvwHTML = ovrvwHTML + "</table>";
+
+    document.getElementById("tripOverviewPanel").innerHTML = ovrvwHTML;
+    */
     return true;
 }
 
@@ -163,6 +180,7 @@ function generatePOCList() {
     }
     POCHTML = POCHTML + "<div style=\"position:relative; margin-left:10px; float:left; width:40px; height:30px; text-align:center; font-size:24px; cursor:pointer\" class=\"boxStyle_01\">+</div>";
     document.getElementById('portOfCallList').innerHTML = POCHTML;
+
 }
 
 function generateMapPanel() {

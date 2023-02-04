@@ -30,34 +30,88 @@
 			overflow: hidden
 		}
 
-		table, td {
-			border: 0px;
-			border-spacing: 0px;
-			padding:0px;
-		}
+        table, td {
+            border: 0px;
+            border-spacing: 0px;
+            padding: 0px;
+        }
 
 		#daySelectedOverlay td {
 			border: #444444 solid 1px;
 			border-spacing: 0px;
 		}
+        #overview td {
+            background-color: #ffffff44;
+            border-radius: 3px;
+            padding: 0px 2px 0px 2px;
+            width: 200px;
+        }
+
 	</style>
 </head>
 
 <body onload="initFullLoadCPlan()">
 <!--<body>-->
-	<div id="panelContainer" style="width:100%; height:100%; padding:0; margin:0; overflow:hidden; z-index:15; position: absolute;">
+	<div id="tripOverviewPanel" style="position:relative; width: calc(100% - 47px); height:100%;">
+		<div id="overview" style="text-align:center; font-size:30px; color:#FFFFFFDD">
+			<span id="overviewtravelerFName" style="font-size:25px;">First</span> <span id="overviewtravelerMI" style="font-size:25px;">M</span>. <span id="overviewtravelerLName" style="font-size:25px;">Last</span><br />
+			<span id="overviewHeader">N-Day +Trip Name</span><br />
+			<span id="overviewcruiseLine">Cruise Line Name</span>&nbsp;(<span id="overviewcruiseLineAbbr">ABR</span>)<br />
+			<span id="overviewcruiseLineCommon"> cruise</span> <span id="overviewshipName"> shipName</span><br />
+			<br />
+			<table style="width:400px; margin:auto; font-size:20px; border-spacing:2px;">
+				<tbody>
+					<tr><td style="text-align:right">Travel Phone:</td><td style="text-align:left"><span id="overviewtravelerMobileIntnl">01-123-456-7890</span></td></tr>
+					<!--<tr><td style="text-align:right">Room:</td><td style="text-align:left"><span id="overviewstateRoom">123</span></td></tr>
+					<tr><td style="text-align:right">Reservation:</td><td style="text-align:left"><span id="overviewreservationNumber">1234567890</span></td></tr>-->
+					<tr><td style="text-align:right">Cruise Start:</td><td style="text-align:left"><span id="overviewembarcationDate">yyyy/mm/dd</span></td></tr>
+					<tr><td style="text-align:right">Cruise End:</td><td style="text-align:left"><span id="overviewdebarcationDate">yyyy/mm/dd</span></td></tr>
+				</tbody>
+			</table>
+			<table style="width: 400px; margin: auto; margin-top: 5px; font-size: 20px; border-spacing: 2px;">
+				<tbody>
+					<tr><td colspan="2">Starting Port:</td></tr>
+					<tr><td style="text-align:right">City:</td><td style="text-align:left"><span id="overviewportCityStart">City</span></td></tr>
+					<tr><td style="text-align:right">Country:</td><td style="text-align:left"><span id="overviewportCountryStart">Country</span> (<span id="overviewportCountryStartAbbr">ABR</span>)</td></tr>
+				</tbody>
+			</table>
+			<table style="width: 400px; margin: auto; margin-top: 5px; font-size: 20px; border-spacing: 2px;">
+				<tbody>
+					<tr><td colspan="2">Final Port:</td></tr>
+					<tr><td style="text-align:right">City:</td><td style="text-align:left"><span id="overviewportCityEnd">City</span></td></tr>
+					<tr><td style="text-align:right">Country:</td><td style="text-align:left"><span id="overviewportCountryEnd">Country</span> (<span id="overviewportCountryEndAbbr">ABR</span>)</td></tr>
+				</tbody>
+			</table>
+			<table style="width: 400px; margin: auto; margin-top: 5px; font-size: 20px; border-spacing: 2px;">
+				<tbody>
+					<tr><td colspan="2">Flight To:</td><td style="text-align:left"><span id="overviewdateStart">yyyy/mm/dd</span></td></tr>
+					<tr><td colspan="2">Flight Back:</td><td style="text-align:left"><span id="overviewdateEnd">yyyy/mm/dd</span></td></tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+
+	<div id="panelContainer" style="width:100%; height:100%; padding:0; margin:0; overflow:hidden; z-index:15; position: absolute; top:0px;">
 		<div id="shipDetails">
 			<div>
 				<table style="width:100%; text-align:center;">
 					<tbody>
 						<tr><td colspan="2"><input id="shipInfocruiseLine" type="text" value="Norwegian" disabled style="text-align: center; width:306px; font-size:35px" /></td></tr>
 						<tr><td colspan="2"><input id="shipInfoshipName" type="text" value="Getaway" disabled style="text-align: center; width: 306px; font-size: 35px" /></td></tr>
+						<tr><td style="text-align: right; padding-right: 3px;"><input type="text" value="State Room:" disabled style="text-align:right; width:147px;" /></td><td style="text-align:left;"><input id="shipInfostateRoom" type="text" value="1414" disabled /></td></tr>
+						<tr><td style="text-align: right; padding-right: 3px;"><input type="text" value="Embarkation:" disabled style="text-align:right; width:147px;" /></td><td style="text-align:left;"><input id="shipInfotonnes" type="text" value="2023/06/15" disabled /></td></tr>
+						<tr><td style="text-align: right; padding-right: 3px;"><input type="text" value="City:" disabled style="text-align:right; width:147px;" /></td><td style="text-align:left;"><input id="shipInfoportCityStart" type="text" value="Lisbon" disabled /></td></tr>
+						<tr><td style="text-align: right; padding-right: 3px;"><input type="text" value="Country:" disabled style="text-align:right; width:147px;" /></td><td style="text-align:left;"><input id="shipInfoportCountryStart" type="text" value="Portugal" disabled /></td></tr>
+						<tr><td style="text-align: right; padding-right: 3px;"><input type="text" value="Debarkation:" disabled style="text-align:right; width:147px;" /></td><td style="text-align:left;"><input id="shipInfotonnes" type="text" value="2023/06/24" disabled /></td></tr>
+						<tr><td style="text-align: right; padding-right: 3px;"><input type="text" value="City:" disabled style="text-align:right; width:147px;" /></td><td style="text-align:left;"><input id="shipInfoportCityEnd" type="text" value="Civataccia" disabled /></td></tr>
+						<tr><td style="text-align: right; padding-right: 3px;"><input type="text" value="Country:" disabled style="text-align:right; width:147px;" /></td><td style="text-align:left;"><input id="shipInfoportCountryEnd" type="text" value="Italy" disabled /></td></tr>
 						<tr><td style="text-align: right; padding-right: 3px;"><input type="text" value="Tonns:" disabled style="text-align:right; width:147px;" /></td><td style="text-align:left;"><input id="shipInfotonnes" type="text" value="145,655" disabled /></td></tr>
 						<tr><td style="text-align: right; padding-right: 3px;"><input type="text" value="Guests:" disabled style="text-align:right; width:147px;" /></td><td style="text-align:left;"><input id="shipInfoguests" type="text" value="3,963" disabled /></td></tr>
 						<tr><td style="text-align: right; padding-right: 3px;"><input type="text" value="Length:" disabled style="text-align:right; width:147px;" /></td><td style="text-align:left;"><input id="shipInfoshpLength" type="text" value="1068'" disabled /></td></tr>
 						<tr><td style="text-align: right; padding-right: 3px;"><input type="text" value="Max Beam:" disabled style="text-align:right; width:147px;" /></td><td style="text-align:left;"><input id="shipInfomaxBeam" type="text" value="170'" disabled /></td></tr>
 						<tr><td style="text-align: right; padding-right: 3px;"><input type="text" value="Crew:" disabled style="text-align:right; width:147px;" /></td><td style="text-align:left;"><input id="shipInfocrew" type="text" value="1646" disabled /></td></tr>
 						<tr><td style="text-align: right; padding-right: 3px;"><input type="text" value="Construction:" disabled style="text-align:right; width:147px" /></td><td style="text-align:left;"><input id="shipInfoconstructed" type="text" value="2020 (2014)" disabled /></td></tr>
+						<tr><td style="text-align: right; padding-right: 3px;"><input type="text" value="Reservation#:" disabled style="text-align:right; width:147px" /></td><td style="text-align:left;"><input id="shipInforeservationNumber" type="text" value="1234567890" disabled /></td></tr>
 						<tr><td colspan="2"><img src="images/pencilEdit.svg" id="btn_EditshipInfo" style="position:relative; height:26px; width:26px; cursor:pointer; display: inline;" onclick="initEditPanel('shipDetails')" /><input id="btn_EditshipInfoAccept" type="button" value="Save Edits" onclick="acceptEditPanel('shipDetails')" style="margin-right:15px;margin-top:3px;" /><input id="btn_EditshipInfoCancel" type="button" value="Cancel" onclick="cancelEditPanel('shipDetails')" onfocusout="document.getElementById('shipInfocruiseLine').focus();" /></td></tr>
 					</tbody>
 				</table>
@@ -75,7 +129,32 @@
 				</table>
 			</div>
 		</div>
-		<div id="tripMap">Trip Map</div>
+		<div id="travelInfo">
+			<table style="width: 400px; margin: auto; margin-top: 5px; border-spacing: 2px;">
+				<tbody>
+					<tr><td colspan="2" style="text-align:center; font-size:30px;">Flight Out:</td></tr>
+					<tr><td style="text-align:right">Date:</td><td style="text-align:left"><input id="travelInfoflightDateOut" type="text"  value="yyyy/mm/dd" disabled/></td></tr>
+					<tr><td style="text-align:right">From:</td><td style="text-align:left"><input id="travelInfoflightOutFromCity" type="text" value="City, ABR" disabled/></td></tr>
+					<tr><td style="text-align:right">To:</td><td style="text-align:left"><input id="travelInfoflightOutToCity" type="text" value="City, ABR" disabled/></td></tr>
+					<tr><td style="text-align:right">Airline:</td><td style="text-align:left"><input id="travelInfoflightOutCarrier" type="text" value="Carrier" disabled></td></tr>
+					<tr><td style="text-align:right">Boarding:</td><td style="text-align:left"><input id="travelInfoboardingOutTime" type="text" value="24:MM" disabled></td></tr>
+					<tr><td style="text-align:right">Takeoff:</td><td style="text-align:left"><input id="travelInfotakeoffOutTime" type="text" value="24:MM" disabled /></td></tr>
+					<tr><td style="text-align:right">Landing:</td><td style="text-align:left"><input id="travelInfolandingOutTime" type="text" value="24:MM" disabled /></td></tr>
+				</tbody>
+			</table>
+			<table style="width: 400px; margin: auto; margin-top: 5px; border-spacing: 2px;">
+				<tbody>
+					<tr><td colspan="2" style="text-align: center; font-size: 30px;">Flight Back:</td></tr>
+					<tr><td style="text-align:right">Date:</td><td style="text-align:left"><input id="travelInfoflightDateBack" type="text" value="yyyy/mm/dd" disabled /></td></tr>
+					<tr><td style="text-align:right">City:</td><td style="text-align:left"><input id="travelInfoflightBackFromCity" type="text" value="City" disabled /></tr>
+					<tr><td style="text-align:right">Country:</td><td style="text-align:left"><input id="travelInfoflightBackToCity" type="text" value="Country" disabled /></td></tr>
+					<tr><td style="text-align:right">Airline:</td><td style="text-align:left"><input id="travelInfoflightBackCarrier" type="text" value="Carrier" disabled/></td></tr>
+					<tr><td style="text-align:right">Boarding:</td><td style="text-align:left"><input id="travelInfoboardingBackTime" type="text" value="24:MM" disabled /></td></tr>
+					<tr><td style="text-align:right">Takeoff:</td><td style="text-align:left"><input id="travelInfotakeoffBackTime" type="text" value="24:MM" disabled /></td></tr>
+					<tr><td style="text-align:right">Landing:</td><td style="text-align:left"><input id="travelInfolandingBackTime" type="text" value="24:MM" disabled /></td></tr>
+				</tbody>
+			</table>
+		</div>
 		<div id="emergancyInfo">Emergency Information</div>
 		<div id="configOptions">Configuration options</div>
 	</div>
@@ -84,7 +163,7 @@
 	<div id="menuMain">
 		<div id="btn_shipDetails" class="button" onmouseover="mouseIn(this)" onmouseout="mouseOut(this,'shipDetails')" onclick="mouseClick(this,'shipDetails')"><img src="images\ship.svg" style="padding: 4px; height: 36px; width: 36px;" /></div>
 		<div id="btn_portOfCallList" class="button" onmouseover="mouseIn(this)" onmouseout="mouseOut(this,'portOfCallList')" onclick="mouseClick(this,'portOfCallList')"><img src="images\listMenu.svg" style="padding:4px; height:36px; width:36px;" /></div>
-		<div id="btn_tripMap" class="button" onmouseover="mouseIn(this)" onmouseout="mouseOut(this,'tripMap')" onclick="mouseClick(this,'tripMap')"><img src="images\compass.svg" style="padding:4px; height:36px; width:36px;" /></div>
+		<div id="btn_travelInfo" class="button" onmouseover="mouseIn(this)" onmouseout="mouseOut(this,'travelInfo')" onclick="mouseClick(this,'travelInfo')"><img src="images\airplane.svg" style="padding:4px; height:36px; width:36px;" /></div>
 		<div id="btn_emergancyInfo" class="button" onmouseover="mouseIn(this)" onmouseout="mouseOut(this,'emergancyInfo')" onclick="mouseClick(this,'emergancyInfo')"><img src="images\emergency.svg" style="padding:4px; height:36px; width:36px;" /></div>
 		<div id="btn_configOptions" class="button" onmouseover="mouseIn(this)" onmouseout="mouseOut(this,'configOptions')" onclick="mouseClick(this,'configOptions')"><img src="images\hammer.svg" style="padding:4px; height:36px; width:36px;" /></div>
 	</div>

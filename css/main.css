@@ -64,19 +64,19 @@
     cursor: pointer;
 }
 
-#portOfCallList, #shipDetails, #tripMap, #emergancyInfo, #configOptions {
+#portOfCallList, #shipDetails, #travelInfo, #emergancyInfo, #configOptions {
     position: absolute;
     right: calc(-100% + 47px);
     top: 5px;
     width: calc(100% - 57px);
     height: calc(100% - 18px);
-    background-color: #FFFEEEAA;
+    background-color: #a3928aF0;
     border: #994422 solid 2px;
     border-radius: 8px;
     padding: 2px;
     margin: auto;
     z-index: 10;
-    overflow:hidden;
+    overflow: hidden;
     visibility: hidden;
 }
 
@@ -89,29 +89,58 @@
 #shipDetails div {
     position:relative;
     padding:8px;
-    background-color: rgb(175 210 255 / 0.80);
+    background-color: rgb(97 105 128 / 0.50);
     left:-5px;
     top:-5px;
     height: 100%;
     width: 100%;
 }
 #shipDetails td {
-    border: none;
-    border-spacing:0px;
-    width:50%;
+    background-color: #ffffff44;
+    border-radius: 3px;
+    padding: 0px 2px 0px 2px;
+    width: 50%;
+    font-size: 24px;
+    color: #222255;
 }
+
 #shipDetails input[type=text] {
     font-size: 20px;
     border:#00000000 solid 1px;
     border-radius: 3px;
-    background-color:#EEEEEEaa;
+    background-color:#FFFFFF99;
     text-align:left;
     width: 150px;
 }
 
-    #shipDetails input[type=button] {
-        width: 120px;
-        text-align: center;
-        font-size:18px;
-        display:none;
-    }
+#shipDetails input[type=button] {
+    width: 120px;
+    text-align: center;
+    font-size:18px;
+    display:none;
+}
+
+#travelInfo {
+    background-image: url("../images/clouds.jpg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+#travelInfo td {
+    background-color: #ffffff44;
+    border-radius: 3px;
+    padding: 0px 2px 0px 2px;
+    width: 50%px;
+    font-size: 24px;
+    color: #222255;
+}
+
+#travelInfo input[type=text] {
+    font-size: 25px;
+    border: #00000000 solid 1px;
+    border-radius: 3px;
+    background-color: #FFFFFF00;
+    text-align: left;
+    width: 200px;
+}
