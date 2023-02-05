@@ -62,8 +62,6 @@
 			<table style="width:400px; margin:auto; font-size:20px; border-spacing:2px;">
 				<tbody>
 					<tr><td style="text-align:right">Travel Phone:</td><td style="text-align:left"><span id="overviewtravelerMobileIntnl">01-123-456-7890</span></td></tr>
-					<!--<tr><td style="text-align:right">Room:</td><td style="text-align:left"><span id="overviewstateRoom">123</span></td></tr>
-					<tr><td style="text-align:right">Reservation:</td><td style="text-align:left"><span id="overviewreservationNumber">1234567890</span></td></tr>-->
 					<tr><td style="text-align:right">Cruise Start:</td><td style="text-align:left"><span id="overviewembarcationDate">yyyy/mm/dd</span></td></tr>
 					<tr><td style="text-align:right">Cruise End:</td><td style="text-align:left"><span id="overviewdebarcationDate">yyyy/mm/dd</span></td></tr>
 				</tbody>
@@ -84,8 +82,8 @@
 			</table>
 			<table style="width: 400px; margin: auto; margin-top: 5px; font-size: 20px; border-spacing: 2px;">
 				<tbody>
-					<tr><td colspan="2">Flight To:</td><td style="text-align:left"><span id="overviewdateStart">yyyy/mm/dd</span></td></tr>
-					<tr><td colspan="2">Flight Back:</td><td style="text-align:left"><span id="overviewdateEnd">yyyy/mm/dd</span></td></tr>
+					<tr><td style="text-align:right">Flight To:</td><td style="text-align:left"><span id="overviewdateStart">yyyy/mm/dd</span></td></tr>
+					<tr><td style="text-align:right">Flight Back:</td><td style="text-align:left"><span id="overviewdateEnd">yyyy/mm/dd</span></td></tr>
 				</tbody>
 			</table>
 		</div>
@@ -96,22 +94,22 @@
 			<div>
 				<table style="width:100%; text-align:center;">
 					<tbody>
-						<tr><td colspan="2"><input id="shipInfocruiseLine" type="text" value="Norwegian" disabled style="text-align: center; width:306px; font-size:35px" /></td></tr>
-						<tr><td colspan="2"><input id="shipInfoshipName" type="text" value="Getaway" disabled style="text-align: center; width: 306px; font-size: 35px" /></td></tr>
-						<tr><td style="text-align: right; padding-right: 3px;"><input type="text" value="State Room:" disabled style="text-align:right; width:147px;" /></td><td style="text-align:left;"><input id="shipInfostateRoom" type="text" value="1414" disabled /></td></tr>
-						<tr><td style="text-align: right; padding-right: 3px;"><input type="text" value="Embarkation:" disabled style="text-align:right; width:147px;" /></td><td style="text-align:left;"><input id="shipInfotonnes" type="text" value="2023/06/15" disabled /></td></tr>
-						<tr><td style="text-align: right; padding-right: 3px;"><input type="text" value="City:" disabled style="text-align:right; width:147px;" /></td><td style="text-align:left;"><input id="shipInfoportCityStart" type="text" value="Lisbon" disabled /></td></tr>
-						<tr><td style="text-align: right; padding-right: 3px;"><input type="text" value="Country:" disabled style="text-align:right; width:147px;" /></td><td style="text-align:left;"><input id="shipInfoportCountryStart" type="text" value="Portugal" disabled /></td></tr>
-						<tr><td style="text-align: right; padding-right: 3px;"><input type="text" value="Debarkation:" disabled style="text-align:right; width:147px;" /></td><td style="text-align:left;"><input id="shipInfotonnes" type="text" value="2023/06/24" disabled /></td></tr>
-						<tr><td style="text-align: right; padding-right: 3px;"><input type="text" value="City:" disabled style="text-align:right; width:147px;" /></td><td style="text-align:left;"><input id="shipInfoportCityEnd" type="text" value="Civataccia" disabled /></td></tr>
-						<tr><td style="text-align: right; padding-right: 3px;"><input type="text" value="Country:" disabled style="text-align:right; width:147px;" /></td><td style="text-align:left;"><input id="shipInfoportCountryEnd" type="text" value="Italy" disabled /></td></tr>
-						<tr><td style="text-align: right; padding-right: 3px;"><input type="text" value="Tonns:" disabled style="text-align:right; width:147px;" /></td><td style="text-align:left;"><input id="shipInfotonnes" type="text" value="145,655" disabled /></td></tr>
-						<tr><td style="text-align: right; padding-right: 3px;"><input type="text" value="Guests:" disabled style="text-align:right; width:147px;" /></td><td style="text-align:left;"><input id="shipInfoguests" type="text" value="3,963" disabled /></td></tr>
-						<tr><td style="text-align: right; padding-right: 3px;"><input type="text" value="Length:" disabled style="text-align:right; width:147px;" /></td><td style="text-align:left;"><input id="shipInfoshpLength" type="text" value="1068'" disabled /></td></tr>
-						<tr><td style="text-align: right; padding-right: 3px;"><input type="text" value="Max Beam:" disabled style="text-align:right; width:147px;" /></td><td style="text-align:left;"><input id="shipInfomaxBeam" type="text" value="170'" disabled /></td></tr>
-						<tr><td style="text-align: right; padding-right: 3px;"><input type="text" value="Crew:" disabled style="text-align:right; width:147px;" /></td><td style="text-align:left;"><input id="shipInfocrew" type="text" value="1646" disabled /></td></tr>
-						<tr><td style="text-align: right; padding-right: 3px;"><input type="text" value="Construction:" disabled style="text-align:right; width:147px" /></td><td style="text-align:left;"><input id="shipInfoconstructed" type="text" value="2020 (2014)" disabled /></td></tr>
-						<tr><td style="text-align: right; padding-right: 3px;"><input type="text" value="Reservation#:" disabled style="text-align:right; width:147px" /></td><td style="text-align:left;"><input id="shipInforeservationNumber" type="text" value="1234567890" disabled /></td></tr>
+						<tr><td colspan="2"><input id="shipInfocruiseLine" type="text" value="Norwegian" oninput="validateForm(this,'plainText',16)" disabled style="text-align: center; width:308px; font-size:35px" /></td></tr>
+						<tr><td colspan="2"><input id="shipInfoshipName" type="text" value="Getaway" oninput="validateForm(this,'plainText',16)" disabled style="text-align: center; width: 308px; font-size: 35px" /></td></tr>
+						<tr><td style="text-align: right; padding-right: 3px;"><input type="text" value="State Room:" disabled style="text-align:right; width:147px;" /></td><td style="text-align:left;"><input id="shipInfostateRoom" type="text" value="12345" oninput="validateForm(this,'number',5)" disabled /></td></tr>
+						<tr><td style="text-align: right; padding-right: 3px;"><input type="text" value="Embarkation:" disabled style="text-align:right; width:147px;" /></td><td style="text-align:left;"><input id="shipInfoembarkationDate" type="text" value="1234/12/31"  oninput="validateForm(this,'dateAsText',10)" disabled /></td></tr>
+						<tr><td style="text-align: right; padding-right: 3px;"><input type="text" value="City:" disabled style="text-align:right; width:147px;" /></td><td style="text-align:left;"><input id="shipInfoembarkatonCity" type="text" value="Lisbon" oninput="validateForm(this,'plainText')" disabled /></td></tr>
+						<tr><td style="text-align: right; padding-right: 3px;"><input type="text" value="Country:" disabled style="text-align:right; width:147px;" /></td><td style="text-align:left;"><input id="shipInfoembarkationCountry" type="text" value="Portugal" oninput="validateForm(this,'plainText')" disabled /></td></tr>
+						<tr><td style="text-align: right; padding-right: 3px;"><input type="text" value="Debarkation:" disabled style="text-align:right; width:147px;" /></td><td style="text-align:left;"><input id="shipInfodebarkationDate" type="text" value="2023/06/24" oninput="validateForm(this,'dateAsText',10)" disabled /></td></tr>
+						<tr><td style="text-align: right; padding-right: 3px;"><input type="text" value="City:" disabled style="text-align:right; width:147px;" /></td><td style="text-align:left;"><input id="shipInfodebarkationCity" type="text" value="Civataccia" oninput="validateForm(this,'plainText')" disabled /></td></tr>
+						<tr><td style="text-align: right; padding-right: 3px;"><input type="text" value="Country:" disabled style="text-align:right; width:147px;" /></td><td style="text-align:left;"><input id="shipInfodebarkationCountry" type="text" value="Italy" oninput="validateForm(this,'plainText')" disabled /></td></tr>
+						<tr><td style="text-align: right; padding-right: 3px;"><input type="text" value="Tonns:" disabled style="text-align:right; width:147px;" /></td><td style="text-align:left;"><input id="shipInfotonnes" type="text" value="145655" oninput="validateForm(this,'number',6)" disabled /></td></tr>
+						<tr><td style="text-align: right; padding-right: 3px;"><input type="text" value="Guests:" disabled style="text-align:right; width:147px;" /></td><td style="text-align:left;"><input id="shipInfoguests" type="text" value="3963" oninput="validateForm(this,'number',4)" disabled /></td></tr>
+						<tr><td style="text-align: right; padding-right: 3px;"><input type="text" value="Length (ft):" disabled style="text-align:right; width:147px;" /></td><td style="text-align:left;"><input id="shipInfoshpLength" type="text" value="1068" oninput="validateForm(this,'number',4)" disabled /></td></tr>
+						<tr><td style="text-align: right; padding-right: 3px;"><input type="text" value="Max Beam (ft):" disabled style="text-align:right; width:147px;" /></td><td style="text-align:left;"><input id="shipInfomaxBeam" type="text" value="170" oninput="validateForm(this,'number',3)" disabled /></td></tr>
+						<tr><td style="text-align: right; padding-right: 3px;"><input type="text" value="Crew:" disabled style="text-align:right; width:147px;" /></td><td style="text-align:left;"><input id="shipInfocrew" type="text" value="1646" oninput="validateForm(this,'number',4)" disabled /></td></tr>
+						<tr><td style="text-align: right; padding-right: 3px;"><input type="text" value="Construction:" disabled style="text-align:right; width:147px" /></td><td style="text-align:left;"><input id="shipInfoconstructed" type="text" value="2020 (2014)" oninput="validateForm(this,'mixedText',11)" disabled /></td></tr>
+						<tr><td style="text-align: right; padding-right: 3px;"><input type="text" value="Reservation#:" disabled style="text-align:right; width:147px" /></td><td style="text-align:left;"><input id="shipInforeservationNumber" type="text" value="1234567890" oninput="validateForm(this,'number',10)" disabled /></td></tr>
 						<tr><td colspan="2"><img src="images/pencilEdit.svg" id="btn_EditshipInfo" style="position:relative; height:26px; width:26px; cursor:pointer; display: inline;" onclick="initEditPanel('shipDetails')" /><input id="btn_EditshipInfoAccept" type="button" value="Save Edits" onclick="acceptEditPanel('shipDetails')" style="margin-right:15px;margin-top:3px;" /><input id="btn_EditshipInfoCancel" type="button" value="Cancel" onclick="cancelEditPanel('shipDetails')" onfocusout="document.getElementById('shipInfocruiseLine').focus();" /></td></tr>
 					</tbody>
 				</table>

@@ -39,11 +39,13 @@ let toggleFlags = { "shipDetails": 1, "portOfCallList": 1, "travelInfo": 1, "eme
 
 let tripOverViewList = {
     "tripName": "European Mediterranean Cruise", "duration": "12",
-    "dateStart": "2023/06/13", "dateEnd": "2023/06/25", "embarcationDate": "2023/06/14", "debarcationDate": "2023/06/23", "cruiseLine": "Norwegian Cruise Line", "cruiseLineCommon":"Norwegian","cruiseLineAbbr": "NCL", "shipName": "Getaway",
+    "dateStart": "2023/06/13", "dateEnd": "2023/06/25", "embarkationDate": "2023/06/14",
+    "debarkationDate": "2023/06/23", "cruiseLine": "Norwegian Cruise Line", "cruiseLineCommon": "Norwegian", "cruiseLineAbbr": "NCL", "shipName": "Getaway",
     "tonnes": "145,655", "guests": "3963","shpLength":"1068'","maxBeam":"170'","crew":"1646","constructed":"2020 (2014)",
-    "portCityStart": "Lisbon", "portCountryStart": "Portugal", "portCountryStartAbbr": "PRT", "portCityEnd": "Civitavecchia", "portCountryEnd": "Italy", "portCountryEndAbbr": "ITA",
+    "embarkatonCity": "Lisbon", "embarkationCountry": "Portugal", "embarkationCountryAbbr": "PRT", "debarkationCity": "Civitavecchia", "debarkationCountry": "Italy", "debarkationCountryAbbr": "ITA",
     "reservationNumber": "1234567890", "stateRoom": "1403", "travelerFName":"Bart","travelerMI":"R","travelerLName":"Voigt","travelerMobileIntnl":"013179979299"
 };
+
 
 let portList = [
     ['Lisbon', 'Spain', '00', '2023/06/14', '18:00', '24:00'],
@@ -65,14 +67,19 @@ let dataList = { "isDataSaved": 0, "toggleFlags": toggleFlags, "tripOverViewList
 
 function loadUserData() {
     if (localStorage.getItem("cPlanDataSaved") == "1") {
+        //console.log("cPlanData saved  = 1");
         dataList = JSON.parse(localStorage.getItem("cPlanDataList"));
         for (const [key, value] of Object.entries(dataList)) {
+            //console.log("processing:" + key + " with " + value);
+            //console.log("room default:" + tripOverViewList.stateRoom);
             switch (key) {
                 case "toggleFlags":
                     toggleFlags = value;
                     break;
                 case "tripOverViewList":
                     tripOverViewList = value;
+                    //console.log("room Data:" + value.stateRoom);
+                    //console.log("Applied As:" + tripOverViewList.stateRoom);
                     break;
                 case "portList":
                     portList = value;
@@ -130,20 +137,25 @@ function storeUserData(formData) {
     }  
     localStorage.setItem("cPlanDataList", JSON.stringify(dataList));
     dataList.isDataSaved = 1;
-    localStorage.setItem("cPlanDataSaved", 1);
+    localStorage.setItem("cPlanDataSaved", "1");
 }
 
-function validateForm(frmItem, type) {
+function validateForm(frmItem, type, charLimit) {
+    console.log("Validate Form-> value:" + frmItem.value + ", type:" + type + ", Limit:" + charLimit);
+    if (charLimit == undefined) charLimit = 12;
     let itemValue = frmItem.value;
     let validOutput = "";
     let matchString = ""
-    if (type == 'plainText') matchString = "[a-zA-Z \\-'.]";
-    if (type == 'number') matchString = "\\d";
-    if (type == 'mixedText') matchString = "[a-zA-Z \\-'.\\d,@()$?]";
+    if (type == 'plainText') matchString = "^[a-zA-Z \\-'.]{0," + charLimit + "}";
+    if (type == 'number') matchString = "^[\\d]{0," + charLimit + "}";
+    if (type == 'mixedText') matchString = "^[a-zA-Z \\-'.\\d,@()$?]{0," + charLimit + "}";
+    if (type == 'dateAsText') matchString = "^[\\d]{0,4}/{0,1}\\d{0,2}/{0,1}\\d{0,2}";
 
-    for (let i = 0; i < itemValue.length; i++) {
-        if (itemValue.charAt(i).match(matchString) != null) validOutput = validOutput + itemValue.charAt(i);
-    }
+    //for (let i = 0; i < itemValue.length; i++) {
+    //    if (itemValue.charAt(i).match(matchString) != null) validOutput = validOutput + itemValue.charAt(i);
+    //}
+    console.log("matchStringe:" + matchString + ", itemValue.match(matchString):" + itemValue.match(matchString));
+    if (itemValue.match(matchString) != null) validOutput = itemValue.match(matchString);
 
     frmItem.value = validOutput;
 }

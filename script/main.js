@@ -32,11 +32,11 @@
  * };
  */
 function initFullLoadCPlan() {
-    loadUserData();
-    generateOverview();
-    generateShipDetails();
+    if (loadUserData()) console.log("Load completed true");
+    if (generateOverview()) console.log("generateOverview completed true");
+    if (generateShipDetails()) console.log("generateShipDetails completed true");
     generatePOCList();
-    generateMapPanel();
+    generateTravelInfoPanel();
     generateEmergencyPanel();
     populateConfigPanelData();
 }
@@ -129,6 +129,7 @@ function mouseClick(mouseObject, actionTarget) {
 //}
 
 function generateOverview() {
+    console.log("pass through-> generateOverview()");
     /*let ovrvwHTML = "";
     // Define iterable key list from tripOverViewList
     editInputList = ["overview", "tripName", "duration", "dateStart", "dateEnd", "embarcationDate", "debarcationDate",
@@ -150,15 +151,23 @@ function generateOverview() {
 }
 
 function generateShipDetails() {
-    editInputList = ["shipInfo", "cruiseLine", "shipName", "tonnes", "guests", "shpLength", "maxBeam", "crew", "constructed"];
+    console.log("entering-> generateShipDetails()");
+    editInputList = ["shipInfo", "cruiseLine", "shipName", "stateRoom", "embarkationDate", "embarkatonCity", "embarkationCountry",
+        "debarkationDate", "debarkationCity", "debarkationCountry", "tonnes", "guests", "shpLength", "maxBeam", "crew", "constructed", "reservationNumber"];
+
     for (let i = 1; i < editInputList.length; i++) {
+        //console.log("applying-> " + tripOverViewList[editInputList[i]]+" from " + editInputList[i] + " to " + editInputList[0] + editInputList[i]);
         document.getElementById(editInputList[0] + editInputList[i]).disabled = false;
-        tripOverViewList[editInputList[i]] = document.getElementById(editInputList[0] + editInputList[i]).value;
+        document.getElementById(editInputList[0] + editInputList[i]).value = tripOverViewList[editInputList[i]];
         document.getElementById(editInputList[0] + editInputList[i]).disabled = true;
     }
+    editInputList = [0];
+    console.log("exiting-> generateShipDetails()");
+    return true;
 }
 
 function generatePOCList() {
+    console.log("entering-> generatePOCList()");
     let POCHTML = "";
     POCHTML = POCHTML + "<div id=\"primaryInformation\" class=\"boxStyle_01\"><div style=\"width:100%\">";
     POCHTML = POCHTML + "<div style=\"float:left; text-align:left; font-size:.9em;\">" + tripOverViewList.dateStart + "</div>";
@@ -181,11 +190,13 @@ function generatePOCList() {
     POCHTML = POCHTML + "<div style=\"position:relative; margin-left:10px; float:left; width:40px; height:30px; text-align:center; font-size:24px; cursor:pointer\" class=\"boxStyle_01\">+</div>";
     document.getElementById('portOfCallList').innerHTML = POCHTML;
 
-}
-
-function generateMapPanel() {
     return true;
 }
+
+function generateTravelInfoPanel() {
+    return true;
+}
+
 function generateEmergencyPanel() {
     return true;
 }
@@ -198,16 +209,8 @@ var editInputList = [0];
 function initEditPanel(panelID) {
     editInputList=[0];
     if (panelID == 'shipDetails') {
-        /*  "cruiseLine": "Norwegian (NCL)",
-            "shipName": "Getaway",
-            "tonnes": "145,655", 
-            "guests": "3963",
-            "shpLength":"1068'",
-            "maxBeam":"170'",
-            "crew":"1646",
-            "constructed":"2020 (2014)",
-         */
-        editInputList = ["shipInfo", "cruiseLine", "shipName", "tonnes", "guests", "shpLength", "maxBeam", "crew", "constructed"];
+        editInputList = ["shipInfo", "cruiseLine", "shipName", "stateRoom", "embarkationDate", "embarkatonCity", "embarkationCountry",
+            "debarkationDate", "debarkationCity", "debarkationCountry", "tonnes", "guests", "shpLength", "maxBeam", "crew", "constructed", "reservationNumber"];
         document.getElementById(editInputList[0] + editInputList[1]).disabled = false;
         document.getElementById(editInputList[0] + editInputList[1]).focus();
         for (let i = 2; i < editInputList.length; i++) {
