@@ -44,7 +44,7 @@
             background-color: #ffffff44;
             border-radius: 3px;
             padding: 0px 2px 0px 2px;
-            width: 200px;
+            width: 145px;
         }
 
 	</style>
@@ -53,34 +53,34 @@
 <body onload="initFullLoadCPlan()">
 <!--<body>-->
 	<div id="tripOverviewPanel" style="position:relative; width: calc(100% - 47px); height:100%;">
-		<div id="overview" style="text-align:center; font-size:30px; color:#FFFFFFDD">
-			<span id="overviewtravelerFName" style="font-size:25px;">First</span> <span id="overviewtravelerMI" style="font-size:25px;">M</span>. <span id="overviewtravelerLName" style="font-size:25px;">Last</span><br />
+		<div id="overview" style="text-align:center; font-size:22px; color:#FFFFFFDD">
+			<span id="overviewtravelerFName" style="font-size:20px;">First</span> <span id="overviewtravelerMI" style="font-size:20px;">M</span>. <span id="overviewtravelerLName" style="font-size:20px;">Last</span><br />
 			<span id="overviewHeader">N-Day +Trip Name</span><br />
 			<span id="overviewcruiseLine">Cruise Line Name</span>&nbsp;(<span id="overviewcruiseLineAbbr">ABR</span>)<br />
 			<span id="overviewcruiseLineCommon"> cruise</span> <span id="overviewshipName"> shipName</span><br />
 			<br />
-			<table style="width:400px; margin:auto; font-size:20px; border-spacing:2px;">
+			<table style="width:290px; margin:auto; font-size:20px; border-spacing:2px;">
 				<tbody>
 					<tr><td style="text-align:right">Travel Phone:</td><td style="text-align:left"><span id="overviewtravelerMobileIntnl">01-123-456-7890</span></td></tr>
 					<tr><td style="text-align:right">Cruise Start:</td><td style="text-align:left"><span id="overviewembarkationDate">yyyy/mm/dd</span></td></tr>
 					<tr><td style="text-align:right">Cruise End:</td><td style="text-align:left"><span id="overviewdebarkationDate">yyyy/mm/dd</span></td></tr>
 				</tbody>
 			</table>
-			<table style="width: 400px; margin: auto; margin-top: 5px; font-size: 20px; border-spacing: 2px;">
+			<table style="width: 290px; margin: auto; margin-top: 5px; font-size: 20px; border-spacing: 2px; ">
 				<tbody>
 					<tr><td colspan="2">Starting Port:</td></tr>
 					<tr><td style="text-align:right">City:</td><td style="text-align:left"><span id="overviewembarkatonCity">City</span></td></tr>
 					<tr><td style="text-align:right">Country:</td><td style="text-align:left"><span id="overviewembarkationCountry">Country</span> (<span id="overviewembarkationCountryAbbr">ABR</span>)</td></tr>
 				</tbody>
 			</table>
-			<table style="width: 400px; margin: auto; margin-top: 5px; font-size: 20px; border-spacing: 2px;">
+			<table style="width: 290px; margin: auto; margin-top: 5px; font-size: 20px; border-spacing: 2px; ">
 				<tbody>
 					<tr><td colspan="2">Final Port:</td></tr>
 					<tr><td style="text-align:right">City:</td><td style="text-align:left"><span id="overviewdebarkationCity">City</span></td></tr>
 					<tr><td style="text-align:right">Country:</td><td style="text-align:left"><span id="overviewdebarkationCountry">Country</span> (<span id="overviewdebarkationCountryAbbr">ABR</span>)</td></tr>
 				</tbody>
 			</table>
-			<table style="width: 400px; margin: auto; margin-top: 5px; font-size: 20px; border-spacing: 2px;">
+			<table style="width: 290px; margin: auto; margin-top: 5px; font-size: 20px; border-spacing: 2px; ">
 				<tbody>
 					<tr><td style="text-align:right">Flight To:</td><td style="text-align:left"><span id="overviewdateStart">yyyy/mm/dd</span></td></tr>
 					<tr><td style="text-align:right">Flight Back:</td><td style="text-align:left"><span id="overviewdateEnd">yyyy/mm/dd</span></td></tr>
@@ -92,10 +92,10 @@
 	<div id="panelContainer" style="width:100%; height:100%; padding:0; margin:0; overflow:hidden; z-index:15; position: absolute; top:0px;">
 		<div id="shipDetails">
 			<div>
-				<table style="margin: auto; text-align: center; border-spacing: 2px;">
+				<table style="margin: auto; text-align: center; border-spacing: 2px; width: 290px">
 					<tbody>
-						<tr><td colspan="2"><input id="shipInfocruiseLine" type="text" value="Norwegian (NCL)" oninput="validateForm(this,'mixedText',16)" disabled style="text-align: center; width:308px; font-size:25px" /></td></tr>
-						<tr><td colspan="2"><input id="shipInfoshipName" type="text" value="Getaway" oninput="validateForm(this,'plainText',16)" disabled style="text-align: center; width: 308px; font-size: 25px" /></td></tr>
+						<tr><td colspan="2"><input id="shipInfocruiseLine" type="text" value="Norwegian (NCL)" oninput="validateForm(this,'mixedText',16)" disabled style="text-align: center; width:100%; font-size:25px" /></td></tr>
+						<tr><td colspan="2"><input id="shipInfoshipName" type="text" value="Getaway" oninput="validateForm(this,'plainText',16)" disabled style="text-align: center; width: 100%; font-size: 25px " /></td></tr>
 						<tr><td style="text-align: right; padding-right: 3px;">State Room:</td><td style="text-align:left;"><input id="shipInfostateRoom" type="text" value="12345" oninput="validateForm(this,'number',5)" disabled /></td></tr>
 						<tr><td style="text-align: right; padding-right: 3px;">Embarkation:</td><td style="text-align:left;"><input id="shipInfoembarkationDate" type="text" value="1234/12/31"  oninput="validateForm(this,'dateAsText',10)" disabled /></td></tr>
 						<tr><td style="text-align: right; padding-right: 3px;">City:</td><td style="text-align:left;"><input id="shipInfoembarkatonCity" type="text" value="Lisbon" oninput="validateForm(this,'plainText')" disabled /></td></tr>
@@ -128,7 +128,7 @@
 			</div>
 		</div>
 		<div id="travelInfo">
-			<table style="width: 400px; margin: auto; margin-top: 5px; border-spacing: 2px;">
+			<table style="width: 290px; margin: auto; margin-top: 5px; border-spacing: 2px;">
 				<tbody>
 					<tr><td colspan="2" style="text-align:center; font-size:25px;">Flight Out:</td></tr>
 					<tr><td style="text-align:right">Date:</td><td style="text-align:left"><input id="travelInfoflightDateOut" type="text"  value="yyyy/mm/dd" disabled/></td></tr>
@@ -140,7 +140,7 @@
 					<tr><td style="text-align:right">Landing:</td><td style="text-align:left"><input id="travelInfolandingOutTime" type="text" value="24:MM" disabled /></td></tr>
 				</tbody>
 			</table>
-			<table style="width: 400px; margin: auto; margin-top: 5px; border-spacing: 2px;">
+			<table style="width: 290px; margin: auto; margin-top: 5px; border-spacing: 2px;">
 				<tbody>
 					<tr><td colspan="2" style="text-align: center; font-size: 25px;">Flight Back:</td></tr>
 					<tr><td style="text-align:right">Date:</td><td style="text-align:left"><input id="travelInfoflightDateBack" type="text" value="yyyy/mm/dd" disabled /></td></tr>
