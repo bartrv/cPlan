@@ -38,7 +38,7 @@
 let toggleFlags = { "shipDetails": 1, "portOfCallList": 1, "travelInfo": 1, "emergancyInfo": 1, "configOptions": 1 };
 
 let tripOverViewList = {
-    "tripName": "European Mediterranean Cruise", "duration": "12",
+    "tripName": "Mediterranean Cruise", "duration": "12",
     "dateStart": "2023/06/13", "dateEnd": "2023/06/25", "embarkationDate": "2023/06/14",
     "debarkationDate": "2023/06/23", "cruiseLine": "Norwegian Cruise Line", "cruiseLineCommon": "Norwegian", "cruiseLineAbbr": "NCL", "shipName": "Getaway",
     "tonnes": "145,655", "guests": "3963","shpLength":"1068'","maxBeam":"170'","crew":"1646","constructed":"2020 (2014)",
