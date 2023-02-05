@@ -96,16 +96,16 @@
         width: 100%;
     }
 #shipDetails td {
-    background-color: #efefffaa;
+    background-color: #efefffbb;
     border-radius: 3px;
     padding: 0px 2px 0px 2px;
     width: 200px;
-    font-size: 20px;
+    font-size: 18px;
     color: #222255;
 }
 
 #shipDetails input[type=text] {
-    font-size: 20px;
+    font-size: 18px;
     border:#00000000 solid 1px;
     border-radius: 3px;
     background-color:#FFFFFF00;
@@ -127,14 +127,14 @@
     background-size: cover;
 }
 
-#travelInfo td {
-    background-color: #ffffff44;
-    border-radius: 3px;
-    padding: 0px 2px 0px 2px;
-    width: 50%;
-    font-size: 18px;
-    color: #222255;
-}
+    #travelInfo td {
+        background-color: #efefff99;
+        border-radius: 3px;
+        padding: 0px 2px 0px 2px;
+        width: 50%;
+        font-size: 18px;
+        color: #222255;
+    }
 
 #travelInfo input[type=text] {
     font-size: 19px;
