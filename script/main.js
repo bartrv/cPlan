@@ -129,24 +129,19 @@ function mouseClick(mouseObject, actionTarget) {
 //}
 
 function generateOverview() {
-    console.log("pass through-> generateOverview()");
-    /*let ovrvwHTML = "";
+    console.log("entering-> generateOverview()");
+    let ovrvwHTML = "";
     // Define iterable key list from tripOverViewList
-    editInputList = ["overview", "tripName", "duration", "dateStart", "dateEnd", "embarcationDate", "debarcationDate",
-        "cruiseLine", "cruiseLineCommon", "cruiseLineAbbr", "shipName", "portCityStart", "portCountryStart",
-        "portCountryStartAbbr", "portCityEnd", "portCountryEnd", "portCountryEndAbbr", "reservationNumber", "stateRoom",
-        "travelerFName", "travelerMI", "travelerLName", "travelerMobileIntnl"];
-
-    ovrvwHTML = "<div id=\"overview" + editInputList[1] + "\" style=\"text-align:center;\">" + tripOverViewList[editInputList[1]]+"<br />";
-    ovrvwHTML = ovrvwHTML + tripOverViewList[editInputList[2]] + " Day Cruise</div><table>";
-    for (let i = 3; i < editInputList.length;i++) {
-        ovrvwHTML = ovrvwHTML + "<tr><td></td><td></td></tr>";
-
+    editInputList = ["overview", "tripName", "duration", "dateStart", "dateEnd", "embarkationDate", "debarkationDate",
+        "cruiseLine", "cruiseLineCommon", "cruiseLineAbbr", "shipName", "embarkatonCity", "embarkationCountry",
+        "embarkationCountryAbbr", "debarkationCity", "debarkationCountry", "debarkationCountryAbbr", "travelerFName",
+        "travelerMI", "travelerLName", "travelerMobileIntnl"];
+    document.getElementById("overviewHeader").innerHTML = tripOverViewList.duration + " " + tripOverViewList.tripName;
+    for (let i = 3; i < editInputList.length; i++) {
+        //console.log("applying-> " + tripOverViewList[editInputList[i]]+" from " + editInputList[i] + " to " + editInputList[0] + editInputList[i]);
+        document.getElementById(editInputList[0] + editInputList[i]).innerHTML = tripOverViewList[editInputList[i]];
     }
-    ovrvwHTML = ovrvwHTML + "</table>";
-
-    document.getElementById("tripOverviewPanel").innerHTML = ovrvwHTML;
-    */
+    
     return true;
 }
 
