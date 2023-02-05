@@ -136,7 +136,7 @@ function generateOverview() {
         "cruiseLine", "cruiseLineCommon", "cruiseLineAbbr", "shipName", "embarkatonCity", "embarkationCountry",
         "embarkationCountryAbbr", "debarkationCity", "debarkationCountry", "debarkationCountryAbbr", "travelerFName",
         "travelerMI", "travelerLName", "travelerMobileIntnl"];
-    document.getElementById("overviewHeader").innerHTML = tripOverViewList.duration + " " + tripOverViewList.tripName;
+    document.getElementById("overviewHeader").innerHTML = tripOverViewList.duration + " Day " + tripOverViewList.tripName;
     for (let i = 3; i < editInputList.length; i++) {
         //console.log("applying-> " + tripOverViewList[editInputList[i]]+" from " + editInputList[i] + " to " + editInputList[0] + editInputList[i]);
         document.getElementById(editInputList[0] + editInputList[i]).innerHTML = tripOverViewList[editInputList[i]];
