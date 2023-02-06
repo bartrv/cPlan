@@ -48,14 +48,20 @@ let tripOverViewList = {
 
 
 let portList = [
-    ['Lisbon', 'Spain', '00', '2023/06/14', '18:00', '24:00'],
-    ['Lisbon', 'Spain', '0', '2023/06/15', '00:00', '20:00'],
-    ['At Sea', 'NCL Getaway', '1', '2023/06/16', '00:00', '24:00']
+    ['-1', 'Lisbon', 'Spain', '2023/06/14', '18:00', '24:00'],
+    ['0', 'Lisbon', 'Spain', '2023/06/15', '00:00', '20:00'],
+    ['1', 'At Sea', 'NCL Getaway', '2023/06/16', '00:00', '24:00']
 ];
+//'-1': { "city": "Lisbon", "schedule": [{ "location": "Beach", "activity": 'Hang Out', "start": "13:00", "end": "18:00", "notes": "anything noteworthy" }
+//usage:
+//activitylist['-1'].city='Lisbon'
+//activitylist['-1'].schedule[0].location='Beach'
+//activitylist['-1'].schedule[1].activity = 'Lunch'
+
 let activityList = {
-    'Lisbon': { '00': [['Hang Out', 'Beach'], ['Dinner', 'Hotel Restaurant']] },
-    'Lisbon': { '0': [['Repack', 'Hotel'], ['Lunch', 'Hotel Restaurant'], ['Transit to Ship', 'Shuttle', '16:00', '17:00']] },
-    'At Sea': { '1': [['Ship Activity 1'], ['Ship Activity 2']] },
+    '-1': { "city": "Lisbon", "schedule": [{ "location": "Beach", "activity": 'Hang Out', "start": "13:00", "end": "18:00", "notes": "anything noteworthy" }, ['Dinner', 'Hotel Restaurant',"18:30","20:00"]] },
+    '0': { 'Lisbon': [["Breakfast","Hotel","8:30","10:00"],['Repack', 'Hotel'], ['Lunch', 'Hotel Restaurant'], ['Transit to Ship', 'Shuttle', '16:00', '17:00']] },
+    '1': { 'At Sea': [["Location","Activity","00:00","00:00","Notes"], ['Ship Activity 2']] },
 };
 
 let emergencyDataList = [];
@@ -95,8 +101,8 @@ function loadUserData() {
                     break;
             }
         }
-        generateOverview();
-        generateShipDetails();
+        //generateOverview();
+        //generateShipDetails();
         
     }
 }
@@ -158,4 +164,14 @@ function validateForm(frmItem, type, charLimit) {
     if (itemValue.match(matchString) != null) validOutput = itemValue.match(matchString);
 
     frmItem.value = validOutput;
+}
+
+function clearAllData() {
+    let alertHTML = ""
+    alertHTML = "<span style=\"font-size:24px; font-weight:bold; color:red;\">- Warning -</span><br />";
+    alertHTML += "This operation will irrevocably erase all data from <strong>this app</strong> and re-load the default values.<br /><br />";
+    alertHTML += "<input type=\"button\" onclick=\"this.parentElement.style.display='none'\" value=\"* Cancel *\" style=\"width:125px\"\><br /><br />";
+    alertHTML += "<input type=\"button\" onclick=\"this.parentElement.style.display='none'; localStorage.clear(); window.location.href = window.location.href;\" value=\"Erase Planning Data\"  style=\"width:125px\"\><br />";
+    document.getElementById("alertPanel").innerHTML = alertHTML;
+    document.getElementById("alertPanel").style.display = "block";
 }

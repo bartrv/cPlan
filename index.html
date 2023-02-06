@@ -25,7 +25,7 @@
 			width: 100%;
 			background-color: #441811;
 			padding: 0px;
-			margin: 0px;
+			margin: 0px auto;
 			font-family: arial;
 			overflow: hidden
 		}
@@ -154,7 +154,12 @@
 			</table>
 		</div>
 		<div id="emergancyInfo">Emergency Information</div>
-		<div id="configOptions">Configuration options</div>
+		<div id="configOptions" style="text-align:center;background-color:#000000e0;border-color: #f57800">
+			<div style="position:relative; width: calc(100% + 4px); left:-2px;top:-2px; height:35px; text-align:center; font-size:24px; background-color:#ffff99cc;">Configuration & Maintenance</div>
+			<div id="configPersonal" style="height: 25px; width: calc(100% - 4px); margin: auto; text-align: center; font-size: 18px; background-color: #eeddaacc; border: #f57800 1px solid; border-radius: 10px; margin-top: 4px;" onclick="toggleRollout(this,200)">Personal Information</div>
+			<div id="configPersonalRollout" style="height: 200px; width: calc(100% - 22px); margin:auto; border: #e56800 1px solid; background-color:#999;"></div>
+			<br /><input type="button" value="Erase/Reset ALL App Data" onclick="clearAllData()" />
+		</div>
 	</div>
 
 
@@ -165,5 +170,6 @@
 		<div id="btn_emergancyInfo" class="button" onmouseover="mouseIn(this)" onmouseout="mouseOut(this,'emergancyInfo')" onclick="mouseClick(this,'emergancyInfo')"><img src="images\emergency.svg" style="padding:4px; height:36px; width:36px;" /></div>
 		<div id="btn_configOptions" class="button" onmouseover="mouseIn(this)" onmouseout="mouseOut(this,'configOptions')" onclick="mouseClick(this,'configOptions')"><img src="images\hammer.svg" style="padding:4px; height:36px; width:36px;" /></div>
 	</div>
+	<div id="alertPanel">test</div>
 </body>
 </html>

@@ -160,25 +160,25 @@ function generateShipDetails() {
     console.log("exiting-> generateShipDetails()");
     return true;
 }
-
+//['-1', 'Lisbon', 'Spain', '2023/06/14', '18:00', '24:00']
 function generatePOCList() {
     console.log("entering-> generatePOCList()");
     let POCHTML = "";
     POCHTML = POCHTML + "<div id=\"primaryInformation\" class=\"boxStyle_01\"><div style=\"width:100%\">";
     POCHTML = POCHTML + "<div style=\"float:left; text-align:left; font-size:.9em;\">" + tripOverViewList.dateStart + "</div>";
     POCHTML = POCHTML + "<div style=\"float:right; text-align:left; font-size:.9em;\">" + tripOverViewList.dateEnd + "</div>";
-    POCHTML = POCHTML + "<div style=\"text-align:center; font-weight:bold\">";
+    POCHTML = POCHTML + "<div style=\"text-align:center; font-weight:bold; margin-left:100px; \">";
     POCHTML = POCHTML + tripOverViewList.cruiseLineAbbr + " " + tripOverViewList.shipName + "</div></div>";
-    POCHTML = POCHTML + "<div style=\"width:100%; height:20px\"><div style=\"float: left; text-align: left;\">" + tripOverViewList.portCityStart + ", " + tripOverViewList.portCountryStartAbbr +"</div>";
-    POCHTML = POCHTML + "<div style=\"float: right; text-align: right;\">" + tripOverViewList.portCityEnd + ", " + tripOverViewList.portCountryEndAbbr+"</div>";
+    POCHTML = POCHTML + "<div style=\"width:100%; height:20px\"><div style=\"float: left; text-align: left;\">" + tripOverViewList.embarkatonCity + ", " + tripOverViewList.embarkationCountryAbbr +"</div>";
+    POCHTML = POCHTML + "<div style=\"float: right; text-align: right;\">" + tripOverViewList.debarkationCity + ", " + tripOverViewList.debarkationCountryAbbr+"</div>";
     POCHTML = POCHTML + "</div></div>";
     
     
     for (const portItem of portList) {
-        POCHTML = POCHTML + "<div id=\"dayItem" + portItem[2] + "\" style=\"position:relative; cursor:pointer; height:40px;\" onmouseover=\"\" onmouseout=\"\" onclick=\"alert('clicked item " + portItem[2] +"')\">";
-        POCHTML = POCHTML + "<div class=\"boxStyle_01\" style=\"position:relative; float:left; width:27px; height:100%; text-align:center; font-size:24px; border-radius:16px 3px 3px 16px;\"><div style=\"padding-top:5px;\">" + portItem[2] + "</div></div>";
+        POCHTML = POCHTML + "<div id=\"dayItem_0" + portItem[0] + "\" style=\"position:relative; cursor:pointer; height:40px;\" onmouseover=\"\" onmouseout=\"\" onclick=\"alert('clicked item " + portItem[0] +"')\">";
+        POCHTML = POCHTML + "<div class=\"boxStyle_01\" style=\"position:relative; float:left; width:27px; height:100%; text-align:center; font-size:24px; border-radius:16px 3px 3px 16px;\"><div style=\"padding-top:5px;\">" + portItem[0] + "</div></div>";
         POCHTML = POCHTML + "<div class=\"boxStyle_01\" style=\"position:relative; float:right; width: calc(100% - 40px); height:40px; border-radius:3px 6px 6px 3px;\"><table cellpadding=\"0\" cellspacing=\"0\" style=\"width: 100%;\"><tr>";
-        POCHTML = POCHTML + "<td colspan=\"5\"style=\"text-align:center\">" + portItem[0] + ", " + portItem[1] + "</td></tr>";
+        POCHTML = POCHTML + "<td colspan=\"5\"style=\"text-align:center\">" + portItem[1] + ", " + portItem[2] + "</td></tr>";
         POCHTML = POCHTML + "<tr><td style=\"width: 76px; text-align:left; font-size:.9em;\">" + portItem[3] + "</td><td></td>";
         POCHTML = POCHTML + "<td style=\"text-align:center; width:36px; font-size:.9em\">" + portItem[4] + "</td><td width=\"8px\" style=\"text-align:center\">-</td><td width=\"36px\" style=\"width:36px; text-align:center;font-size:.9em\">" + portItem[5] + "</td></tr></table></div></div>";
     }
@@ -251,4 +251,42 @@ function cancelEditPanel(panelID) {
 
     }
     editInputList = [0];
+}
+
+function toggleRollout(rollCap, rollHeight) {
+    
+    let rollDir;
+    let heightNow;
+    rolloutPanel = document.getElementById(rollCap.id + "Rollout");
+    rolloutPanel.style.display = "block";
+    if (rolloutPanel.style.height === "0px") {
+        rollDir = 1;
+        heightNow = 0;
+    } else {
+        rollDir = -1;
+        heightNow = parseInt(rolloutPanel.style.height.match("^[\\d]+"));
+    }
+    let slideID = setInterval(rollUpDown, 15);
+
+    //console.log(heightNow);
+    //console.log(slideID);
+    function rollUpDown() {
+        heightNow = heightNow + (10 * rollDir);
+        if ((heightNow > 0) && (heightNow < rollHeight)) {
+            heightNow = heightNow + (10 * rollDir);
+            rolloutPanel.style.height = heightNow + 'px';
+        } else if (heightNow <= 0) {
+            //console.log('cancel with <=0');
+            rolloutPanel.style.height = "0px";
+            clearInterval(slideID);
+            slideID = null;
+            rolloutPanel.style.display = "none";
+        } else if (heightNow >= rollHeight) {
+            //console.log('cancel with >=0');
+            rolloutPanel.style.height = rollHeight + "px";
+            clearInterval(slideID);
+            slideID = null;
+        }
+        
+    }
 }

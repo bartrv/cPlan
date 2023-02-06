@@ -144,3 +144,19 @@
         text-align: left;
         width: 145px;
     }
+
+#alertPanel {
+    position: absolute;
+    top: calc(50% - 100px);
+    left: calc(50% - 147px);
+    width: 240px;
+    height: 150px;
+    padding: 2px;
+    font-size: 12px;
+    text-align:center;
+    border: #FF0000 2px solid;
+    border-radius: 5px;
+    background-color: #FFFFFFF0;
+    z-index: 30;
+    display: none;
+}
