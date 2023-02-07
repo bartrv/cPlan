@@ -59,7 +59,7 @@ let portList = [
 //activitylist['-1'].schedule[1].activity = 'Lunch'
 
 let activityList = {
-    '-1': { "city": "Lisbon", "schedule": [{ "location": "Beach", "activity": 'Hang Out', "start": "13:00", "end": "18:00", "notes": "anything noteworthy" }, { 'location': 'Hotel Restaurant', 'activity': 'Dinner', 'start': "18:30", 'end': "20:00",'notes':"anything" }] },
+    '-1': { "city": "Lisbon", "schedule": [{ "location": "Beach", "activity": 'Hang Out', "start": "13:00", "end": "18:00", "notes": "anything noteworthy" }, { "location": "Hotel Restaurant", "activity": "Dinner", "start": "18:30", 'end': "20:00", "notes":"anything" }] },
     '0': { "city": "Lisbon", "schedule": [{ "location": "Hotel", "activity": 'Breakfast', "start": "9:00", "end": "10:00", "notes": "anything noteworthy" }] },
     '1': { "city": "At Sea", "schedule": [{ "location": "Main Dinning Room", "activity": 'Breakfast', "start": "8:00", "end": "9:30", "notes": "anything noteworthy" }] },
 };

@@ -16,19 +16,57 @@
 }
 
 
-#daySelectedOverlay {
+.daySelectedOverlay {
     position: absolute;
     right: -2px;
     top: 10px;
-    width: 600px;
+    width: calc(100% - 8px);
     height: 95%;
-    background-color: #CCCCCCEE;
+    background-color: #CCCCCCDD;
     border: #000000 solid 2px;
     border-radius: 8px 0px 0px 8px;
+    text-align:center;
     overflow: hidden;
     visibility:hidden;
 }
+#daySelectHeader{
+    width:100%;
+    background-color: #ffffff00;
+    border: 0px;  
+}
 
+#daySelectHeader td {
+    border: 0px;
+    padding: 0px 2px 0px 2px;
+}
+
+#daySelectItems {
+    margin-top: 2px;
+    margin-left:1px;
+    border-radius: 5px;
+    border: #ffffffaa solid 1px;
+    filter: drop-shadow(0px 1px 1px #00000055);
+}
+#daySelectItems td {
+    background-color: #ffffffaa;
+    padding: 1px 2px 0px 2px;
+    font-size: 18px;
+    text-align:left;
+    vertical-align:top;
+    color: #222255;
+}
+
+#daySelectItems input,textarea {
+    border: 0px;
+    background-color: #ffffff11;
+    padding: 0;
+    font-size: 16px;
+    text-align: left;
+    color: #222299;
+    width: calc(100% - 4px);
+    padding:0px;
+    margin: 0px;
+}
 #toggleRight {
     cursor: pointer;
 }

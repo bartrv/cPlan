@@ -103,7 +103,7 @@ function mouseClick(mouseObject, actionTarget) {
 //    if (mouseObject.id == "btn_shipDetail") {
   //      mouseObject.style.width = "45px";
     //}
-    console.log(mouseObject);
+    //console.log(mouseObject);
     if (mouseObject.parentElement.id == "menuMain") {
         console.log("Main Menu Button");
         for (const [key, value] of Object.entries(toggleFlags)) {
@@ -176,7 +176,7 @@ function generatePOCList() {
     
     
     for (const portItem of portList) {
-        POCHTML = POCHTML + "<div id=\"dayItem_" + portItem[0] + "\" style=\"position:relative; cursor:pointer; height:40px;\" onmouseover=\"\" onmouseout=\"\" onclick=\"alert('launchPopUp('daySelectedOverlay'," + portItem[0] +")\">";
+        POCHTML = POCHTML + "<div id=\"dayItem_" + portItem[0] + "\" style=\"position:relative; cursor:pointer; height:40px;\" onmouseover=\"\" onmouseout=\"\" onclick=\"launchPopUp('daySelectedOverlay'," + portItem[0] +")\">";
         POCHTML = POCHTML + "<div class=\"boxStyle_01\" style=\"position:relative; float:left; width:27px; height:100%; text-align:center; font-size:24px; border-radius:16px 3px 3px 16px;\"><div style=\"padding-top:5px;\">" + portItem[0] + "</div></div>";
         POCHTML = POCHTML + "<div class=\"boxStyle_01\" style=\"position:relative; float:right; width: calc(100% - 40px); height:40px; border-radius:3px 6px 6px 3px;\"><table cellpadding=\"0\" cellspacing=\"0\" style=\"width: 100%;\"><tr>";
         POCHTML = POCHTML + "<td colspan=\"5\"style=\"text-align:center\">" + portItem[1] + ", " + portItem[2] + "</td></tr>";
@@ -329,11 +329,53 @@ function addPortOfCall() {
     addPortHTML += "<tr><td>Date of Arrival:</td><td><input type=\"text\" value=\"yyyy/mm/dd\" oninput=\"validateForm(this,'dateAsText')\" /></td></tr>";
     addPortHTML += "<tr><td>Arrival Time:</td><td><input type=\"text\" value=\"24:00\" oninput=\"validateForm(this,'time24')\" /></td></tr>";
     addPortHTML += "<tr><td>Departure Time:</td><td><input type=\"text\" value=\"24:00\" oninput=\"validateForm(this,'time24')\" /></td></tr>";
-    addPortHTML += "<tr><td><input type=\"button\" value=\"Accept/Add\" onclick=\"appendToList(portList,document.getElementById('pocAddForm'));generatePOCList();storeUserData();\"/></td><td><input type=\"button\" value=\"Discard/Cancel/Done\" onclick=\"closePopUp()\"/></td></tr></table></form>";
+    addPortHTML += "<tr><td><input type=\"button\" value=\"Accept/Add\" onclick=\"appendToList(portList,document.getElementById('pocAddForm'));seedNewDayActivity(document.getElementById('pocAddForm')[0]);generatePOCList();storeUserData();\"/></td><td><input type=\"button\" value=\"Discard/Cancel/Done\" onclick=\"closePopUp()\"/></td></tr></table></form>";
 
     document.getElementById("popUpPanel").innerHTML = addPortHTML;
     document.getElementById("popUpPanel").style.display = "block";
 }
+
+function seedNewDayActivity(seedData) {
+    const defaultData = { "city": seedData[1].value, "schedule": [{ "location": "Location(ie. Jim's Cantina)", "activity": "Activity(ie. Brunch)", "start": "8:00", "end": "9:30", "notes": "Notes..." }] };
+    activityList[seedData] = defaultData;
+}
+
+function appendNewDayActivity(targetDay) {
+    const defaultData = { "location": "Location(ie. Jim's Cantina)", "activity": "Activity(ie. Brunch)", "start": "8:00", "end": "9:30", "notes": "Notes..." };
+    activityList[targetDay].schedule.push(defaultData);
+    viewdaySelectedOverlay(targetDay);
+}
+
+function editCurrentDayActivity(targetData, i) {
+    console.log("Entering editCurrentDayActivity()");
+    document.getElementById("dayItem" + targetData + i + "_start").disabled = false;
+    document.getElementById("dayItem" + targetData + i + "_end").disabled = false;
+    document.getElementById("dayItem" + targetData + i + "_location").disabled = false;
+    document.getElementById("dayItem" + targetData + i + "_activity").disabled = false;
+    document.getElementById("dayItem" + targetData + i + "_notes").disabled = false;
+    document.getElementById("dayItem" + targetData + i + "_start").style.backgroundColor = "#ffffffaa";
+    document.getElementById("dayItem" + targetData + i + "_end").style.backgroundColor = "#ffffffaa";
+    document.getElementById("dayItem" + targetData + i + "_location").style.backgroundColor = "#ffffffaa";
+    document.getElementById("dayItem" + targetData + i + "_activity").style.backgroundColor = "#ffffffaa";
+    document.getElementById("dayItem" + targetData + i + "_notes").style.backgroundColor = "#ffffffaa";
+    document.getElementById("dayItem" + targetData + i + "_start").style.border = "#000 solid 1px";
+    document.getElementById("dayItem" + targetData + i + "_end").style.border = "#000 solid 1px";
+    document.getElementById("dayItem" + targetData + i + "_location").style.border = "#000 solid 1px";
+    document.getElementById("dayItem" + targetData + i + "_activity").style.border = "#000 solid 1px";
+    document.getElementById("dayItem" + targetData + i + "_notes").style.border = "#000 solid 1px";
+    document.getElementById("dayItem" + targetData + i + "_start").style.color = "#000";
+    document.getElementById("dayItem" + targetData + i + "_end").style.color = "#000";
+    document.getElementById("dayItem" + targetData + i + "_location").style.color = "#000";
+    document.getElementById("dayItem" + targetData + i + "_activity").style.color = "#000";
+    document.getElementById("dayItem" + targetData + i + "_notes").style.color = "#000";
+    document.getElementById("buttonA" + targetData + i).innerHTML = "<input type=\"button\" value=\"Cancel\" style=\"width:40px,height:30px;font-size:14px;color:red;border:#f00 solid 2px;background-color:#ecc;\"/>";
+    document.getElementById("buttonB" + targetData + i).innerHTML = "<input type=\"button\" value=\"Accept\" />";
+    document.getElementById("dayItem" + targetData + i + "_start").focus();
+    //activityList[targetDay].schedule.sort((a, b) => a.start.match("^\\d+") - b.start.match("^\\d+"));
+    //viewdaySelectedOverlay(targetDay);
+}
+
+
 function appendToList(listObj, formElement) {
     let i = [];
     for (n of formElement) {
@@ -343,5 +385,35 @@ function appendToList(listObj, formElement) {
 }
 
 function viewdaySelectedOverlay(targetData) {
-    console.log()
+    popUpTarget = document.getElementById("popUpPanel");
+    popUpTarget.className = "daySelectedOverlay";
+    popUpTarget.style.visibility = "visible";
+    let portListIndex = 0;
+    for (portListIndex; portListIndex < portList.length; portListIndex++) {
+        if (portList[portListIndex][0] == targetData) break;
+    }
+    let portYear = portList[portListIndex][3].match("^\\d{4}");
+    let portDayName = new Date(portList[portListIndex][3]).toLocaleDateString('en-us', { weekday: "long" }).toString();
+    let portMonthName = new Date(portList[portListIndex][3]).toLocaleDateString('en-us', { month: "long" }).toString();
+    let portDayNum = portList[portListIndex][3].match("(?<=\/)\\d+$")[0];
+    //Set up Header
+    let daySelectedHTML = "<table id=\"daySelectHeader\"><tr><td rowspan=\"2\" style=\"width:40px;background-color:#4499bb99;font-size:32px;\">" + portList[portListIndex][0] + "</td>";
+    daySelectedHTML += "<td style=\"text-align:left; background-color:#ffffff44;\">" + portList[portListIndex][1] + ", " + portList[portListIndex][2] + "</td>";
+    daySelectedHTML += "<td style=\"width:45px; text-align:right; background-color:#44bb4499;border-bottom:#ffffff88 solid 1px;\">" + portList[portListIndex][4] +"</td><td rowspan=\"2\" style=\"width:100px;text-align:left;padding-left:4px;background-color:#44bb4499;\"><span id=\"currentTimeObj\" style=\"font-size:32px;\">00:00</span></td></tr>";
+    daySelectedHTML += "<tr><td style=\"text-align:left; background-color:#ffffff44;\">" + portDayName + ", " + portMonthName+" "+ portDayNum + ", " + portYear + "</td>";
+    daySelectedHTML += "<td style=\"width:45px; text-align:right; background-color:#ee444499;\">" + portList[portListIndex][5] +"</td></tr></table>";
+
+    let portSchedule = activityList[targetData].schedule;
+    //Loop through activities
+    for (let i = 0; i < portSchedule.length;i++) {
+        daySelectedHTML += "<form id=\"formDayItem" + targetData + i + "\"><table id=\"daySelectItems\" style=\"width:100%;\">";
+        daySelectedHTML += "<tr><td style=\"width:42px; background-color:#55b0dd69;border-bottom:#ffffff99 solid 1px;\"><input id=\"dayItem" + targetData + i + "_start\" type=\"text\" value=\"" + portSchedule[i].start + "\" style=\"width:41px; font-size:16px;\" disabled/></td><td style=\"width:40%;\"><input id=\"dayItem" + targetData + i + "_location\" type=\"text\" value=\"" + portSchedule[i].location + "\" disabled /></td><td><input id=\"dayItem" + targetData + i + "_activity\" type=\"text\" value=\"" + portSchedule[i].activity + "\" disabled /></td><td rowspan=\"2\" id=\"buttonA" + targetData + i + "\" style=\"width:42px;padding-top:5px;\"><img src=\"./images/compass.svg\" height=\"35px\" width=\"35px\" /></td><td id=\"buttonB" + targetData + i + "\" rowspan=\"2\" style=\"width:42px;padding-top:5px;\"><img src=\"./images/pencilEdit.svg\" style=\"height:35px; width:35px; cursor:pointer;\" onclick=\"editCurrentDayActivity(" + targetData +", "+ i +")\" /></td></tr>";
+        daySelectedHTML += "<tr><td style=\"width:42px; background-color:#55b0dd79;\"><input id=\"dayItem" + targetData + i + "_end\" type=\"text\" value=\"" + portSchedule[i].end + "\" style=\"width:41px; font-size:16px;\" disabled /></td><td colspan=\"2\" style=\"font-size:14px;\"><textarea id=\"dayItem" + targetData + i +"_notes\" style=\"height:17px; font-size:13px; resize:none;\" disabled>" + portSchedule[i].notes +"</textarea></td></tr></table></form>";
+    }
+    daySelectedHTML += "<table id=\"daySelectItems\" style=\"margin-left:5px;\">";
+    daySelectedHTML += "<tr><td style=\"width:35px; height:32px; text-align:center; font-size:24px; cursor:pointer;\" onclick=\"appendNewDayActivity("+targetData+")\">+</td></tr>";
+    daySelectedHTML += "</table>";
+
+    popUpTarget.innerHTML = daySelectedHTML;
+    console.log("daySelectedHTML built/applied")
 }
