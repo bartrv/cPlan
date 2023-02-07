@@ -161,6 +161,7 @@ function generateShipDetails() {
     return true;
 }
 //['-1', 'Lisbon', 'Spain', '2023/06/14', '18:00', '24:00']
+
 function generatePOCList() {
     console.log("entering-> generatePOCList()");
     let POCHTML = "";
@@ -182,7 +183,7 @@ function generatePOCList() {
         POCHTML = POCHTML + "<tr><td style=\"width: 76px; text-align:left; font-size:.9em;\">" + portItem[3] + "</td><td></td>";
         POCHTML = POCHTML + "<td style=\"text-align:center; width:36px; font-size:.9em\">" + portItem[4] + "</td><td width=\"8px\" style=\"text-align:center\">-</td><td width=\"36px\" style=\"width:36px; text-align:center;font-size:.9em\">" + portItem[5] + "</td></tr></table></div></div>";
     }
-    POCHTML = POCHTML + "<div style=\"position:relative; margin-left:10px; float:left; width:40px; height:30px; text-align:center; font-size:24px; cursor:pointer\" class=\"boxStyle_01\">+</div>";
+    POCHTML = POCHTML + "<div style=\"position:relative; margin-left:10px; float:left; width:40px; height:30px; text-align:center; font-size:24px; cursor:pointer\" class=\"boxStyle_01\" onclick=\"launchPopUp('addPortOfCall')\">+</div>";
     document.getElementById('portOfCallList').innerHTML = POCHTML;
 
     return true;
@@ -253,40 +254,87 @@ function cancelEditPanel(panelID) {
     editInputList = [0];
 }
 
-function toggleRollout(rollCap, rollHeight) {
-    
+function toggleRollout(rollCap, rollHeight) {   
     let rollDir;
     let heightNow;
     rolloutPanel = document.getElementById(rollCap.id + "Rollout");
     rolloutPanel.style.display = "block";
-    if (rolloutPanel.style.height === "0px") {
+    if (getComputedStyle(rolloutPanel).height === "0px") {
         rollDir = 1;
         heightNow = 0;
     } else {
         rollDir = -1;
-        heightNow = parseInt(rolloutPanel.style.height.match("^[\\d]+"));
+        heightNow = parseInt(getComputedStyle(rolloutPanel).height.match("^[\\d]+"));
     }
     let slideID = setInterval(rollUpDown, 15);
 
-    //console.log(heightNow);
-    //console.log(slideID);
+    console.log(heightNow);
+    console.log(slideID);
     function rollUpDown() {
         heightNow = heightNow + (10 * rollDir);
         if ((heightNow > 0) && (heightNow < rollHeight)) {
+            console.log(heightNow);
             heightNow = heightNow + (10 * rollDir);
             rolloutPanel.style.height = heightNow + 'px';
         } else if (heightNow <= 0) {
-            //console.log('cancel with <=0');
+            console.log('cancel with <=0');
             rolloutPanel.style.height = "0px";
             clearInterval(slideID);
             slideID = null;
             rolloutPanel.style.display = "none";
         } else if (heightNow >= rollHeight) {
-            //console.log('cancel with >=0');
+            console.log('cancel with >=0');
             rolloutPanel.style.height = rollHeight + "px";
             clearInterval(slideID);
             slideID = null;
         }
-        
     }
+}
+
+function launchPopUp(popTarget) {
+    //console.log("PopUp=" + popTarget);
+    document.getElementById("pupUpInteractionBlocker").style.display = "block";
+    switch (popTarget) {
+        case "clearAllData":
+            clearAllData();
+            break;
+        case "addPortOfCall":
+            addPortOfCall();
+            break;
+        }
+    return true;
+}
+
+function closePopUp() {
+    document.getElementById("popUpPanel").innerHTML = "-";
+    document.getElementById("popUpPanel").className = "popUpDefaultStyle";
+    document.getElementById("popUpPanel").style.display = "none";
+    document.getElementById("pupUpInteractionBlocker").style.display = "none";
+}
+
+function addPortOfCall() {
+    //console.log("PopUp in addPortOfCall");
+    const addPOCBox = document.getElementById("popUpPanel");
+    addPOCBox.className = "boxStyle_01";
+    addPOCBox.style.height = "300px";
+    addPOCBox.style.top = "calc(50 % - 100px)";
+    let addPortHTML = "<form id='pocAddForm'><table style=\"width:100%\"><tr>";
+    addPortHTML += "<td colspan=\"2\" style=\"text-align:center;\"><span style=\"font-size:16px; font-weight:bold; color:black;\">Add New Port of Call</span></td></tr>";
+    addPortHTML += "<tr><td>Cruise Day:</td><td><input type=\"text\" value=\"0\" oninput=\"validateForm(this,'number',2)\" /></td></tr>";
+    addPortHTML += "<tr><td>Port City or 'At Sea':</td><td><input type=\"text\" value=\"Evansville\" oninput=\"validateForm(this,'plainText')\" /></td></tr>";
+    addPortHTML += "<tr><td>Port Country or 'Ship Name':</td><td><input type=\"text\" value=\"United States\" oninput=\"validateForm(this,'plainText')\" /></td></tr>";
+    addPortHTML += "<tr><td>Date of Arrival:</td><td><input type=\"text\" value=\"yyyy/mm/dd\" oninput=\"validateForm(this,'dateAsText')\" /></td></tr>";
+    addPortHTML += "<tr><td>Arrival Time:</td><td><input type=\"text\" value=\"24:00\" oninput=\"validateForm(this,'time24')\" /></td></tr>";
+    addPortHTML += "<tr><td>Departure Time:</td><td><input type=\"text\" value=\"24:00\" oninput=\"validateForm(this,'time24')\" /></td></tr>";
+    addPortHTML += "<tr><td><input type=\"button\" value=\"Accept/Add\" onclick=\"appendToList(portList,document.getElementById('pocAddForm'));generatePOCList();storeUserData();\"/></td><td><input type=\"button\" value=\"Discard/Cancel/Done\" onclick=\"closePopUp()\"/></td></tr></table></form>";
+
+    document.getElementById("popUpPanel").innerHTML = addPortHTML;
+    document.getElementById("popUpPanel").style.display = "block";
+}
+function appendToList(listObj, formElement) {
+    let i = [];
+    for (n of formElement) {
+        i.push(n.value);
+    }
+    listObj.push(i);
 }

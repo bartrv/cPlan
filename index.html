@@ -156,12 +156,86 @@
 		<div id="emergancyInfo">Emergency Information</div>
 		<div id="configOptions" style="text-align:center;background-color:#000000e0;border-color: #f57800">
 			<div style="position:relative; width: calc(100% + 4px); left:-2px;top:-2px; height:35px; text-align:center; font-size:24px; background-color:#ffff99cc;">Configuration & Maintenance</div>
-			<div id="configPersonal" style="height: 25px; width: calc(100% - 4px); margin: auto; text-align: center; font-size: 18px; background-color: #eeddaacc; border: #f57800 1px solid; border-radius: 10px; margin-top: 4px;" onclick="toggleRollout(this,200)">Personal Information</div>
-			<div id="configPersonalRollout" style="height: 200px; width: calc(100% - 22px); margin:auto; border: #e56800 1px solid; background-color:#999;"></div>
-			<br /><input type="button" value="Erase/Reset ALL App Data" onclick="clearAllData()" />
+			<div id="configGeneral" class="configRolloutHeading" onclick="toggleRollout(this,300)">General Information</div>
+			<!--let tripOverViewList = {
+	"tripName": "Mediterranean Cruise", "duration": "12",
+	"dateStart": "2023/06/13", "dateEnd": "2023/06/25", "embarkationDate": "2023/06/14",
+	"debarkationDate": "2023/06/23", "cruiseLine": "Norwegian Cruise Line", "cruiseLineCommon": "Norwegian", "cruiseLineAbbr": "NCL", "shipName": "Getaway",
+	"tonnes": "145,655", "guests": "3963","shpLength":"1068'","maxBeam":"170'","crew":"1646","constructed":"2020 (2014)",
+	"embarkatonCity": "Lisbon", "embarkationCountry": "Portugal", "embarkationCountryAbbr": "PRT", "debarkationCity": "Civitavecchia", "debarkationCountry": "Italy", "debarkationCountryAbbr": "ITA",
+	"reservationNumber": "1234567890", "stateRoom": "1403", "travelerFName":"Bart","travelerMI":"R","travelerLName":"Voigt","travelerMobileIntnl":"013179979299"-->
+			<div id="configGeneralRollout" class="configRolloutPanel">
+				<table style="width:100%; font-size:12px;border-spacing:0px">
+					<tr>
+						<td style="width:40px;padding:2px;text-align:left;">Name:</td>
+						<td style="width: 90px; padding: 2px;"><input id="configtravelerFName" class="configText" type="text" value="fName" style="width: calc(100% - 4px);" /></td>
+						<td style="width: 24px; text-align:center; padding: 2px;"><input id="configtravelerMI" class="configText" type="text" value="M" style="width: calc(100% - 4px); text-align: center;" /></td>
+						<td style="padding:2px;"><input id="configtravelerLName" class="configText" type="text" value="lName" style="width: calc(100% - 4px)" /></td>
+						<td style="width:70px;text-align:right;"><img src="images/pencilEdit.svg" style="height:20px; width:20px" /></td>
+					</tr>
+					<tr>
+						<td style="width:40px;padding:2px;text-align:left;">Trip:</td>
+						<td colspan="3" style="text-align: left;"><input type="text" value="Trip Name" /></td>
+						<td style="width:70px;text-align:right;"><img src="images/pencilEdit.svg" style="height:20px; width:20px" /></td>
+					</tr>
+					<tr>
+						<td style="width:40px;padding:2px;text-align:left;">Trip start:</td>
+						<td colspan="3" style="text-align: left;"><input type="text" value="yyyy/mm/dd" /></td>
+						<td style="width:70px;text-align:right;"><img src="images/pencilEdit.svg" style="height:20px; width:20px" /></td>
+					</tr>
+					<tr>
+						<td style="width:40px;padding:2px;text-align:left;">Trip end:</td>
+						<td colspan="3" style="text-align: left;"><input type="text" value="yyyy/mm/dd" /></td>
+						<td style="width:70px;text-align:right;"><img src="images/pencilEdit.svg" style="height:20px; width:20px" /></td>
+					</tr>
+					<tr>
+						<td style="width:40px;padding:2px;text-align:left;">Duration:</td>
+						<td colspan="3" style="text-align: left;"><input type="text" value="dd" /> Days</td>
+						<td style="width:70px;text-align:right;"><img src="images/pencilEdit.svg" style="height:20px; width:20px" /></td>
+					</tr>
+					<tr>
+						<td style="width:40px;padding:2px;text-align:left;">Embarkation:</td>
+						<td colspan="3" style="text-align: left;"><input type="text" value="yyyy/mm/dd" /></td>
+						<td style="width:70px;text-align:right;"><img src="images/pencilEdit.svg" style="height:20px; width:20px" /></td>
+					</tr>
+					<tr>
+						<td style="width:40px;padding:2px;text-align:left;">Debarkation:</td>
+						<td colspan="3" style="text-align: left;"><input type="text" value="yyyy/mm/dd" /></td>
+						<td style="width:70px;text-align:right;"><img src="images/pencilEdit.svg" style="height:20px; width:20px" /></td>
+					</tr>
+					<tr>
+						<td style="width:40px;padding:2px;text-align:left;">Cruise&nbsp;Length:</td>
+						<td colspan="3" style="text-align: left;"><input type="text" value="yyyy/mm/dd" /> Days</td>
+						<td style="width:70px;text-align:right;"><img src="images/pencilEdit.svg" style="height:20px; width:20px" /></td>
+					</tr>
+					<tr>
+						<td style="width:40px;padding:2px;text-align:left;">Cruise Line:</td>
+						<td colspan="3" style="text-align: left;"><input type="text" value="Fun Time Cruise Line" /> Days</td>
+						<td style="width:70px;text-align:right;"><img src="images/pencilEdit.svg" style="height:20px; width:20px" /></td>
+					</tr>
+					<tr>
+						<td style="width:40px;padding:2px;text-align:left;">Name:</td>
+						<td colspan="3" style="text-align: left;"><input type="text" value="Fun Time" /> Days</td>
+						<td style="width:70px;text-align:right;"><img src="images/pencilEdit.svg" style="height:20px; width:20px" /></td>
+					</tr>
+					<tr>
+						<td style="width:40px;padding:2px;text-align:left;">Abbreviation:</td>
+						<td colspan="3" style="text-align: left;"><input type="text" value="FT" /> Days</td>
+						<td style="width:70px;text-align:right;"><img src="images/pencilEdit.svg" style="height:20px; width:20px" /></td>
+					</tr>
+				</table>
+			</div>
+			<div id="configTravel" class="configRolloutHeading" onclick="toggleRollout(this,200)">Travel Information</div>
+			<div id="configTravelRollout" class="configRolloutPanel"></div>
+			<div id="configCruise" class="configRolloutHeading" onclick="toggleRollout(this,200)">Cruise Information</div>
+			<div id="configCruiseRollout" class="configRolloutPanel"></div>
+			<div id="configShareLoad" class="configRolloutHeading" onclick="toggleRollout(this,250)">Share / Load Data</div>
+			<div id="configShareLoadRollout" class="configRolloutPanel"></div>
+			<div id="configReset" class="configRolloutHeading" onclick="toggleRollout(this,65)">Clear / Reset Data</div>
+			<div id="configResetRollout" class="configRolloutPanel"><br /><input type="button" value="Erase/Reset ALL App Data" onclick="launchPopUp('clearAllData')" /></div>
+			
 		</div>
-	</div>
-
+		</div>
 
 	<div id="menuMain">
 		<div id="btn_shipDetails" class="button" onmouseover="mouseIn(this)" onmouseout="mouseOut(this,'shipDetails')" onclick="mouseClick(this,'shipDetails')"><img src="images\ship.svg" style="padding: 4px; height: 36px; width: 36px;" /></div>
@@ -170,6 +244,8 @@
 		<div id="btn_emergancyInfo" class="button" onmouseover="mouseIn(this)" onmouseout="mouseOut(this,'emergancyInfo')" onclick="mouseClick(this,'emergancyInfo')"><img src="images\emergency.svg" style="padding:4px; height:36px; width:36px;" /></div>
 		<div id="btn_configOptions" class="button" onmouseover="mouseIn(this)" onmouseout="mouseOut(this,'configOptions')" onclick="mouseClick(this,'configOptions')"><img src="images\hammer.svg" style="padding:4px; height:36px; width:36px;" /></div>
 	</div>
-	<div id="alertPanel">test</div>
+	<div id="pupUpInteractionBlocker" style="position:absolute; top:0px; left:0px; height:100%; width:100%; background-color:#00000044; z-index:29; display:none;">
+		<div id="popUpPanel" class="popUpDefaultStyle">test</div>
+	</div>
 </body>
 </html>

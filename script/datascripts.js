@@ -72,8 +72,9 @@ let activityTypeList = ['Sleep', 'Breakfast', 'Lunch', 'Dinner', 'Free time', 'T
 let dataList = { "isDataSaved": 0, "toggleFlags": toggleFlags, "tripOverViewList": tripOverViewList, "portList": portList, "activityList": activityList, "emergencyDataList": emergencyDataList, "activityTypeList": activityTypeList };
 
 function loadUserData() {
+    console.log("cPlanDataSaved:" + localStorage.getItem("cPlanDataSaved"));
     if (localStorage.getItem("cPlanDataSaved") == "1") {
-        //console.log("cPlanData saved  = 1");
+        console.log("cPlanData saved  = 1");
         dataList = JSON.parse(localStorage.getItem("cPlanDataList"));
         for (const [key, value] of Object.entries(dataList)) {
             //console.log("processing:" + key + " with " + value);
@@ -89,6 +90,7 @@ function loadUserData() {
                     break;
                 case "portList":
                     portList = value;
+                    console.log("portList load:" + value);
                     break;
                 case "activityList":
                     activityList = value;
@@ -103,13 +105,17 @@ function loadUserData() {
         }
         //generateOverview();
         //generateShipDetails();
-        
+        return true;
     }
 }
 
-function storeUserData(formData) {
+function storeUserData() {
+    localStorage.setItem("cPlanDataSaved", 0);
+    let tempToggle = JSON.stringify(toggleFlags);
+    for (const key in toggleFlags) {
+        toggleFlags[key] = 1;
+    }
     for (const [key, value] of Object.entries(dataList)) {
-        localStorage.setItem("cPlanDataSaved", 0);
         switch (key) {
             case "isDataSaved":
                 dataList[key] = 0;
@@ -144,6 +150,9 @@ function storeUserData(formData) {
     localStorage.setItem("cPlanDataList", JSON.stringify(dataList));
     dataList.isDataSaved = 1;
     localStorage.setItem("cPlanDataSaved", "1");
+    toggleFlags = JSON.parse(tempToggle);
+    console.log("storeUserData: Complete");
+    console.log("cPlanDataSaved:" + localStorage.getItem("cPlanDataSaved"));
 }
 
 function validateForm(frmItem, type, charLimit) {
@@ -156,11 +165,12 @@ function validateForm(frmItem, type, charLimit) {
     if (type == 'number') matchString = "^[\\d]{0," + charLimit + "}";
     if (type == 'mixedText') matchString = "^[a-zA-Z \\-'.\\d,@()$?]{0," + charLimit + "}";
     if (type == 'dateAsText') matchString = "^[\\d]{0,4}/{0,1}\\d{0,2}/{0,1}\\d{0,2}";
+    if (type == 'time24') matchString = "^\\d{1,2}:{0,1}[0-5]{0,1}\\d{0,1}";
 
     //for (let i = 0; i < itemValue.length; i++) {
     //    if (itemValue.charAt(i).match(matchString) != null) validOutput = validOutput + itemValue.charAt(i);
     //}
-    console.log("matchStringe:" + matchString + ", itemValue.match(matchString):" + itemValue.match(matchString));
+    console.log("matchString:" + matchString + ", itemValue.match(matchString):" + itemValue.match(matchString));
     if (itemValue.match(matchString) != null) validOutput = itemValue.match(matchString);
 
     frmItem.value = validOutput;
@@ -170,8 +180,8 @@ function clearAllData() {
     let alertHTML = ""
     alertHTML = "<span style=\"font-size:24px; font-weight:bold; color:red;\">- Warning -</span><br />";
     alertHTML += "This operation will irrevocably erase all data from <strong>this app</strong> and re-load the default values.<br /><br />";
-    alertHTML += "<input type=\"button\" onclick=\"this.parentElement.style.display='none'\" value=\"* Cancel *\" style=\"width:125px\"\><br /><br />";
-    alertHTML += "<input type=\"button\" onclick=\"this.parentElement.style.display='none'; localStorage.clear(); window.location.href = window.location.href;\" value=\"Erase Planning Data\"  style=\"width:125px\"\><br />";
-    document.getElementById("alertPanel").innerHTML = alertHTML;
-    document.getElementById("alertPanel").style.display = "block";
+    alertHTML += "<input type=\"button\" onclick=\"closePopUp()\" value=\"* Cancel *\" style=\"width:125px\"\><br /><br />";
+    alertHTML += "<input type=\"button\" onclick=\"closePopUp(); localStorage.clear(); window.location.href = window.location.href;\" value=\"Erase Planning Data\"  style=\"width:125px\"\><br />";
+    document.getElementById("popUpPanel").innerHTML = alertHTML;
+    document.getElementById("popUpPanel").style.display = "block";
 }
