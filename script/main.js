@@ -35,10 +35,10 @@ function initFullLoadCPlan() {
     if (loadUserData()) console.log("Load completed true");
     if (generateOverview()) console.log("generateOverview completed true");
     if (generateShipDetails()) console.log("generateShipDetails completed true");
-    generatePOCList();
-    generateTravelInfoPanel();
-    generateEmergencyPanel();
-    populateConfigPanelData();
+    if (generatePOCList()) console.log("generatePOCList completed true");
+    if (generateTravelInfoPanel()) console.log("generateTravelInfoPanel completed true");
+    if (generateEmergencyPanel()) console.log("generateEmergencyPanel completed true");
+    if (populateConfigPanelData()) console.log("populateConfigPanelData completed true");
 }
 
 //let timeID = null;
@@ -176,7 +176,7 @@ function generatePOCList() {
     
     
     for (const portItem of portList) {
-        POCHTML = POCHTML + "<div id=\"dayItem_0" + portItem[0] + "\" style=\"position:relative; cursor:pointer; height:40px;\" onmouseover=\"\" onmouseout=\"\" onclick=\"alert('clicked item " + portItem[0] +"')\">";
+        POCHTML = POCHTML + "<div id=\"dayItem_" + portItem[0] + "\" style=\"position:relative; cursor:pointer; height:40px;\" onmouseover=\"\" onmouseout=\"\" onclick=\"alert('launchPopUp('daySelectedOverlay'," + portItem[0] +")\">";
         POCHTML = POCHTML + "<div class=\"boxStyle_01\" style=\"position:relative; float:left; width:27px; height:100%; text-align:center; font-size:24px; border-radius:16px 3px 3px 16px;\"><div style=\"padding-top:5px;\">" + portItem[0] + "</div></div>";
         POCHTML = POCHTML + "<div class=\"boxStyle_01\" style=\"position:relative; float:right; width: calc(100% - 40px); height:40px; border-radius:3px 6px 6px 3px;\"><table cellpadding=\"0\" cellspacing=\"0\" style=\"width: 100%;\"><tr>";
         POCHTML = POCHTML + "<td colspan=\"5\"style=\"text-align:center\">" + portItem[1] + ", " + portItem[2] + "</td></tr>";
@@ -291,7 +291,8 @@ function toggleRollout(rollCap, rollHeight) {
     }
 }
 
-function launchPopUp(popTarget) {
+function launchPopUp(popTarget, targetData) {
+    
     //console.log("PopUp=" + popTarget);
     document.getElementById("pupUpInteractionBlocker").style.display = "block";
     switch (popTarget) {
@@ -301,6 +302,8 @@ function launchPopUp(popTarget) {
         case "addPortOfCall":
             addPortOfCall();
             break;
+        case "daySelectedOverlay":
+            viewdaySelectedOverlay(targetData);
         }
     return true;
 }
@@ -337,4 +340,8 @@ function appendToList(listObj, formElement) {
         i.push(n.value);
     }
     listObj.push(i);
+}
+
+function viewdaySelectedOverlay(targetData) {
+    console.log()
 }
