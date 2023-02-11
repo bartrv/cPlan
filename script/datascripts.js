@@ -112,10 +112,10 @@ function loadUserData() {
 
 function storeUserData() {
     localStorage.setItem("cPlanDataSaved", 0);
-    let tempToggle = JSON.stringify(toggleFlags);
-    for (const key in toggleFlags) {
-        toggleFlags[key] = 1;
-    }
+    //let tempToggle = JSON.stringify(toggleFlags);
+    //for (const key in toggleFlags) {
+    //    toggleFlags[key] = 1;
+    //}
     for (const [key, value] of Object.entries(dataList)) {
         switch (key) {
             case "isDataSaved":
@@ -151,7 +151,7 @@ function storeUserData() {
     localStorage.setItem("cPlanDataList", JSON.stringify(dataList));
     dataList.isDataSaved = 1;
     localStorage.setItem("cPlanDataSaved", "1");
-    toggleFlags = JSON.parse(tempToggle);
+    //toggleFlags = JSON.parse(tempToggle);
     console.log("storeUserData: Complete");
     console.log("cPlanDataSaved:" + localStorage.getItem("cPlanDataSaved"));
 }
