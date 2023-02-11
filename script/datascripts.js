@@ -70,7 +70,7 @@ let emergencyDataList = [];
 let activityTypeList = ['Sleep', 'Breakfast', 'Lunch', 'Dinner', 'Free time', 'Transit', 'Check -in', 'Check - out', 'Shopping', 'Snorkling', 'SCUBA',
     'Swimming', 'Workout', 'Reading', 'Planning', 'Group Tour', 'Private Tour', 'NCL Tour', 'Wikipedia Tour'];
 
-let dataList = { "isDataSaved": 0, "toggleFlags": toggleFlags, "tripOverViewList": tripOverViewList, "portList": portList, "activityList": activityList, "emergencyDataList": emergencyDataList, "activityTypeList": activityTypeList };
+let dataList = { "isDataSaved": 0, "tripOverViewList": tripOverViewList, "portList": portList, "activityList": activityList, "emergencyDataList": emergencyDataList, "activityTypeList": activityTypeList };
 
 function loadUserData() {
     console.log("cPlanDataSaved:" + localStorage.getItem("cPlanDataSaved"));
@@ -81,9 +81,9 @@ function loadUserData() {
             //console.log("processing:" + key + " with " + value);
             //console.log("room default:" + tripOverViewList.stateRoom);
             switch (key) {
-                case "toggleFlags":
-                    toggleFlags = value;
-                    break;
+                //case "toggleFlags":
+                //    toggleFlags = value;
+                //    break;
                 case "tripOverViewList":
                     tripOverViewList = value;
                     //console.log("room Data:" + value.stateRoom);
@@ -122,10 +122,10 @@ function storeUserData() {
                 dataList[key] = 0;
                 //localStorage.setItem(key,1);
                 break;
-            case "toggleFlags":
-                dataList[key] = toggleFlags;
+            //case "toggleFlags":
+            //    dataList[key] = toggleFlags;
                 //localStorage.setItem(key, toggleFlags);
-                break;
+            //    break;
             case "tripOverViewList":
                 dataList[key] = tripOverViewList;
                 //localStorage.setItem(key, tripOvrViewList);
