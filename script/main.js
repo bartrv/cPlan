@@ -165,23 +165,24 @@ function generateShipDetails() {
 function generatePOCList() {
     console.log("entering-> generatePOCList()");
     let POCHTML = "";
-    POCHTML = POCHTML + "<div id=\"primaryInformation\" class=\"boxStyle_01\"><div style=\"width:100%\">";
-    POCHTML = POCHTML + "<div style=\"float:left; text-align:left; font-size:.9em;\">" + tripOverViewList.dateStart + "</div>";
-    POCHTML = POCHTML + "<div style=\"float:right; text-align:left; font-size:.9em;\">" + tripOverViewList.dateEnd + "</div>";
-    POCHTML = POCHTML + "<div style=\"text-align:center; font-weight:bold; margin-left:100px; \">";
-    POCHTML = POCHTML + tripOverViewList.cruiseLineAbbr + " " + tripOverViewList.shipName + "</div></div>";
-    POCHTML = POCHTML + "<div style=\"width:100%; height:20px\"><div style=\"float: left; text-align: left;\">" + tripOverViewList.embarkatonCity + ", " + tripOverViewList.embarkationCountryAbbr +"</div>";
-    POCHTML = POCHTML + "<div style=\"float: right; text-align: right;\">" + tripOverViewList.debarkationCity + ", " + tripOverViewList.debarkationCountryAbbr+"</div>";
-    POCHTML = POCHTML + "</div></div>";
+    POCHTML += "<div id=\"primaryInformation\" class=\"boxStyle_01\"><div style=\"width:100%\">";
+    POCHTML += "<div style=\"float:left; text-align:left; font-size:.9em;\">" + tripOverViewList.dateStart + "</div>";
+    POCHTML += "<div style=\"float:right; text-align:left; font-size:.9em;\">" + tripOverViewList.dateEnd + "</div>";
+    POCHTML += "<div style=\"text-align:center; font-weight:bold; margin-left:100px; \">";
+    POCHTML += tripOverViewList.cruiseLineAbbr + " " + tripOverViewList.shipName + "</div></div>";
+    POCHTML += "<div style=\"width:100%; height:20px\"><div style=\"float: left; text-align: left;\">" + tripOverViewList.embarkatonCity + ", " + tripOverViewList.embarkationCountryAbbr +"</div>";
+    POCHTML += "<div style=\"float: right; text-align: right;\">" + tripOverViewList.debarkationCity + ", " + tripOverViewList.debarkationCountryAbbr+"</div>";
+    POCHTML += "</div></div>";
     
     
     for (const portItem of portList) {
-        POCHTML = POCHTML + "<div id=\"dayItem_" + portItem[0] + "\" style=\"position:relative; cursor:pointer; height:40px;\" onmouseover=\"\" onmouseout=\"\" onclick=\"launchPopUp('daySelectedOverlay'," + portItem[0] +")\">";
-        POCHTML = POCHTML + "<div class=\"boxStyle_01\" style=\"position:relative; float:left; width:27px; height:100%; text-align:center; font-size:24px; border-radius:16px 3px 3px 16px;\"><div style=\"padding-top:5px;\">" + portItem[0] + "</div></div>";
-        POCHTML = POCHTML + "<div class=\"boxStyle_01\" style=\"position:relative; float:right; width: calc(100% - 40px); height:40px; border-radius:3px 6px 6px 3px;\"><table cellpadding=\"0\" cellspacing=\"0\" style=\"width: 100%;\"><tr>";
-        POCHTML = POCHTML + "<td colspan=\"5\"style=\"text-align:center\">" + portItem[1] + ", " + portItem[2] + "</td></tr>";
-        POCHTML = POCHTML + "<tr><td style=\"width: 76px; text-align:left; font-size:.9em;\">" + portItem[3] + "</td><td></td>";
-        POCHTML = POCHTML + "<td style=\"text-align:center; width:36px; font-size:.9em\">" + portItem[4] + "</td><td width=\"8px\" style=\"text-align:center\">-</td><td width=\"36px\" style=\"width:36px; text-align:center;font-size:.9em\">" + portItem[5] + "</td></tr></table></div></div>";
+        POCHTML += "<div id=\"dayItem_" + portItem[0] + "\" style=\"position:relative; cursor:pointer; height:40px;\" onmouseover=\"\" onmouseout=\"\" onclick=\"launchPopUp('daySelectedOverlay'," + portItem[0] +")\">";
+        POCHTML += "<div class=\"boxStyle_01\" style=\"position:relative; float:left; background-color:#aaccee; width:27px; height:100%; text-align:center; font-size:24px; border-radius:5px 3px 3px 20px;\"><div style=\"padding-top:5px;\">" + portItem[0] + "</div></div>";
+        POCHTML += "<div class=\"boxStyle_01\" style=\"position:relative; float:right; width: calc(100% - 40px); height:40px; border-radius:3px 6px 6px 3px;\"><table cellpadding=\"0\" cellspacing=\"0\" style=\"width: 100%;\"><tr>";
+        POCHTML += "<td colspan=\"5\"style=\"text-align:center\">" + portItem[1] + ", " + portItem[2] + "</td></tr>";
+        POCHTML += "<tr><td style=\"width: 76px; text-align:left; font-size:.9em;\">" + portItem[3] + "</td><td></td>";
+        POCHTML += "<td style=\"text-align:center; width:36px; font-size:.9em\">" + portItem[4] + "</td><td width=\"8px\" style=\"text-align:center\">-</td><td width=\"36px\" style=\"width:36px; text-align:center;font-size:.9em\">" + portItem[5] + "</td></tr></table></div></div>";
+
     }
     POCHTML = POCHTML + "<div style=\"position:relative; margin-left:10px; float:left; width:40px; height:30px; text-align:center; font-size:24px; cursor:pointer\" class=\"boxStyle_01\" onclick=\"launchPopUp('addPortOfCall')\">+</div>";
     document.getElementById('portOfCallList').innerHTML = POCHTML;
@@ -318,32 +319,48 @@ function closePopUp() {
 function addPortOfCall() {
     //console.log("PopUp in addPortOfCall");
     const addPOCBox = document.getElementById("popUpPanel");
+    let nextDayNumber = 0;
+    let addPortHTML = "";
+    for (i of portList) {
+        n = parseInt(i[0]);
+        nextDayNumber = n > nextDayNumber ? n : nextDayNumber;
+    }
+    nextDayNumber += 1;
+
     addPOCBox.className = "boxStyle_01";
     addPOCBox.style.height = "300px";
     addPOCBox.style.top = "calc(50 % - 100px)";
-    let addPortHTML = "<form id='pocAddForm'><table style=\"width:100%\"><tr>";
+    
+    addPortHTML += "<form id='pocAddForm'><table style=\"width:100%\"><tr>";
     addPortHTML += "<td colspan=\"2\" style=\"text-align:center;\"><span style=\"font-size:16px; font-weight:bold; color:black;\">Add New Port of Call</span></td></tr>";
-    addPortHTML += "<tr><td>Cruise Day:</td><td><input type=\"text\" value=\"0\" oninput=\"validateForm(this,'number',2)\" /></td></tr>";
+    addPortHTML += "<tr><td>Cruise Day:</td><td><input type=\"text\" value=\"" + nextDayNumber + "\" oninput=\"validateForm(this,'number',2)\" disabled /></td></tr>";
     addPortHTML += "<tr><td>Port City or 'At Sea':</td><td><input type=\"text\" value=\"Evansville\" oninput=\"validateForm(this,'plainText')\" /></td></tr>";
     addPortHTML += "<tr><td>Port Country or 'Ship Name':</td><td><input type=\"text\" value=\"United States\" oninput=\"validateForm(this,'plainText')\" /></td></tr>";
-    addPortHTML += "<tr><td>Date of Arrival:</td><td><input type=\"text\" value=\"yyyy/mm/dd\" oninput=\"validateForm(this,'dateAsText')\" /></td></tr>";
+    addPortHTML += "<tr><td>Date of Arrival:</td><td><input type=\"text\" value=\"2000/12/31\" oninput=\"validateForm(this,'dateAsText')\" /></td></tr>";
     addPortHTML += "<tr><td>Arrival Time:</td><td><input type=\"text\" value=\"24:00\" oninput=\"validateForm(this,'time24')\" /></td></tr>";
     addPortHTML += "<tr><td>Departure Time:</td><td><input type=\"text\" value=\"24:00\" oninput=\"validateForm(this,'time24')\" /></td></tr>";
-    addPortHTML += "<tr><td><input type=\"button\" value=\"Accept/Add\" onclick=\"appendToList(portList,document.getElementById('pocAddForm'));seedNewDayActivity(document.getElementById('pocAddForm')[0]);generatePOCList();storeUserData();\"/></td><td><input type=\"button\" value=\"Discard/Cancel/Done\" onclick=\"closePopUp()\"/></td></tr></table></form>";
+    addPortHTML += "<tr><td><div style=\"margin-left:10px; background-image: url('./images/checkMark.svg'); background-size: cover; width:35px; height:35px; border:0px; cursor:pointer\" onclick=\"appendToList(portList,document.getElementById('pocAddForm'));seedNewDayActivity(document.getElementById('pocAddForm'));generatePOCList();storeUserData();\"/></td><td><div style=\"margin-left:10px; background-image: url('./images/xMark.svg'); background-size: cover; width:35px; height:35px; border:0px; cursor:pointer\" onclick=\"closePopUp()\"/></td></tr></table></form>";
 
     document.getElementById("popUpPanel").innerHTML = addPortHTML;
     document.getElementById("popUpPanel").style.display = "block";
 }
 
 function seedNewDayActivity(seedData) {
+
     const defaultData = { "city": seedData[1].value, "schedule": [{ "location": "Location(ie. Jim's Cantina)", "activity": "Activity(ie. Brunch)", "start": "8:00", "end": "9:30", "notes": "Notes..." }] };
-    activityList[seedData] = defaultData;
+    activityList[seedData[0]] = defaultData;
 }
 
 function appendNewDayActivity(targetDay) {
     const defaultData = { "location": "Location(ie. Jim's Cantina)", "activity": "Activity(ie. Brunch)", "start": "8:00", "end": "9:30", "notes": "Notes..." };
     activityList[targetDay].schedule.push(defaultData);
     viewdaySelectedOverlay(targetDay);
+    document.getElementById('pocAddForm')[0].value = parseInt(document.getElementById('pocAddForm')[0].value) + 1;
+    document.getElementById('pocAddForm')[1].value = "A City or 'At Sea'";
+    document.getElementById('pocAddForm')[2].value = "Country";
+    document.getElementById('pocAddForm')[3].value = "2000/12/31";
+    document.getElementById('pocAddForm')[4].value = "24:00";
+    document.getElementById('pocAddForm')[5].value = "24:00";
 }
 
 function deleteCurrentActivity(targetData, i) {
@@ -412,7 +429,9 @@ function editCurrentDayActivity(targetData, i) {
 function appendToList(listObj, formElement) {
     let i = [];
     for (n of formElement) {
-        i.push(n.value);
+        if (n.type == 'text') {
+            i.push(n.value);
+        }
     }
     listObj.push(i);
 }

@@ -4,15 +4,15 @@
     padding-right: 2px;
     margin: auto;
     margin-bottom: 2px;
-    background-color: #BB7744DD;
-    border: #663322EE solid 1px;
-    border-radius: 6px;
+    background-color: #FFFFFFBB;
+    border: #000000ee solid 1px;
+    border-radius: 5px;
     font-weight: 400;
     font-size: 16px;
-    color: #221100EE;
+    color: #222255;
     filter: drop-shadow(2px 1px 1px #22222299);
     white-space: nowrap;
-    overflow:hidden;
+    overflow: hidden;
 }
 
 
@@ -114,8 +114,8 @@
     top: 5px;
     width: calc(100% - 57px);
     height: calc(100% - 18px);
-    background-color: #a3928aF0;
-    border: #994422 solid 2px;
+    background-color: #4070A0F0;
+    border: #112244 solid 1px;
     border-radius: 8px;
     padding: 2px;
     margin: auto;
@@ -124,7 +124,7 @@
     visibility: hidden;
 }
 
-#shipDetails {
+#shipDetails, #travelInfo {
     background-image: url("../images/GETAWAY-ship-mobile-2018.jpg");
     background-position: center;
     background-repeat: no-repeat;
@@ -157,18 +157,15 @@
         width: 140px;
     }
 
-#shipDetails input[type=button] {
-    width: 120px;
-    text-align: center;
-    font-size:18px;
-    display:none;
-}
+    #shipDetails input[type=button] {
+        width: 120px;
+        text-align: center;
+        font-size:18px;
+        display:none;
+    }
 
 #travelInfo {
     background-image: url("../images/clouds.jpg");
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
 }
 
     #travelInfo td {

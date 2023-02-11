@@ -35,7 +35,7 @@
 // https://javascript.info/localstorage
 // https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3
 
-let toggleFlags = { "shipDetails": 1, "portOfCallList": 1, "travelInfo": 1, "emergancyInfo": 1, "configOptions": 1 };
+let toggleFlags = { "shipDetails": 1, "portOfCallList": 1, "travelInfo": 1, "emergancyInfo": 1, "configOptions": 1, "rolloutID":0 };
 
 let tripOverViewList = {
     "tripName": "Mediterranean Cruise", "duration": "12",
@@ -48,8 +48,8 @@ let tripOverViewList = {
 
 
 let portList = [
-    ['-1', 'Lisbon', 'Spain', '2023/06/14', '18:00', '24:00'],
-    ['0', 'Lisbon', 'Spain', '2023/06/15', '00:00', '20:00'],
+    ['-1', 'Lisbon', 'Portugal', '2023/06/14', '18:00', '24:00'],
+    ['0', 'Lisbon', 'Portugal', '2023/06/15', '00:00', '20:00'],
     ['1', 'At Sea', 'NCL Getaway', '2023/06/16', '00:00', '24:00']
 ];
 //'-1': { "city": "Lisbon", "schedule": [{ "location": "Beach", "activity": 'Hang Out', "start": "13:00", "end": "18:00", "notes": "anything noteworthy" }
