@@ -35,7 +35,7 @@
 // https://javascript.info/localstorage
 // https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3
 
-let toggleFlags = { "shipDetails": 1, "portOfCallList": 1, "travelInfo": 1, "emergancyInfo": 1, "configOptions": 1, "rolloutID":0 };
+let toggleFlags = { "shipDetails": 1, "portOfCallList": 1, "travelInfo": 1, "emergancyInfo": 1, "configOptions": 1, "rolloutID": null };
 
 let tripOverViewList = {
     "tripName": "Mediterranean Cruise", "duration": "12",

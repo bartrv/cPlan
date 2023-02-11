@@ -108,7 +108,7 @@ function mouseClick(mouseObject, actionTarget) {
         console.log("Main Menu Button");
         for (const [key, value] of Object.entries(toggleFlags)) {
             //console.log("key = "+key+", value = "+value);
-            if ((key != actionTarget) && (value == -1)) {
+            if ((key != actionTarget) && (value == -1) && ! (key == "rolloutID")) {
                 console.log("in if block: sending-->" + document.getElementById("btn_" + key) + ", "+key);
                 //mouseClick(document.getElementById("btn_"+key),key);
                 //toggleMove(key, 100, 0, 300, mouseObject);
@@ -176,13 +176,14 @@ function generatePOCList() {
     
     
     for (const portItem of portList) {
-        POCHTML += "<div id=\"dayItem_" + portItem[0] + "\" style=\"position:relative; cursor:pointer; height:40px;\" onmouseover=\"\" onmouseout=\"\" onclick=\"launchPopUp('daySelectedOverlay'," + portItem[0] +")\">";
+        //POCHTML += "<div id=\"dayItem_" + portItem[0] + "\" style=\"position:relative; cursor:pointer; height:40px;\" onmouseover=\"\" onmouseout=\"\" onclick=\"launchPopUp('daySelectedOverlay'," + portItem[0] +")\">";
+        POCHTML += "<div id=\"dayItem_" + portItem[0] + "\" style=\"position:relative; cursor:pointer; height:40px;\" onclick=\"viewdaySelectedOverlay(" + portItem[0] +", this, " + ((activityList[portItem[0]].schedule.length*44)+55+32+12) + ")\">"; //((# of activities tin this day's schedule)*40(row height(40)margin(2)border(2))+header(50)+32(add)+10(borders/margins/padding)
         POCHTML += "<div class=\"boxStyle_01\" style=\"position:relative; float:left; background-color:#aaccee; width:27px; height:100%; text-align:center; font-size:24px; border-radius:5px 3px 3px 20px;\"><div style=\"padding-top:5px;\">" + portItem[0] + "</div></div>";
         POCHTML += "<div class=\"boxStyle_01\" style=\"position:relative; float:right; width: calc(100% - 40px); height:40px; border-radius:3px 6px 6px 3px;\"><table cellpadding=\"0\" cellspacing=\"0\" style=\"width: 100%;\"><tr>";
         POCHTML += "<td colspan=\"5\"style=\"text-align:center\">" + portItem[1] + ", " + portItem[2] + "</td></tr>";
         POCHTML += "<tr><td style=\"width: 76px; text-align:left; font-size:.9em;\">" + portItem[3] + "</td><td></td>";
         POCHTML += "<td style=\"text-align:center; width:36px; font-size:.9em\">" + portItem[4] + "</td><td width=\"8px\" style=\"text-align:center\">-</td><td width=\"36px\" style=\"width:36px; text-align:center;font-size:.9em\">" + portItem[5] + "</td></tr></table></div></div>";
-
+        POCHTML += "<div id=\"dayItem_" + portItem[0] + "Rollout\" style=\"height:0px; width: calc(100% - 10px); margin-left: 5px; padding: 0px; display:none; background-color: #00000055;\"></div>";
     }
     POCHTML = POCHTML + "<div style=\"position:relative; margin-left:10px; float:left; width:40px; height:30px; text-align:center; font-size:24px; cursor:pointer\" class=\"boxStyle_01\" onclick=\"launchPopUp('addPortOfCall')\">+</div>";
     document.getElementById('portOfCallList').innerHTML = POCHTML;
@@ -283,6 +284,7 @@ function toggleRollout(rollCap, rollHeight) {
             clearInterval(slideID);
             slideID = null;
             rolloutPanel.style.display = "none";
+            if (rollCap.id.includes("dayItem_"))  toggleFlags.rolloutID = null; 
         } else if (heightNow >= rollHeight) {
             console.log('cancel with >=0');
             rolloutPanel.style.height = rollHeight + "px";
@@ -385,13 +387,13 @@ function editCurrentDayActivity(targetData, i) {
                 document.getElementById("dayItem" + targetData + i + post$).style.border = "#000 solid 1px";
                 document.getElementById("dayItem" + targetData + i + post$).style.color = "#000";
             }
-            document.getElementById("buttonA" + targetData + i).innerHTML = "<img src=\"images/xMark.svg\" style=\"width: 40px, height: 40px; cursor: pointer;\" onclick=\"closeCurrentDayActivityEdit(" + targetData + ", " + i + ")\"/>";
-            document.getElementById("buttonB" + targetData + i).innerHTML = "<img src=\"images/checkMark.svg\" style=\"width: 40px, height: 40px; cursor: pointer;\" />";
+            //document.getElementById("buttonA" + targetData + i).innerHTML = "<img src=\"images/xMark.svg\" style=\"width: 25px; height: 25px; cursor: pointer;\" onclick=\"closeCurrentDayActivityEdit(" + targetData + ", " + i + ")\"/>";
+            document.getElementById("buttonB" + targetData + i).innerHTML = "<img src=\"images/checkMark.svg\" style=\"width: 25px; height: 25px; cursor: pointer;\" />";
             document.getElementById("dayItem" + targetData + i + "_start").focus();
         }
     }
-    document.getElementById('dayActivityAddRemove').innerHTML = "<img src=\"images/trashBin.svg\" style=\"width: 40px, height: 40px; cursor: pointer;\" />";
-    document.getElementById("dayActivityAddRemove" + targetData + n).setAttribute('onclick', 'deleteCurrentActivity(' + targetData +', '+ i +')');
+    document.getElementById('dayActivityAdd').innerHTML = "&nbsp;";
+    document.getElementById("dayActivityAdd").setAttribute('onclick', '');
 }
 
     function closeCurrentDayActivityEdit(targetData, i) {
@@ -416,12 +418,12 @@ function editCurrentDayActivity(targetData, i) {
                 //<img id=\"buttonAImg" + targetData + i + "\" src=\"./images/compass.svg\" height=\"35px\" width=\"35px\" /></td>
                 //<td id=\"buttonB" + targetData + i + "\" rowspan=\"2\" style=\"width:42px;padding-top:5px;\">
                 //<img id=\"buttonBImg" + targetData + i + "\" src=\"./images/pencilEdit.svg\" style=\"height:35px; width:35px; cursor:pointer;\" onclick=\"editCurrentDayActivity(" + targetData + ", " + i + ")\" />
-                document.getElementById("buttonA" + targetData + i).innerHTML = "<img id=\"buttonAImg" + targetData + i + "\" src=\"./images/compass.svg\" height=\"35px\" width=\"35px\" />";
-                document.getElementById("buttonB" + targetData + i).innerHTML = "<img id=\"buttonBImg" + targetData + i + "\" src=\"./images/pencilEdit.svg\" style=\"height:35px; width:35px; cursor:pointer;\" onclick=\"editCurrentDayActivity(" + targetData + ", " + i + ")\" />";
+                //document.getElementById("buttonA" + targetData + i).innerHTML = "<img id=\"buttonAImg" + targetData + i + "\" src=\"./images/compass.svg\" height=\"25px\" width=\"25px\" />";
+                document.getElementById("buttonB" + targetData + i).innerHTML = "<img id=\"buttonBImg" + targetData + i + "\" src=\"./images/pencilEdit.svg\" style=\"height:25px; width:25px; cursor:pointer;\" onclick=\"editCurrentDayActivity(" + targetData + ", " + i + ")\" />";
             }
         }
-        document.getElementById('dayActivityAddRemove').innerHTML = "+"
-        document.getElementById("dayActivityAddRemove" + targetData + n).setAttribute('onclick', 'appendNewDayActivity(' + targetData + ')');
+        document.getElementById('dayActivityAdd').innerHTML = "+";
+        document.getElementById("dayActivityAdd").setAttribute('onclick', 'appendNewDayActivity(' + targetData + ')');
     }
 
 
@@ -436,12 +438,20 @@ function appendToList(listObj, formElement) {
     listObj.push(i);
 }
 
-function viewdaySelectedOverlay(targetData) {
-    popUpTarget = document.getElementById("popUpPanel");
-    popUpTarget.className = "daySelectedOverlay";
-    popUpTarget.style.visibility = "visible";
+function viewdaySelectedOverlay(targetData, rollCap, rollHeight) {
+    if (toggleFlags.rolloutID == null) {
+        toggleFlags.rolloutID = targetData;
+    } else if (toggleFlags.rolloutID != targetData) {
+        document.getElementById("dayItem_" + toggleFlags.rolloutID + "Rollout").style.height = "0px";
+        document.getElementById("dayItem_" + toggleFlags.rolloutID + "Rollout").style.display = "none";
+        document.getElementById("dayItem_" + toggleFlags.rolloutID + "Rollout").innerHTML = "";
+        toggleFlags.rolloutID = targetData;
+    }
+    //popUpTarget = document.getElementById("popUpPanel");
+    //popUpTarget.className = "daySelectedOverlay";
+    //popUpTarget.style.visibility = "visible";
+    rolloutTarget = document.getElementById(rollCap.id+"Rollout")
     let portListIndex = 0;
-    let ActivityDayItemIdList = [];
     for (portListIndex; portListIndex < portList.length; portListIndex++) {
         if (portList[portListIndex][0] == targetData) break;
     }
@@ -449,25 +459,32 @@ function viewdaySelectedOverlay(targetData) {
     let portDayName = new Date(portList[portListIndex][3]).toLocaleDateString('en-us', { weekday: "long" }).toString();
     let portMonthName = new Date(portList[portListIndex][3]).toLocaleDateString('en-us', { month: "long" }).toString();
     let portDayNum = portList[portListIndex][3].match("(?<=\/)\\d+$")[0];
+    let portTerminalId = "Tmp #";
+
     //Set up Header
-    let daySelectedHTML = "<table id=\"daySelectHeader\"><tr><td rowspan=\"2\" style=\"width:40px;background-color:#4499bb99;font-size:32px;\">" + portList[portListIndex][0] + "</td>";
-    daySelectedHTML += "<td style=\"text-align:left; background-color:#ffffff44;\">" + portList[portListIndex][1] + ", " + portList[portListIndex][2] + "</td>";
-    daySelectedHTML += "<td style=\"width:45px; text-align:right; background-color:#44bb4499;border-bottom:#ffffff88 solid 1px;\">" + portList[portListIndex][4] +"</td><td rowspan=\"2\" style=\"width:100px;text-align:left;padding-left:4px;background-color:#44bb4499;\"><span id=\"currentTimeObj\" style=\"font-size:32px;\">00:00</span></td></tr>";
-    daySelectedHTML += "<tr><td style=\"text-align:left; background-color:#ffffff44;\">" + portDayName + ", " + portMonthName+" "+ portDayNum + ", " + portYear + "</td>";
-    daySelectedHTML += "<td style=\"width:45px; text-align:right; background-color:#ee444499;\">" + portList[portListIndex][5] +"</td></tr></table>";
+    let daySelectedHTML = "";
+    //daySelectedHTML += "<table id=\"daySelectHeader\"><tr><td rowspan=\"2\" style=\"width:40px;background-color:#4499bb99;font-size:32px;\">" + portList[portListIndex][0] + "</td>";
+    daySelectedHTML += "<table id=\"daySelectHeader\"><tr><td style=\"text-align:left; background-color:#44bb4499; border-bottom:#ffffff88 solid 1px;\">" + portList[portListIndex][4] + "</td>";
+    daySelectedHTML += "<td rowspan=\"2\" id=\"currentTimeObj\" style=\"text-align:center; width:54px; font-size:24px; border-left:#ffffff88 solid 1px; border-right:#ffffff88 solid 1px;background-color:#44bb4499;\">00:00</td>";
+    daySelectedHTML += "<td style =\"text-align:right; background-color:#ee444499; border-bottom:#ffffff88 solid 1px;\">" + portList[portListIndex][5] + "</td>";
+    daySelectedHTML += "</tr><tr><td style=\"text-align:left; font-size:14px; background-color:#ffffff44;\">" + portDayName + ",&nbsp;" + portMonthName + "&nbsp;" + portDayNum + "</td><td style=\"font-size:14px;text-align:right; background-color:#ffffff44;\">Term. ID:" + portTerminalId + "</td>";
+    daySelectedHTML += "</tr></table>";
 
     let portSchedule = activityList[targetData].schedule;
     //Loop through activities
     for (let i = 0; i < portSchedule.length; i++) {
         daySelectedHTML += "<form id=\"formDayActivityItem" + targetData + i + "\"><table class=\"dayActivityItem\" style=\"width:100%;\">";
-        daySelectedHTML += "<tr><td style=\"width:42px; background-color:#55b0dd69;border-bottom:#ffffff99 solid 1px;\"><input id=\"dayItem" + targetData + i + "_start\" type=\"text\" value=\"" + portSchedule[i].start + "\" style=\"width:41px; font-size:16px;\" disabled/></td><td style=\"width:40%;\"><input id=\"dayItem" + targetData + i + "_location\" type=\"text\" value=\"" + portSchedule[i].location + "\" disabled /></td><td><input id=\"dayItem" + targetData + i + "_activity\" type=\"text\" value=\"" + portSchedule[i].activity + "\" disabled /></td><td id=\"buttonA" + targetData + i + "\" rowspan=\"2\" style=\"width:42px;padding-top:5px;\"><img id=\"buttonAImg" + targetData + i + "\" src=\"./images/compass.svg\" height=\"35px\" width=\"35px\" /></td><td id=\"buttonB" + targetData + i + "\" rowspan=\"2\" style=\"width:42px;padding-top:5px;\"><img id=\"buttonBImg" + targetData + i + "\" src=\"./images/pencilEdit.svg\" style=\"height: 35px; width: 35px; cursor: pointer; opacity: 1\" onclick=\"editCurrentDayActivity(" + targetData + ", " + i + ")\" /></td></tr>";
-        daySelectedHTML += "<tr><td style=\"width:42px; background-color:#55b0dd79;\"><input id=\"dayItem" + targetData + i + "_end\" type=\"text\" value=\"" + portSchedule[i].end + "\" style=\"width:41px; font-size:16px;\" disabled /></td><td colspan=\"2\" style=\"font-size:14px;\"><textarea id=\"dayItem" + targetData + i +"_notes\" style=\"height:17px; font-size:13px; resize:none;\" disabled>" + portSchedule[i].notes +"</textarea></td></tr></table></form>";
+        daySelectedHTML += "<tr><td style=\"width:42px; background-color:#55b0dd69;border-bottom:#ffffff99 solid 1px;\"><input id=\"dayItem" + targetData + i + "_start\" type=\"text\" value=\"" + portSchedule[i].start + "\" style=\"width:41px; font-size:16px;\" disabled/></td><td id=\"buttonA" + targetData + i + "\" style=\"width:15px; padding-right:0px; padding-top:3px;\"><img id=\"buttonAImg" + targetData + i + "\" src=\"./images/compass.svg\" height=\"15px\" width=\"15px\" /></td><td style=\"width:40%;\"><input id=\"dayItem" + targetData + i + "_location\" type=\"text\" value=\"" + portSchedule[i].location + "\" disabled /></td><td><input id=\"dayItem" + targetData + i + "_activity\" type=\"text\" value=\"" + portSchedule[i].activity + "\" disabled /></td><td id=\"buttonB" + targetData + i + "\" rowspan=\"2\" style=\"width:27px;padding-top:10px;\"><img id=\"buttonBImg" + targetData + i + "\" src=\"./images/pencilEdit.svg\" style=\"height: 25px; width: 25px; cursor: pointer; opacity: 1\" onclick=\"editCurrentDayActivity(" + targetData + ", " + i + ")\" /></td></tr>";
+        daySelectedHTML += "<tr><td style=\"width:42px; background-color:#55b0dd79;\"><input id=\"dayItem" + targetData + i + "_end\" type=\"text\" value=\"" + portSchedule[i].end + "\" style=\"width:41px; font-size:16px;\" disabled /></td><td colspan=\"3\" style=\"font-size:14px;\"><textarea id=\"dayItem" + targetData + i +"_notes\" style=\"height:17px; font-size:13px; resize:none;\" disabled>" + portSchedule[i].notes +"</textarea></td></tr></table></form>";
     }
-    daySelectedHTML += "<table id=\"addDayActivity\" class=\"dayActivityItem\" style=\"margin-left:5px;\">";
-    daySelectedHTML += "<tr><td id=\"dayActivityAddRemove\" style=\"width:35px; height:32px; text-align:center; font-size:24px; cursor:pointer;\" onclick=\"appendNewDayActivity("+targetData+")\">+</td></tr>";
-    daySelectedHTML += "</table>";
-    daySelectedHTML += "<input type=\"button\" value=\"Close Itinerary\" style=\"position:inline; right: 50%; margin-top:10px; margin-bottom:40px; font-size:16px; width:190px;\" onclick=\"\" />";
+    daySelectedHTML += "<table style=\"width: 100%; margin-top:2px;\"><tr>";
+    daySelectedHTML += "<td style=\"text-align:center; font-size:24px;\"><div id=\"dayActivityAdd\" class=\"dayActivityItem\" style=\"width:24px; background-color: #ffffffaa;\" onclick=\"appendNewDayActivity(" + targetData + ")\">+</div></td>";
+    daySelectedHTML += "<td style=\"text-align:center; font-size:24px; padding:0px;\"><div id=\"dayEditPOC\" class=\"dayActivityItem\" style=\"width:30px; height:25px; padding-top: 2px; background-color: #ffffffaa; overflow:hidden;\" onclick=\"editCurrentDayPOC(" + targetData + ")\"><img src=\"./images/pencilEdit.svg\" style=\"width:24px; height:24px;\" /></div></td>";
+    daySelectedHTML += "</tr></table>";
+    //daySelectedHTML += "<input type=\"button\" value=\"Close Itinerary\" style=\"position:inline; right: 50%; margin-top:10px; margin-bottom:40px; font-size:16px; width:190px;\" onclick=\"\" />";
 
-    popUpTarget.innerHTML = daySelectedHTML;
+    //popUpTarget.innerHTML = daySelectedHTML;
+    rolloutTarget.innerHTML = daySelectedHTML;
+    toggleRollout(rollCap, rollHeight);
     console.log("daySelectedHTML built/applied")
 }
