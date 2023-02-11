@@ -25,10 +25,16 @@
     background-color: #CCCCCCDD;
     border: #000000 solid 2px;
     border-radius: 8px 0px 0px 8px;
-    text-align:center;
-    overflow: hidden;
-    visibility:hidden;
+    text-align: center;
+    visibility: hidden;
+    overflow-y: auto;
+    overflow-x:hidden;
 }
+
+.daySelectedOverlay::-webkit-scrollbar {
+    display: none;
+}
+
 #daySelectHeader{
     width:100%;
     background-color: #ffffff00;
@@ -40,23 +46,23 @@
     padding: 0px 2px 0px 2px;
 }
 
-#daySelectItems {
+.dayActivityItem {
     margin-top: 2px;
-    margin-left:1px;
+    margin-left: 1px;
     border-radius: 5px;
     border: #ffffffaa solid 1px;
     filter: drop-shadow(0px 1px 1px #00000055);
 }
-#daySelectItems td {
+.dayActivityItem td {
     background-color: #ffffffaa;
     padding: 1px 2px 0px 2px;
     font-size: 18px;
-    text-align:left;
-    vertical-align:top;
+    text-align: left;
+    vertical-align: top;
     color: #222255;
 }
 
-#daySelectItems input,textarea {
+.dayActivityItem input, textarea {
     border: 0px;
     background-color: #ffffff11;
     padding: 0;
@@ -64,7 +70,7 @@
     text-align: left;
     color: #222299;
     width: calc(100% - 4px);
-    padding:0px;
+    padding: 0px;
     margin: 0px;
 }
 #toggleRight {

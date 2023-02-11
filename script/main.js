@@ -346,34 +346,67 @@ function appendNewDayActivity(targetDay) {
     viewdaySelectedOverlay(targetDay);
 }
 
+function deleteCurrentActivity(targetData, i) {
+    return true;
+}
+
 function editCurrentDayActivity(targetData, i) {
     console.log("Entering editCurrentDayActivity()");
-    document.getElementById("dayItem" + targetData + i + "_start").disabled = false;
-    document.getElementById("dayItem" + targetData + i + "_end").disabled = false;
-    document.getElementById("dayItem" + targetData + i + "_location").disabled = false;
-    document.getElementById("dayItem" + targetData + i + "_activity").disabled = false;
-    document.getElementById("dayItem" + targetData + i + "_notes").disabled = false;
-    document.getElementById("dayItem" + targetData + i + "_start").style.backgroundColor = "#ffffffaa";
-    document.getElementById("dayItem" + targetData + i + "_end").style.backgroundColor = "#ffffffaa";
-    document.getElementById("dayItem" + targetData + i + "_location").style.backgroundColor = "#ffffffaa";
-    document.getElementById("dayItem" + targetData + i + "_activity").style.backgroundColor = "#ffffffaa";
-    document.getElementById("dayItem" + targetData + i + "_notes").style.backgroundColor = "#ffffffaa";
-    document.getElementById("dayItem" + targetData + i + "_start").style.border = "#000 solid 1px";
-    document.getElementById("dayItem" + targetData + i + "_end").style.border = "#000 solid 1px";
-    document.getElementById("dayItem" + targetData + i + "_location").style.border = "#000 solid 1px";
-    document.getElementById("dayItem" + targetData + i + "_activity").style.border = "#000 solid 1px";
-    document.getElementById("dayItem" + targetData + i + "_notes").style.border = "#000 solid 1px";
-    document.getElementById("dayItem" + targetData + i + "_start").style.color = "#000";
-    document.getElementById("dayItem" + targetData + i + "_end").style.color = "#000";
-    document.getElementById("dayItem" + targetData + i + "_location").style.color = "#000";
-    document.getElementById("dayItem" + targetData + i + "_activity").style.color = "#000";
-    document.getElementById("dayItem" + targetData + i + "_notes").style.color = "#000";
-    document.getElementById("buttonA" + targetData + i).innerHTML = "<input type=\"button\" value=\"Cancel\" style=\"width:40px,height:30px;font-size:14px;color:red;border:#f00 solid 2px;background-color:#ecc;\"/>";
-    document.getElementById("buttonB" + targetData + i).innerHTML = "<input type=\"button\" value=\"Accept\" />";
-    document.getElementById("dayItem" + targetData + i + "_start").focus();
-    //activityList[targetDay].schedule.sort((a, b) => a.start.match("^\\d+") - b.start.match("^\\d+"));
-    //viewdaySelectedOverlay(targetDay);
+    for (let n = 0; n < activityList[targetData].schedule.length; n++) {
+        //console.log("n="+n+", i="+i)
+        if (n != i) {
+            document.getElementById("buttonAImg" + targetData + n).style.cursor = "default";
+            document.getElementById("buttonAImg" + targetData + n).style.opacity = "0.3";
+            document.getElementById("buttonAImg" + targetData + n).setAttribute('onclick',null);
+            document.getElementById("buttonBImg" + targetData + n).style.cursor = "default";
+            document.getElementById("buttonBImg" + targetData + n).style.opacity = "0.3";
+            document.getElementById("buttonBImg" + targetData + n).setAttribute('onclick',null);
+        } else {
+            for (const post$ of ["_start", "_end", "_location", "_activity", "_notes"]) {
+                document.getElementById("dayItem" + targetData + i + post$).disabled = false;
+                document.getElementById("dayItem" + targetData + i + post$).style.backgroundColor = "#ffffffaa";
+                document.getElementById("dayItem" + targetData + i + post$).style.border = "#000 solid 1px";
+                document.getElementById("dayItem" + targetData + i + post$).style.color = "#000";
+            }
+            document.getElementById("buttonA" + targetData + i).innerHTML = "<img src=\"images/xMark.svg\" style=\"width: 40px, height: 40px; cursor: pointer;\" onclick=\"closeCurrentDayActivityEdit(" + targetData + ", " + i + ")\"/>";
+            document.getElementById("buttonB" + targetData + i).innerHTML = "<img src=\"images/checkMark.svg\" style=\"width: 40px, height: 40px; cursor: pointer;\" />";
+            document.getElementById("dayItem" + targetData + i + "_start").focus();
+        }
+    }
+    document.getElementById('dayActivityAddRemove').innerHTML = "<img src=\"images/trashBin.svg\" style=\"width: 40px, height: 40px; cursor: pointer;\" />";
+    document.getElementById("dayActivityAddRemove" + targetData + n).setAttribute('onclick', 'deleteCurrentActivity(' + targetData +', '+ i +')');
 }
+
+    function closeCurrentDayActivityEdit(targetData, i) {
+        console.log("Entering closeCurrentDayActivityEdit()");
+        document.activeElement.blur();
+        for (let n = 0; n < activityList[targetData].schedule.length; n++) {
+            if (n != i) {
+                document.getElementById("buttonAImg" + targetData + n).style.cursor = "pointer";
+                document.getElementById("buttonAImg" + targetData + n).style.opacity = "1.0";
+                //document.getElementById("buttonAImg" + targetData + n).onclick = undefined;
+                document.getElementById("buttonBImg" + targetData + n).style.cursor = "pointer";
+                document.getElementById("buttonBImg" + targetData + n).style.opacity = "1.0";
+                document.getElementById("buttonBImg" + targetData + n).setAttribute('onclick','editCurrentDayActivity(' + targetData + ', ' + n + ')');
+
+            } else {
+                for (const post$ of ["_start", "_end", "_location", "_activity", "_notes"]) {
+                    document.getElementById("dayItem" + targetData + i + post$).disabled = true;
+                    document.getElementById("dayItem" + targetData + i + post$).style.backgroundColor = "#ffffff11";
+                    document.getElementById("dayItem" + targetData + i + post$).style.border = "0px";
+                    document.getElementById("dayItem" + targetData + i + post$).style.color = "#222299";
+                }
+                //<img id=\"buttonAImg" + targetData + i + "\" src=\"./images/compass.svg\" height=\"35px\" width=\"35px\" /></td>
+                //<td id=\"buttonB" + targetData + i + "\" rowspan=\"2\" style=\"width:42px;padding-top:5px;\">
+                //<img id=\"buttonBImg" + targetData + i + "\" src=\"./images/pencilEdit.svg\" style=\"height:35px; width:35px; cursor:pointer;\" onclick=\"editCurrentDayActivity(" + targetData + ", " + i + ")\" />
+                document.getElementById("buttonA" + targetData + i).innerHTML = "<img id=\"buttonAImg" + targetData + i + "\" src=\"./images/compass.svg\" height=\"35px\" width=\"35px\" />";
+                document.getElementById("buttonB" + targetData + i).innerHTML = "<img id=\"buttonBImg" + targetData + i + "\" src=\"./images/pencilEdit.svg\" style=\"height:35px; width:35px; cursor:pointer;\" onclick=\"editCurrentDayActivity(" + targetData + ", " + i + ")\" />";
+            }
+        }
+        document.getElementById('dayActivityAddRemove').innerHTML = "+"
+        document.getElementById("dayActivityAddRemove" + targetData + n).setAttribute('onclick', 'appendNewDayActivity(' + targetData + ')');
+    }
+
 
 
 function appendToList(listObj, formElement) {
@@ -389,6 +422,7 @@ function viewdaySelectedOverlay(targetData) {
     popUpTarget.className = "daySelectedOverlay";
     popUpTarget.style.visibility = "visible";
     let portListIndex = 0;
+    let ActivityDayItemIdList = [];
     for (portListIndex; portListIndex < portList.length; portListIndex++) {
         if (portList[portListIndex][0] == targetData) break;
     }
@@ -405,14 +439,15 @@ function viewdaySelectedOverlay(targetData) {
 
     let portSchedule = activityList[targetData].schedule;
     //Loop through activities
-    for (let i = 0; i < portSchedule.length;i++) {
-        daySelectedHTML += "<form id=\"formDayItem" + targetData + i + "\"><table id=\"daySelectItems\" style=\"width:100%;\">";
-        daySelectedHTML += "<tr><td style=\"width:42px; background-color:#55b0dd69;border-bottom:#ffffff99 solid 1px;\"><input id=\"dayItem" + targetData + i + "_start\" type=\"text\" value=\"" + portSchedule[i].start + "\" style=\"width:41px; font-size:16px;\" disabled/></td><td style=\"width:40%;\"><input id=\"dayItem" + targetData + i + "_location\" type=\"text\" value=\"" + portSchedule[i].location + "\" disabled /></td><td><input id=\"dayItem" + targetData + i + "_activity\" type=\"text\" value=\"" + portSchedule[i].activity + "\" disabled /></td><td rowspan=\"2\" id=\"buttonA" + targetData + i + "\" style=\"width:42px;padding-top:5px;\"><img src=\"./images/compass.svg\" height=\"35px\" width=\"35px\" /></td><td id=\"buttonB" + targetData + i + "\" rowspan=\"2\" style=\"width:42px;padding-top:5px;\"><img src=\"./images/pencilEdit.svg\" style=\"height:35px; width:35px; cursor:pointer;\" onclick=\"editCurrentDayActivity(" + targetData +", "+ i +")\" /></td></tr>";
+    for (let i = 0; i < portSchedule.length; i++) {
+        daySelectedHTML += "<form id=\"formDayActivityItem" + targetData + i + "\"><table class=\"dayActivityItem\" style=\"width:100%;\">";
+        daySelectedHTML += "<tr><td style=\"width:42px; background-color:#55b0dd69;border-bottom:#ffffff99 solid 1px;\"><input id=\"dayItem" + targetData + i + "_start\" type=\"text\" value=\"" + portSchedule[i].start + "\" style=\"width:41px; font-size:16px;\" disabled/></td><td style=\"width:40%;\"><input id=\"dayItem" + targetData + i + "_location\" type=\"text\" value=\"" + portSchedule[i].location + "\" disabled /></td><td><input id=\"dayItem" + targetData + i + "_activity\" type=\"text\" value=\"" + portSchedule[i].activity + "\" disabled /></td><td id=\"buttonA" + targetData + i + "\" rowspan=\"2\" style=\"width:42px;padding-top:5px;\"><img id=\"buttonAImg" + targetData + i + "\" src=\"./images/compass.svg\" height=\"35px\" width=\"35px\" /></td><td id=\"buttonB" + targetData + i + "\" rowspan=\"2\" style=\"width:42px;padding-top:5px;\"><img id=\"buttonBImg" + targetData + i + "\" src=\"./images/pencilEdit.svg\" style=\"height: 35px; width: 35px; cursor: pointer; opacity: 1\" onclick=\"editCurrentDayActivity(" + targetData + ", " + i + ")\" /></td></tr>";
         daySelectedHTML += "<tr><td style=\"width:42px; background-color:#55b0dd79;\"><input id=\"dayItem" + targetData + i + "_end\" type=\"text\" value=\"" + portSchedule[i].end + "\" style=\"width:41px; font-size:16px;\" disabled /></td><td colspan=\"2\" style=\"font-size:14px;\"><textarea id=\"dayItem" + targetData + i +"_notes\" style=\"height:17px; font-size:13px; resize:none;\" disabled>" + portSchedule[i].notes +"</textarea></td></tr></table></form>";
     }
-    daySelectedHTML += "<table id=\"daySelectItems\" style=\"margin-left:5px;\">";
-    daySelectedHTML += "<tr><td style=\"width:35px; height:32px; text-align:center; font-size:24px; cursor:pointer;\" onclick=\"appendNewDayActivity("+targetData+")\">+</td></tr>";
+    daySelectedHTML += "<table id=\"addDayActivity\" class=\"dayActivityItem\" style=\"margin-left:5px;\">";
+    daySelectedHTML += "<tr><td id=\"dayActivityAddRemove\" style=\"width:35px; height:32px; text-align:center; font-size:24px; cursor:pointer;\" onclick=\"appendNewDayActivity("+targetData+")\">+</td></tr>";
     daySelectedHTML += "</table>";
+    daySelectedHTML += "<input type=\"button\" value=\"Close Itinerary\" style=\"position:inline; right: 50%; margin-top:10px; margin-bottom:40px; font-size:16px; width:190px;\" onclick=\"\" />";
 
     popUpTarget.innerHTML = daySelectedHTML;
     console.log("daySelectedHTML built/applied")
