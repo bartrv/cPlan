@@ -59,16 +59,17 @@ let portList = [
 //activitylist['-1'].schedule[1].activity = 'Lunch'
 
 let activityList = {
-    '-1': { "city": "Lisbon", "schedule": [{ "location": "Beach", "activity": 'Hang Out', "start": "13:00", "end": "18:00", "notes": "anything noteworthy" }, { "location": "Hotel Restaurant", "activity": "Dinner", "start": "18:30", 'end': "20:00", "notes":"anything" }] },
-    '0': { "city": "Lisbon", "schedule": [{ "location": "Hotel", "activity": 'Breakfast', "start": "9:00", "end": "10:00", "notes": "anything noteworthy" }] },
-    '1': { "city": "At Sea", "schedule": [{ "location": "Main Dinning Room", "activity": 'Breakfast', "start": "8:00", "end": "9:30", "notes": "anything noteworthy" }] },
+    '-1': { "city": "Lisbon", "schedule": [{ "location": "Beach", "activity": '10', "start": "13:00", "end": "18:00", "notes": "anything noteworthy" }, { "location": "Hotel Restaurant", "activity": "12", "start": "18:30", 'end': "20:00", "notes":"anything" }] },
+    '0': { "city": "Lisbon", "schedule": [{ "location": "Hotel", "activity": '12', "start": "9:00", "end": "10:00", "notes": "anything noteworthy" }] },
+    '1': { "city": "At Sea", "schedule": [{ "location": "Main Dining Room", "activity": '12', "start": "8:00", "end": "9:30", "notes": "anything noteworthy" }] },
 };
 
 
 let emergencyDataList = [];
 
-let activityTypeList = ['Activity...', 'Sleep', 'Breakfast', 'Lunch', 'Dinner', 'Free time', 'Transit', 'Check-in', 'Check-out', 'Shopping', 'Snorkling', 'SCUBA',
-    'Swimming', 'Workout', 'Reading', 'Planning', 'Group Tour', 'Private Tour', 'NCL Tour', 'Wiki-Tour', 'Bus-Tour', 'Hiking', 'Walking', 'Tasting'];
+let activityTypeList = ['Activity...', 'Bus Tour', 'Check-in', 'Check-out', 'Dancing', 'Entertainment', 'Excursion', 'Free time', 'Gambling',
+    'Group Tour', 'Hang Out', 'Hiking', 'Eat/Drink', 'Planning', 'Private Tour', 'Reading', 'SCUBA', 'Shopping', 'Sleep',
+    'Snorkling', 'Social', 'Swimming', 'Tasting', 'Transit', 'Walking', 'Wiki-Tour', 'Workout'];
 
 let dataList = { "isDataSaved": 0, "tripOverViewList": tripOverViewList, "portList": portList, "activityList": activityList, "emergencyDataList": emergencyDataList, "activityTypeList": activityTypeList };
 
