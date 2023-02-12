@@ -67,8 +67,8 @@ let activityList = {
 
 let emergencyDataList = [];
 
-let activityTypeList = ['Sleep', 'Breakfast', 'Lunch', 'Dinner', 'Free time', 'Transit', 'Check -in', 'Check - out', 'Shopping', 'Snorkling', 'SCUBA',
-    'Swimming', 'Workout', 'Reading', 'Planning', 'Group Tour', 'Private Tour', 'NCL Tour', 'Wikipedia Tour'];
+let activityTypeList = ['Activity...', 'Sleep', 'Breakfast', 'Lunch', 'Dinner', 'Free time', 'Transit', 'Check-in', 'Check-out', 'Shopping', 'Snorkling', 'SCUBA',
+    'Swimming', 'Workout', 'Reading', 'Planning', 'Group Tour', 'Private Tour', 'NCL Tour', 'Wiki-Tour', 'Bus-Tour', 'Hiking', 'Walking', 'Tasting'];
 
 let dataList = { "isDataSaved": 0, "tripOverViewList": tripOverViewList, "portList": portList, "activityList": activityList, "emergencyDataList": emergencyDataList, "activityTypeList": activityTypeList };
 
