@@ -107,12 +107,14 @@ function loadUserData() {
         }
         //generateOverview();
         //generateShipDetails();
+        portList.sort(function (a, b) { return parseInt(a) - parseInt(b) });
         return true;
     }
 }
 
 function storeUserData() {
     localStorage.setItem("cPlanDataSaved", 0);
+    portList.sort(function (a, b) { return parseInt(a) - parseInt(b) });
     //let tempToggle = JSON.stringify(toggleFlags);
     //for (const key in toggleFlags) {
     //    toggleFlags[key] = 1;
