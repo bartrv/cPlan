@@ -180,11 +180,13 @@ function generatePOCList() {
         POCHTML += "</div></div>";
         POCHTML += "<div id=\"dayItem_" + portItem[0] + "Rollout\" style=\"height:0px; width: calc(100% - 10px); margin-left: 5px; padding: 0px; display:none; background-color: #00000055; overflow:hidden;\"></div>";
     }
-    POCHTML = POCHTML + "<div style=\"position:relative; margin-left:10px; float:left; width:40px; height:30px; text-align:center; font-size:24px; cursor:pointer\" class=\"boxStyle_01\" onclick=\"launchPopUp('addPortOfCall')\">+</div>";
+    POCHTML = POCHTML + "<div style=\"position:relative; margin-left:10px; float:left; width:40px; height:30px; text-align:center; font-size:24px; cursor:pointer\" class=\"boxStyle_01\" onclick=\"addPortOfCall(this)\">+</div>";
     document.getElementById('portOfCallList').innerHTML = POCHTML;
 
     return true;
 }
+
+
 
 function generateTravelInfoPanel() {
     return true;
@@ -313,18 +315,73 @@ function closePopUp() {
     document.getElementById("pupUpInteractionBlocker").style.display = "none";
 }
 
-function addPortOfCall() {
+function addPortOfCall(addNewPOCButton) {
     //console.log("PopUp in addPortOfCall");
-    const addPOCBox = document.getElementById("popUpPanel");
+    /* As add Line not PopUp
+     * https://www.w3schools.com/jsref/met_node_insertbefore.asp
+     * ->>    addNewPOCButton.parentNode.insertBefore(document.createElement("div"), addNewPOCButton);
+     * or ->> document.getElementById('portOfCallList').lastChild.style
+     * 
+     * for (const portItem of portList) {
+        POCHTML += "<div id=\"dayItem_" + portItem[0] + "\" style=\"position:relative; width:100%; cursor:pointer; height:40px;\" onclick=\"viewdaySelectedOverlay(" + portItem[0] +", this, " + ((activityList[portItem[0]].schedule.length*44)+55+32+12) + ")\">"; //((# of activities tin this day's schedule)*40(row height(40)margin(2)border(2))+header(50)+32(add)+10(borders/margins/padding)
+        POCHTML += "<div class=\"boxStyle_01\" style=\"position:relative; float:left; background-color:#aaccee; width:27px; height:100%; text-align:center; font-size:24px; border-radius:5px 3px 3px 20px;\">";
+        POCHTML += "<div style=\"padding-top:5px;\">" + portItem[0] + "</div></div>";
+        POCHTML += "<div class=\"boxStyle_01\" style=\"position:relative; float:right; width: calc(100% - 40px); height:40px; border-radius:3px 6px 6px 3px;\">";
+        POCHTML += "<table cellpadding =\"0\" cellspacing=\"0\" style=\"width: 100%;\"><tr>";
+        POCHTML += "<td colspan=\"5\"style=\"text-align:center\">" + portItem[1] + ", " + portItem[2] + "</td></tr>";
+        POCHTML += "<tr><td style=\"width: 76px; text-align:left; font-size:.9em;\">" + portItem[3] + "</td><td></td>";
+        POCHTML += "<td style=\"text-align:center; width:36px; font-size:.9em\">" + portItem[4] + "</td><td width=\"8px\" style=\"text-align:center\">-</td><td width=\"36px\" style=\"width:36px; text-align:center;font-size:.9em\">" + portItem[5] + "</td></tr></table>";
+        POCHTML += "</div></div>";
+        POCHTML += "<div id=\"dayItem_" + portItem[0] + "Rollout\" style=\"height:0px; width: calc(100% - 10px); margin-left: 5px; padding: 0px; display:none; background-color: #00000055; overflow:hidden;\"></div>";
+    }
+    target-->> 'portOfCallList' innerHTML panel
+    */
+
+    //const addPOCBox = document.getElementById("popUpPanel");
+    const default_POC_Data = ["0", "City / Ship Name", "Country / 'At Sea'", "2020/12/31", "00:00", "24:00"];
+    let newPOC_Item = document.createElement("div");
+    let newPOC_Rollout = document.createElement("div");
     let nextDayNumber = 0;
-    let addPortHTML = "";
+    let newPocItm_HTML = "";
+
+    // Determine last day number - probably will not match the index, possibly unordered
     for (i of portList) {
         n = parseInt(i[0]);
         nextDayNumber = n > nextDayNumber ? n : nextDayNumber;
     }
-    nextDayNumber += 1;
+    nextDayNumber += 1;  //increment last day +1
 
-    addPOCBox.className = "boxStyle_01";
+    default_POC_Data[0] = "" + nextDayNumber;
+    portList.push(default_POC_Data); //append default data to main portList
+    portItem = portList[portList.length - 1];  //  unify referance syntax with primary POC generator
+    seedNewDayActivity(default_POC_Data);
+
+    //Define div's and elements for display
+    newPOC_Item.id = "dayItem_" + portItem[0];
+    newPOC_Item.style.cssText = "position:relative; width:100%; cursor:pointer; height:40px";
+    newPOC_Item.setAttribute("onclick", "viewdaySelectedOverlay(" + portItem[0] + ", this, " + (44 + 55 + 32 + 12) + ")")
+    // document.getElementById('dayItem_2').style.cssText = "position:relative; width:100%; cursor:pointer; height:40px"
+    newPocItm_HTML += "<div class=\"boxStyle_01\" style=\"position:relative; float:left; background-color:#aaccee; width:27px; height:100%; text-align:center; font-size:24px; border-radius:5px 3px 3px 20px;\">";
+    newPocItm_HTML += "<div style=\"padding-top:5px;\">" + portItem[0] + "</div></div>";
+    newPocItm_HTML += "<div class=\"boxStyle_01\" style=\"position:relative; float:right; width: calc(100% - 40px); height:40px; border-radius:3px 6px 6px 3px;\">";
+    newPocItm_HTML += "<table cellpadding =\"0\" cellspacing=\"0\" style=\"width: 100%;\"><tr>";
+    newPocItm_HTML += "<td colspan=\"5\"style=\"text-align:center\">" + portItem[1] + ", " + portItem[2] + "</td></tr>";
+    newPocItm_HTML += "<tr><td style=\"width: 76px; text-align:left; font-size:.9em;\">" + portItem[3] + "</td><td></td>";
+    newPocItm_HTML += "<td style=\"text-align:center; width:36px; font-size:.9em\">" + portItem[4] + "</td><td width=\"8px\" style=\"text-align:center\">-</td><td width=\"36px\" style=\"width:36px; text-align:center;font-size:.9em\">" + portItem[5] + "</td></tr></table>";
+    newPocItm_HTML += "</div>";
+    
+
+    newPOC_Rollout.id = "dayItem_" + portItem[0] + "Rollout";
+    newPOC_Rollout.style.cssText = "height:0px; width: calc(100% - 10px); margin-left: 5px; padding: 0px; display:none; background-color: #00000055; overflow:hidden;"
+
+    // insert defined items into DOM, order is important
+    addNewPOCButton.parentNode.insertBefore(newPOC_Item, addNewPOCButton);
+    newPOC_Item.innerHTML = newPocItm_HTML;
+
+    addNewPOCButton.parentNode.insertBefore(newPOC_Rollout, addNewPOCButton);
+
+    /*Old - Popup insertion method
+     * addPOCBox.className = "boxStyle_01";
     addPOCBox.style.height = "300px";
     addPOCBox.style.top = "calc(50 % - 100px)";
     
@@ -340,11 +397,11 @@ function addPortOfCall() {
 
     document.getElementById("popUpPanel").innerHTML = addPortHTML;
     document.getElementById("popUpPanel").style.display = "block";
+    */
 }
 
 function seedNewDayActivity(seedData) {
-
-    const defaultData = { "city": seedData[1].value, "schedule": [{ "location": "Location(ie. Jim's Cantina)", "activity": "0", "start": "8:00", "end": "9:30", "notes": "Notes..." }] };
+    const defaultData = { "city": seedData[1].value, "schedule": [{ "location": "Location(ie. Jim's Cantina)", "activity": "0", "start": "7:00", "end": "9:00", "notes": "Notes..." }] };
     activityList[seedData[0]] = defaultData;
 }
 
@@ -357,6 +414,9 @@ function appendNewDayActivity(targetData, rollCapId, rollHeight) {
 
 function deleteCurrentActivity(targetData, i) {
     return true;
+}
+function editCurrentDayPOC(targetData) {
+
 }
 
 function editCurrentDayActivity(targetData, i) {
