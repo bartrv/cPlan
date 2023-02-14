@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+    <meta charset="UTF-8" />
+    <meta name='viewport' content='width=device-width, initial-scale=1.0' />
+
+<script>
+    const optList = ["default", "opt 1", "opt 2", "opt 3", "opt 4", "opt 5", "67890123456", "678901234567890123456789012"];
+
+    //https://stackoverflow.com/questions/9895082/javascript-populate-drop-down-list-with-array
+    // @ InformediaDev
+
+    function populateList(targetForm) {
+        const formElem = document.getElementById(targetForm);
+        //for (let n = 0; n < optList.length; n++) {formElem[0][n] = new Option(n, optList[n]); }
+        for (i in optList) { formElem[0].add(new Option(optList[i], "value_" + optList[i])); }
+        formElem[0].selectedIndex = 3;
+    }
+
+    function qrGen(data) {
+        //https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Pixel_manipulation_with_canvas
+        //https://onlineutf8tools.com/convert-utf8-to-binary
+
+        const qrWidth = qrHeight = 128;
+
+        dataBin = dataToBits(data);
+        binXY = dataToXY(dataBin, qrWidth);
+        console.log(binXY);
+        binSVG = dataXYToSvg(binXY, qrWidth);
+        document.getElementById('qrSVG_Target').src = binSVG;
+        dataXYToCanvas(binXY, qrWidth);
+    }
+
+    function dataToBits(data) {
+        //https://stackoverflow.com/questions/14430633/how-to-convert-text-to-binary-code-in-javascript -> @gnclmorais
+        dataBin = data.split('').map(function (char) {
+            return char.charCodeAt(0).toString(2).padStart(8, '0');
+        });
+        console.log(data);
+        console.log(dataBin);
+        return dataBin;
+    }
+
+    function dataToXY(dataBin, qrWidth) {
+        if (dataBin.length < ((qrWidth / 8) ** 2)) {
+            console.log("Generating xy");
+            xyArray = [];
+            let row = "";
+            for (let i = 0; i < dataBin.length;i++) {
+                row = row + dataBin[i];
+                if ((i > 0) && (i % (qrWidth/8) == 0)) {
+                    xyArray.push(row);
+                    row = "";
+                }
+            }
+            xyArray.push(row);
+        } else {
+            console.log("Too big(>1024 characters, aborting")
+        }
+        return xyArray;
+
+    }
+    function dataXYToSvg(xyArray, qrWidth) {
+        let svgCode = ""
+        //https://stackoverflow.com/questions/3492322/javascript-createelementns-and-svg @ gumape & Tobias Tengler
+
+        const xmlns = "http://www.w3.org/2000/svg";
+        let boxWidth = qrWidth;
+        let boxHeight = qrWidth;
+
+        const svgElem = document.createElementNS(xmlns, "svg");
+        svgElem.setAttributeNS(null, "viewBox", "0 0 " + boxWidth + " " + boxHeight);
+        svgElem.setAttributeNS(null, "width", boxWidth);
+        svgElem.setAttributeNS(null, "height", boxHeight);
+        svgElem.style.display = "block";
+
+        let svg = document.createElementNS(xmlns, "svg")
+        svgElem.appendChild(svg)
+
+        for (let y = 0; y < xyArray.length; y++) {
+            for (let x = 0; x < xyArray[y].length; x++) {
+                const rect = document.createElementNS(xmlns, "rect");
+                rect.setAttributeNS(null, "width", "1");
+                rect.setAttributeNS(null, "height", "1");
+                rect.setAttributeNS(null, "x", x);
+                rect.setAttributeNS(null, "y", y);
+                rectColor = xyArray[y].charAt(x) == "0" ? "black" : "white";
+                rect.setAttributeNS(null, "fill", rectColor);
+                svg.appendChild(rect);
+            }
+        }
+
+
+        // add the path to the svg
+        const svgTarget = document.getElementById("qrSVG_Target");
+        if (svgTarget.hasChildNodes()) {
+            svgTarget.removeChild(svgTarget.firstElementChild);
+        }
+        svgTarget.appendChild(svgElem);
+        svgTarget.firstChild.style.width = "256px";
+        svgTarget.firstChild.style.height = "256px";
+
+        //return svgCode;
+    }
+
+    function dataXYToCanvas(xyArray, qrWidth) {
+        //const bit0 = new Uint8ClampedArray([0,0,0,255]);
+        //const bit1 = new Uint8ClampedArray([255,255,255,255]);
+
+        const qrCanvas = document.getElementById('qrCanvasView')
+        const ctx = qrCanvas.getContext("2d");
+        const imageData = ctx.getImageData(0, 0, qrCanvas.width, qrCanvas.height);
+        const PixelData = imageData.data;
+
+        // this doesn't have to be in a 2D array format, it just helps troubleshooting the on-screen bit locations - the input data and ctx.imageData.data are both 1 dimensional
+        for (let y = 0; y < xyArray.length; y++) {
+            for (let x = 0; x < xyArray[y].length; x++) {
+                let bwData = xyArray[y].charAt(x) == "0" ? 0 : 255;
+                PixelData[((y * 4 * qrCanvas.width) + (x * 4) + 0)] = bwData;
+                PixelData[((y * 4 * qrCanvas.width) + (x * 4) + 1)] = bwData;
+                PixelData[((y * 4 * qrCanvas.width) + (x * 4) + 2)] = bwData;
+                PixelData[((y * 4 * qrCanvas.width) + (x * 4) + 3)] = 255;
+                ctx.putImageData(imageData, 0, 0);
+            }
+        }
+    }
+
+    function recoverQxrData(qrCanvas) {
+        const ctx = qrCanvas.getContext("2d");
+        const qxrImage = ctx.getImageData(0, 0, qrCanvas.width, qrCanvas.height);
+        const qxrImageData = qxrImage.data;
+        //the following is broked into separate loops for clarity, this could be done in 1 loop during testing, but I strongly suspect implimenting real imaging won't allow for that
+
+        //Thresholding - 50% -> black || white && opaque
+        qxrImageData[0] = 0;
+        truncatedData = [];
+        for (let i = 0; i < qxrImageData.length; i+=4) {
+            truncatedData.push(qxrImageData[i]);
+        }
+        //qxrImageData.map(function (char, i) { if (i % 4 == 0) { truncatedData.push(char) } })
+        
+        //for(let i = 0; i < qxrImageData.length; i++) {
+        //    qxrImageData[i] = (qxrImageData[i] < 128 && i%4 !=0) ? 0 : 255;
+        //}
+        let bitData = [""];
+        let byte = "";
+        for (let i = 0; i < truncatedData.length; i++) {
+            if (i % 8 == 0) {
+                bitData.push((truncatedData[i] / 255).toString());
+            } else {
+                bitData[bitData.length-1] += (truncatedData[i] / 255).toString();
+            }
+            if (bitData[bitData.length - 1] == "11111111" || bitData[bitData.length - 1] == "00000000") {
+                bitData.pop();
+                bitData.shift();
+                break;
+            }
+            
+        }
+        console.log('breakpoint');
+        //}
+        let outString = "";
+        for (bin of bitData) {
+            outString += String.fromCharCode(parseInt(bin, 2));
+
+        }
+        //this returns "3" String.fromCharCode("0"+parseInt(("3").charCodeAt(0).toString(2),2));
+        //let outstring = bitData.map(function (bin) { return String.fromCharCode(parseInt(bin, 2)) }).join('');
+        //This works too...
+        // "value_opt 3".split('').map(function (char) { 
+        //       return char.charCodeAt(0).toString(2).padStart(8, '0');
+        //  }).map(function (bin) { return String.fromCharCode(parseInt(bin, 2)) }).join('')
+        document.getElementById('qxrOutput').value = outString;
+    }
+
+    function dataToRGBxQR(data, qrWidth) {
+        // 1st  place is always 0 - so can be omitted
+        // 2nd place is 0 or 255
+        //000, 000, 000       = 000000
+        //255, 255, 255       = 111111
+        //000, 000, 000 - 054 = 000000
+        //000, 000, 055 - 127 = 000001
+        //000, 000, 128 - 199 = 000010
+        //000, 000, 200 - 255 = 000011
+        //000 - 092 - 164 - 255 [actual values]
+    }
+</script>
+
+</head>
+
+<body onload="populateList('testForm')">
+    <form id="testForm">
+        <select id="sel_OptTst"></select>
+        &nbsp;
+        <input id="btn_QrWrite" type="button" value="Send data to QxR" onclick="qrGen(this.parentElement[0].value)" /><br />
+        <input id="canvasRead" type="button" value="read QxR From Canvas" onclick="recoverQxrData(document.getElementById('qrCanvasView'))" /><br />
+        <br />
+        <textarea id="qxrOutput" style="width:600px;"></textarea>
+    </form>
+<br />
+<br />
+<canvas id="qrCanvasView" width="128" height="128" style="float:left; border:#000 1px solid"></canvas><div id="qrSVG_Target" style="float:left; border: #00F solid 1px; margin:2px; padding:4px; width:256px;height:256px;"></div>
+</body>
+</html>
