@@ -46,11 +46,11 @@ let tripOverViewList = {
     "reservationNumber": "1234567890", "stateRoom": "1403", "travelerFName":"Bart","travelerMI":"R","travelerLName":"Voigt","travelerMobileIntnl":"013179979299"
 };
 
-
+// [Day, City, Country, Date, Arrival, Departure, Terminal]
 let portList = [
-    ['-1', 'Lisbon', 'Portugal', '2023/06/14', '18:00', '24:00'],
-    ['0', 'Lisbon', 'Portugal', '2023/06/15', '00:00', '20:00'],
-    ['1', 'At Sea', 'NCL Getaway', '2023/06/16', '00:00', '24:00']
+    ['-1', 'Lisbon', 'Portugal', '2023/06/14', '18:00', '24:00', '0'],
+    ['0', 'Lisbon', 'Portugal', '2023/06/15', '00:00', '20:00', '12'],
+    ['1', 'At Sea', 'NCL Getaway', '2023/06/16', '00:00', '24:00', '0']
 ];
 //'-1': { "city": "Lisbon", "schedule": [{ "location": "Beach", "activity": 'Hang Out', "start": "13:00", "end": "18:00", "notes": "anything noteworthy" }
 //usage:

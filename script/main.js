@@ -418,22 +418,58 @@ function deleteCurrentActivity(targetData) {
 
 function editCurrentDayPOC(targetData) {
     portList.sort(function (a, b) { return parseInt(a) - parseInt(b) });
-    const portItem = portList[targetData];
+    let blockPanelTop = document.createElement('div');
+    let blockPanelTBottom = document.createElement('div');
+    let editPOCAcceptBtn = document.createElement('div');
+    let editPOCCancelBtn = document.createElement('div');
+    document.getElementById('portOfCallList').appendChild(blockPanelTop);
+    document.getElementById('portOfCallList').appendChild(blockPanelTBottom);
+    blockPanelTBottom.appendChild(editPOCAcceptBtn);
+    blockPanelTBottom.appendChild(editPOCCancelBtn);
+    editPOCAcceptBtn.innerHTML = "<img src='./images/checkMark.svg' style=\"height:30px; width:30px;\" />";
+    editPOCAcceptBtn.style.cssText = "position:relative; float:left; left: calc(50% - 50px); background-color: #eeffeedd; width:35px; height:35px; text-align:center; padding-top:2px; border-radius:4px;";
+    editPOCAcceptBtn.style.top = (activityList[targetData].schedule.length * 50) + 'px';
+    editPOCCancelBtn.innerHTML = "<img src='./images/xMark.svg' style=\"padding-left:4px; height:30px; width:30px;\" />";
+    editPOCCancelBtn.style.cssText = "position:relative; float:left; left: calc(50% + 15px); background-color: #ffeeeedd; width:35px; height:35px; text-align:center; padding-top:2px; border-radius:4px;";
+    editPOCCancelBtn.style.top = (activityList[targetData].schedule.length * 50) + 'px';
+
+    blockPanelTop.setAttribute('div', 'pocBlockTop');
+    blockPanelTop.style.cssText = "position:absolute; left:0px; top: 0px; width:100%; background-color:#00000044; z-index:29";
+    blockPanelTBottom.setAttribute('div', 'pocBlockTop');
+    blockPanelTBottom.style.cssText = "position:absolute; left:0px; width:100%; background-color:#00000044; z-index:29";
+
     const portHeader = document.getElementById('dayItem_' + targetData);
     const portHeaderDiv_Day = portHeader.childNodes[0].firstChild;
-    const portHeaderDiv_City = "";
-    const portHeaderDiv_Country = "";
-    const popUpPanel = document.getElementById("popUpPanel");
+    const portHeaderDiv_CC = document.getElementById('dayItem_' + targetData + '_CityCountry');
+    const portArrivalDiv = document.getElementById('daySelectHeader_' + targetData + '_Arrival');
+    const portDepartureDiv = document.getElementById('daySelectHeader_' + targetData + '_Departure');
+    const portDateDiv = document.getElementById('daySelectHeader_' + targetData + '_Date');
+    const portTerminalDiv = document.getElementById('daySelectHeader_' + targetData + '_Terminal');
+
+    portHeader.setAttribute('onclick', null);
+    portHeader.style.cursor = "auto";
 
     let currentRow = 0;
     for (n of portList) {
         if (n[0] == targetData) { break; }
         currentRow += 1;
     }
-    popUpPanel.parentNode.style.height = ((activityList[targetData].length * 50) + 42) + "px";
-    // Page Heading = 48, Day/Port header = 44, Activity Header = 46
-    popUpPanel.parentNode.style.top = (48 + ((currentRow + 1) * 44) + 46) + "px";
-    popUpPanel.parentNode.style.display = "block";
+
+    const portItem = portList[currentRow];
+    portHeaderDiv_Day.innerHTML = "<input id=\"POC_Edit_Day\" type=\"text\" value=\"" + portItem[0] + "\" oninput=\"validateForm(this,'number')\" style=\"font-size:18px; width:19px; text-align:center;\" />";
+    portHeaderDiv_CC.innerHTML = "<input id=\"POC_Edit_City\" type=\"text\" value=\"" + portItem[1] + "\" style=\"width:120px;\" oninput=\"validateForm(this,'plainText')\" />, <input id=\"POC_Edit_Country\" type=\"text\" value=\"" + portItem[2] + "\" style=\"width:120px;\" oninput=\"validateForm(this,'plainText')\" />";
+    portArrivalDiv.innerHTML = "<input id=\"POC_Edit_Arrival\" type=\"text\" value=\"" + portItem[4] + "\" style=\"width:75px;\" oninput=\"validateForm(this,'plainText')\" />";
+    portArrivalDiv.style.padding= '0px';
+    portDepartureDiv.innerHTML = "<input id=\"POC_Edit_Departure\" type=\"text\" value=\"" + portItem[5] + "\" style=\"width: 75px; text-align: right;\"oninput=\"validateForm(this,'plainText')\" />";
+    portDepartureDiv.style.padding = '0px';
+    portDateDiv.innerHTML = "<input id=\"POC_Edit_Departure\" type=\"text\" value=\"" + portItem[3] + "\" oninput=\"validateForm(this,'plainText')\" style=\"width:75px;\" />";
+    portDateDiv.style.padding = '0px';
+    portTerminalDiv.innerHTML = "Term:<input id=\"POC_Edit_Terminal\" type=\"text\" value=\"" + portItem[6] + "\" oninput=\"validateForm(this,'plainText')\" style=\"width:24px; text-align:right;\"/>";
+    portTerminalDiv.style.padding = '0px';
+
+    blockPanelTop.style.height = (42 + ((currentRow) * 44)) + "px";
+    blockPanelTBottom.style.top = (42 + ((currentRow + 1) * 44) + 46) + "px";
+    blockPanelTBottom.style.height = ((activityList[targetData].schedule.length * 50) + 42 + (portList.length - currentRow) * 44) + "px";
 
 }
 
@@ -529,7 +565,7 @@ function viewdaySelectedOverlay(targetData, rollCap, rollHeight, itemAppended) {
         let portDayName = new Date(portList[portListIndex][3]).toLocaleDateString('en-us', { weekday: "long" }).toString();
         let portMonthName = new Date(portList[portListIndex][3]).toLocaleDateString('en-us', { month: "long" }).toString();
         let portDayNum = portList[portListIndex][3].match("(?<=\/)\\d+$")[0];
-        let portTerminalId = "Tmp #";
+        let portTerminalId = portList[portListIndex][6];
 
         //Set up Header
         let daySelectedHTML = "";
