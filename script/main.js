@@ -300,7 +300,12 @@ function launchPopUp(popTarget, targetData) {
     document.getElementById("popUpPanel").style.display = "block";
     switch (popTarget) {
         case "clearAllData":
-            clearAllData();
+            alertHTML = "<span style=\"font-size:24px; font-weight:bold; color:red;\">- Warning -</span><br />";
+            alertHTML += "This operation will irrevocably erase all data from <strong>this app</strong> and re-load the default values.<br /><br />";
+            alertHTML += "<input type=\"button\" onclick=\"closePopUp()\" value=\"* Cancel *\" style=\"width:125px\"\><br /><br />";
+            alertHTML += "<input type=\"button\" onclick=\"clearAllData()\" value=\"Erase Planning Data\"  style=\"width:125px\"\><br />";
+
+            //clearAllData();
             break;
         case "addPortOfCall":
             addPortOfCall();
@@ -466,8 +471,8 @@ function editCurrentDayPOC(targetData) {
     blockPanelTBottomHTML = "";
 
     for (let i = 0; i < activityList[targetData].schedule.length; i++) {
-        blockPanelTBottomHTML += "<div id=\"activity_" + targetData + "_toggle\" style=\"height:50px; width:100%;\"><div style=\"position:relative; float:left; margin-left: 12px; top: 8px; background-color: #eeffeedd; width:35px; height:35px; text-align:center; padding-top:2px; border-radius:4px;\"><img src='./images/checkMark.svg' style=\"height:30px; width:30px;\" /></div>";
-        blockPanelTBottomHTML += "<div style=\"position:relative; float:left; height:20px; width: calc(100% - 55px); top: 16px; background-color:#00FF0055; border-radius: 0px 4px 4px 0px;\"></div></div>";
+        blockPanelTBottomHTML += "<div id=\"activity_" + targetData + i +"_toggle\" style=\"height:50px; width:100%;\"><div onclick=\"removePOCDayActivity(this, '" + targetData +"', "+i+",'stage')\" style=\"position:relative; float:left; margin-left: 12px; top: 8px; background-color: #eeffeedd; width:35px; height:35px; text-align:center; padding-top:2px; border-radius:4px; cursor:pointer;\"><img src='./images/checkMark.svg' style=\"height:30px; width:30px;\" /></div>";
+        blockPanelTBottomHTML += "<div id=\"activity_" + targetData + i +"_stripe\" style=\"position:relative; float:left; height:20px; width: calc(100% - 55px); top: 16px; background-color:#00FF0055; border-radius: 0px 4px 4px 0px;\"></div></div>";
     }
 
     blockPanelTBottomHTML += "<div onclick=\"launchPopUp('trashPOCDay',[" + targetData+","+currentRow + "])\" style=\"position:relative; float:left; left: calc(50% - 150px); background-color: #ffccccdd; width:35px; height:35px; text-align:center; padding-top:2px; border-radius:4px; cursor:pointer;\"><img src='./images/trashBin.svg' style=\"height:30px; width:30px;\" /></div>";
@@ -492,9 +497,35 @@ function editCurrentDayPOC(targetData) {
     blockPanelTBottom.innerHTML = blockPanelTBottomHTML;
 }
 
+function removePOCDayActivity(thisElement, targetData, i, thisAction,) {
+
+    if (thisAction == "stage") {
+        //document.getElementById("activity_" + targetData + "_toggle").innerHTML = "<img src='./images/xMark.svg' style=\"height:30px; width:30px;\" />";
+        //document.getElementById("activity_" + targetData + "_toggle").setAttribute('onclick', "removePOCDayActivity(" + targetData + ", 'clear')")
+        thisElement.innerHTML = "<img src='./images/xMark.svg' style=\"height:30px; width:30px;\" />";
+        thisElement.setAttribute('onclick', "removePOCDayActivity(this,'" + targetData + "', "+i+", 'clear')")
+        document.getElementById("activity_" + targetData + i + "_stripe").style.backgroundColor = "#FF000055";
+        if (!activityList.staged.includes(i)) activityList.staged.push(i);
+    } else if (thisAction == "clear") {
+        //document.getElementById("activity_" + targetData + "_toggle").innerHTML = "<img src='./images/checkMark.svg' style=\"height:30px; width:30px;\" />";
+        //document.getElementById("activity_" + targetData + "_toggle").setAttribute('onclick', "removePOCDayActivity(" + targetData + ", 'stage')")
+        thisElement.innerHTML = "<img src='./images/checkMark.svg' style=\"height:30px; width:30px;\" />";
+        thisElement.setAttribute('onclick', "removePOCDayActivity(this,'" + targetData + "', " + i +", 'stage')")
+        document.getElementById("activity_" + targetData + i + "_stripe").style.backgroundColor = "#00FF0055";
+        if (activityList.staged.includes(i) && activityList.staged.length > 1) {
+            iIndex = activityList.staged.indexOf(i);
+            activityList.staged.splice(iIndex, 1);
+        } else if (activityList.staged.length == 1) {
+            activityList.staged.pop();
+        }
+    }
+    return true;
+}
+
 function cancelEditCurrentDayPOC(targetData) {
     generatePOCList();
     toggleFlags.rolloutID = null;
+    activityList.staged.length = 0;
     viewdaySelectedOverlay((""+targetData), document.getElementById("dayItem_" + targetData), (activityList[""+targetData].schedule.length * 50) + 88);
     return true;
 }
@@ -513,6 +544,7 @@ function trashPOCDay(targetData, portIndex,) {
 
     generatePOCList();
     console.log("exiting trashPOCDay()");
+    return true;
 }
 
 

@@ -58,7 +58,7 @@ const portList = [
 //activitylist['-1'].schedule[0].location='Beach'
 //activitylist['-1'].schedule[1].activity = 'Lunch'
 
-const activityList = {
+const activityList = {'staged':[],
     '-1': { "city": "Lisbon", "schedule": [{ "location": "Beach", "activity": '10', "start": "13:00", "end": "18:00", "notes": "anything noteworthy" }, { "location": "Hotel Restaurant", "activity": "12", "start": "18:30", 'end': "20:00", "notes":"anything" }] },
     '0': { "city": "Lisbon", "schedule": [{ "location": "Hotel", "activity": '12', "start": "9:00", "end": "10:00", "notes": "anything noteworthy" }] },
     '1': { "city": "At Sea", "schedule": [{ "location": "Main Dining Room", "activity": '12', "start": "8:00", "end": "9:30", "notes": "anything noteworthy" }] },
@@ -181,11 +181,14 @@ function validateForm(frmItem, type, charLimit) {
 }
 
 function clearAllData() {
-    let alertHTML = ""
-    alertHTML = "<span style=\"font-size:24px; font-weight:bold; color:red;\">- Warning -</span><br />";
-    alertHTML += "This operation will irrevocably erase all data from <strong>this app</strong> and re-load the default values.<br /><br />";
-    alertHTML += "<input type=\"button\" onclick=\"closePopUp()\" value=\"* Cancel *\" style=\"width:125px\"\><br /><br />";
-    alertHTML += "<input type=\"button\" onclick=\"closePopUp(); localStorage.clear(); window.location.href = window.location.href;\" value=\"Erase Planning Data\"  style=\"width:125px\"\><br />";
-    document.getElementById("popUpPanel").innerHTML = alertHTML;
-    document.getElementById("popUpPanel").style.display = "block";
+    //let alertHTML = ""
+   // alertHTML = "<span style=\"font-size:24px; font-weight:bold; color:red;\">- Warning -</span><br />";
+    //alertHTML += "This operation will irrevocably erase all data from <strong>this app</strong> and re-load the default values.<br /><br />";
+   // alertHTML += "<input type=\"button\" onclick=\"closePopUp()\" value=\"* Cancel *\" style=\"width:125px\"\><br /><br />";
+    //alertHTML += "<input type=\"button\" onclick=\"closePopUp(); localStorage.clear(); window.location.href = window.location.href;\" value=\"Erase Planning Data\"  style=\"width:125px\"\><br />";
+    //document.getElementById("popUpPanel").innerHTML = alertHTML;
+    //document.getElementById("popUpPanel").style.display = "block";
+    localStorage.clear();
+    closePopUp();
+    window.location.href = window.location.href;
 }
