@@ -420,7 +420,8 @@ function seedNewDayActivity(seedData) {
 function appendNewDayActivity(targetData, rollCapId, rollHeight) {
     const defaultData = { "location": "Location(ie. Jim's Cantina)", "activity": "0", "start": "8:00", "end": "9:30", "notes": "Notes..." };
     activityList[targetData].schedule.push(defaultData);
-    viewdaySelectedOverlay(targetData, document.getElementById(rollCapId), rollHeight + 50, true);
+    //regenerate list and view/extend IFF rollCap and height are provided
+    if (rollCapId != null && rollHeight != null) viewdaySelectedOverlay(targetData, document.getElementById(rollCapId), rollHeight + 50, true);
 
 }
 
@@ -476,7 +477,7 @@ function editCurrentDayPOC(targetData) {
     }
 
     blockPanelTBottomHTML += "<div onclick=\"launchPopUp('trashPOCDay',[" + targetData+","+currentRow + "])\" style=\"position:relative; float:left; left: calc(50% - 150px); background-color: #ffccccdd; width:35px; height:35px; text-align:center; padding-top:2px; border-radius:4px; cursor:pointer;\"><img src='./images/trashBin.svg' style=\"height:30px; width:30px;\" /></div>";
-    blockPanelTBottomHTML += "<div style=\"position:relative; float:left; left: calc(50% - 50px); background-color: #eeffeedd; width:35px; height:35px; text-align:center; padding-top:2px; border-radius:4px; cursor:pointer;\"><img src='./images/checkMark.svg' style=\"height:30px; width:30px;\" /></div>";
+    blockPanelTBottomHTML += "<div onclick=\"acceptEditCurrentDayPOC(" + targetData +")\"style=\"position:relative; float:left; left: calc(50% - 50px); background-color: #eeffeedd; width:35px; height:35px; text-align:center; padding-top:2px; border-radius:4px; cursor:pointer;\"><img src='./images/checkMark.svg' style=\"height:30px; width:30px;\" /></div>";
     blockPanelTBottomHTML += "<div onclick=\"cancelEditCurrentDayPOC("+ targetData +")\" style=\"position:relative; float:left; left: calc(50% + 15px); background-color: #ffeeeedd; width:35px; height:35px; padding-top:2px; border-radius:4px; cursor:pointer;\"><img src='./images/xMark.svg' style=\"position:relative; margin-left:4px; height:30px; width:30px;\" /></div>";
 
     portHeaderDiv_Day.innerHTML = "<input id=\"POC_Edit_Day\" type=\"text\" value=\"" + portItem[0] + "\" oninput=\"validateForm(this,'number')\" style=\"font-size:18px; width:19px; text-align:center;\" />";
@@ -500,17 +501,13 @@ function editCurrentDayPOC(targetData) {
 function removePOCDayActivity(thisElement, targetData, i, thisAction,) {
 
     if (thisAction == "stage") {
-        //document.getElementById("activity_" + targetData + "_toggle").innerHTML = "<img src='./images/xMark.svg' style=\"height:30px; width:30px;\" />";
-        //document.getElementById("activity_" + targetData + "_toggle").setAttribute('onclick', "removePOCDayActivity(" + targetData + ", 'clear')")
         thisElement.innerHTML = "<img src='./images/xMark.svg' style=\"height:30px; width:30px;\" />";
-        thisElement.setAttribute('onclick', "removePOCDayActivity(this,'" + targetData + "', "+i+", 'clear')")
+        thisElement.setAttribute('onclick', "removePOCDayActivity(this,'" + targetData + "', " + i + ", 'clear')")
         document.getElementById("activity_" + targetData + i + "_stripe").style.backgroundColor = "#FF000055";
         if (!activityList.staged.includes(i)) activityList.staged.push(i);
     } else if (thisAction == "clear") {
-        //document.getElementById("activity_" + targetData + "_toggle").innerHTML = "<img src='./images/checkMark.svg' style=\"height:30px; width:30px;\" />";
-        //document.getElementById("activity_" + targetData + "_toggle").setAttribute('onclick', "removePOCDayActivity(" + targetData + ", 'stage')")
         thisElement.innerHTML = "<img src='./images/checkMark.svg' style=\"height:30px; width:30px;\" />";
-        thisElement.setAttribute('onclick', "removePOCDayActivity(this,'" + targetData + "', " + i +", 'stage')")
+        thisElement.setAttribute('onclick', "removePOCDayActivity(this,'" + targetData + "', " + i + ", 'stage')")
         document.getElementById("activity_" + targetData + i + "_stripe").style.backgroundColor = "#00FF0055";
         if (activityList.staged.includes(i) && activityList.staged.length > 1) {
             iIndex = activityList.staged.indexOf(i);
@@ -518,7 +515,17 @@ function removePOCDayActivity(thisElement, targetData, i, thisAction,) {
         } else if (activityList.staged.length == 1) {
             activityList.staged.pop();
         }
+    } else if (thisAction == "remove") {
+        if (activityList.staged.length > 0) {
+            for (item of activityList.staged) {
+                activityList["" + targetData].schedule.splice(item, 1); // removes items assuming list in view has same ordering as data in activitiesList.schedule -> This should be guaranteed
+            }
+            activityList.staged.length = 0;  // clears staging list
+            activityList["" + targetData].schedule.sort((a, b) => a.start - b.start);  // resorts remaining items - If there were edits prior to removal, the ordering could become unknown
+        }
+        if (activityList["" + targetData].schedule.length == 0) appendNewDayActivity(targetData, null, null); //schedule.length should not be 0, re-seed with default entry if schedule is empty
     }
+    
     return true;
 }
 
@@ -529,6 +536,17 @@ function cancelEditCurrentDayPOC(targetData) {
     viewdaySelectedOverlay((""+targetData), document.getElementById("dayItem_" + targetData), (activityList[""+targetData].schedule.length * 50) + 88);
     return true;
 }
+
+function acceptEditCurrentDayPOC(targetData) {
+
+    removePOCDayActivity(null, targetData, null, "remove");
+    generatePOCList();
+    toggleFlags.rolloutID = null;
+    viewdaySelectedOverlay(("" + targetData), document.getElementById("dayItem_" + targetData), (activityList["" + targetData].schedule.length * 50) + 88);
+
+    return true;
+}
+
 
 function trashPOCDay(targetData, portIndex,) {
     console.log("entering trashPOCDay()");

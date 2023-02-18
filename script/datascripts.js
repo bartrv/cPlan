@@ -107,16 +107,25 @@ function loadUserData() {
         }
         //generateOverview();
         //generateShipDetails();
-        portList.sort(function (a, b) { return parseInt(a) - parseInt(b) });
-        activityList.staged.length = 0;
+        portList.sort(function (a, b) { return parseInt(a) - parseInt(b) }); // Sort Port of Call List by [0] - targetData
+        activityList.staged.length = 0; // clear POC activity removal staging list
+        // sort daily activities by start time
+        for (let i = 1; i < activityList.length; i++) {
+            activityList[i].schedule.sort((a, b) => a.start - b.start);
+        }
+
         return true;
     }
 }
 
 function storeUserData() {
     localStorage.setItem("cPlanDataSaved", 0);
-    portList.sort(function (a, b) { return parseInt(a) - parseInt(b) });
-    activityList.staged.length = 0;
+    portList.sort(function (a, b) { return parseInt(a) - parseInt(b) });  // Sort Port of Call List by [0] - targetData
+    activityList.staged.length = 0; // clear POC activity removal staging list
+    // sort daily activities by start time
+    for (let i = 1; i < activityList.length; i++) {
+        activityList[i].schedule.sort((a, b) => a.start - b.start);
+    }
     //let tempToggle = JSON.stringify(toggleFlags);
     //for (const key in toggleFlags) {
     //    toggleFlags[key] = 1;
