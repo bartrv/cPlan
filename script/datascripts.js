@@ -108,6 +108,7 @@ function loadUserData() {
         //generateOverview();
         //generateShipDetails();
         portList.sort(function (a, b) { return parseInt(a) - parseInt(b) });
+        activityList.staged.length = 0;
         return true;
     }
 }
@@ -115,6 +116,7 @@ function loadUserData() {
 function storeUserData() {
     localStorage.setItem("cPlanDataSaved", 0);
     portList.sort(function (a, b) { return parseInt(a) - parseInt(b) });
+    activityList.staged.length = 0;
     //let tempToggle = JSON.stringify(toggleFlags);
     //for (const key in toggleFlags) {
     //    toggleFlags[key] = 1;
