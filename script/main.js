@@ -295,6 +295,9 @@ function launchPopUp(popTarget, targetData) {
     
     //console.log("PopUp=" + popTarget);
     document.getElementById("pupUpInteractionBlocker").style.display = "block";
+    let alertHTML = ""
+    alertHTML = "<span style=\"font-size:24px; font-weight:bold; color:red;\">- Warning -</span><br />";
+    document.getElementById("popUpPanel").style.display = "block";
     switch (popTarget) {
         case "clearAllData":
             clearAllData();
@@ -302,9 +305,13 @@ function launchPopUp(popTarget, targetData) {
         case "addPortOfCall":
             addPortOfCall();
             break;
-        case "daySelectedOverlay":
-            viewdaySelectedOverlay(targetData);
-        }
+        case "trashPOCDay":
+            alertHTML += "This operation will irrevocably trash <strong>Port of Call " + targetData[0] + "</strong> and all scheduled activities for that day.<br /><br />";
+            alertHTML += "<input type=\"button\" onclick=\"closePopUp()\" value=\"* Cancel *\" style=\"width:125px\"\><br /><br />";
+            alertHTML += "<input type=\"button\" onclick=\"closePopUp(); trashPOCDay("+targetData[0]+", "+targetData[1]+");\" value=\"Trash Port/Day\"  style=\"width:125px\"\><br />";
+     
+    }
+    document.getElementById("popUpPanel").innerHTML = alertHTML;
     return true;
 }
 
@@ -401,7 +408,7 @@ function addPortOfCall(addNewPOCButton) {
 }
 
 function seedNewDayActivity(seedData) {
-    const defaultData = { "city": seedData[1].value, "schedule": [{ "location": "Location(ie. Jim's Cantina)", "activity": "0", "start": "7:00", "end": "9:00", "notes": "Notes..." }] };
+    const defaultData = { "city": seedData[1], "schedule": [{ "location": "Location(ie. Jim's Cantina)", "activity": "0", "start": "7:00", "end": "9:00", "notes": "Notes..." }] };
     activityList[seedData[0]] = defaultData;
 }
 
@@ -430,6 +437,13 @@ function editCurrentDayPOC(targetData) {
     const portDateDiv = document.getElementById('daySelectHeader_' + targetData + '_Date');
     const portTerminalDiv = document.getElementById('daySelectHeader_' + targetData + '_Terminal');
 
+    let currentRow = 0;
+    for (n of portList) {
+        if (n[0] == targetData) { break; }
+        currentRow += 1;
+    }
+    const portItem = portList[currentRow];
+
     portHeader.setAttribute('onclick', null);
     portHeader.style.cursor = "auto";
     document.getElementById('portOfCallList').appendChild(blockPanelTop);
@@ -456,18 +470,10 @@ function editCurrentDayPOC(targetData) {
         blockPanelTBottomHTML += "<div style=\"position:relative; float:left; height:20px; width: calc(100% - 55px); top: 16px; background-color:#00FF0055; border-radius: 0px 4px 4px 0px;\"></div></div>";
     }
 
+    blockPanelTBottomHTML += "<div onclick=\"launchPopUp('trashPOCDay',[" + targetData+","+currentRow + "])\" style=\"position:relative; float:left; left: calc(50% - 150px); background-color: #ffccccdd; width:35px; height:35px; text-align:center; padding-top:2px; border-radius:4px; cursor:pointer;\"><img src='./images/trashBin.svg' style=\"height:30px; width:30px;\" /></div>";
     blockPanelTBottomHTML += "<div style=\"position:relative; float:left; left: calc(50% - 50px); background-color: #eeffeedd; width:35px; height:35px; text-align:center; padding-top:2px; border-radius:4px; cursor:pointer;\"><img src='./images/checkMark.svg' style=\"height:30px; width:30px;\" /></div>";
-    blockPanelTBottomHTML += "<div onclick=\"cancelEditCurrentDayPOC("+ targetData +")\" style=\"position:relative; float:left; left: calc(50% + 15px); background-color: #ffeeeedd; width:35px; height:35px; text-align:center; padding-top:2px; border-radius:4px; cursor:pointer;\"><img src='./images/xMark.svg' style=\"height:30px; width:30px;\" /></div>";
+    blockPanelTBottomHTML += "<div onclick=\"cancelEditCurrentDayPOC("+ targetData +")\" style=\"position:relative; float:left; left: calc(50% + 15px); background-color: #ffeeeedd; width:35px; height:35px; padding-top:2px; border-radius:4px; cursor:pointer;\"><img src='./images/xMark.svg' style=\"position:relative; margin-left:4px; height:30px; width:30px;\" /></div>";
 
-
-
-    let currentRow = 0;
-    for (n of portList) {
-        if (n[0] == targetData) { break; }
-        currentRow += 1;
-    }
-
-    const portItem = portList[currentRow];
     portHeaderDiv_Day.innerHTML = "<input id=\"POC_Edit_Day\" type=\"text\" value=\"" + portItem[0] + "\" oninput=\"validateForm(this,'number')\" style=\"font-size:18px; width:19px; text-align:center;\" />";
     portHeaderDiv_CC.innerHTML = "<input id=\"POC_Edit_City\" type=\"text\" value=\"" + portItem[1] + "\" style=\"width:120px;\" oninput=\"validateForm(this,'plainText')\" />, <input id=\"POC_Edit_Country\" type=\"text\" value=\"" + portItem[2] + "\" style=\"width:120px;\" oninput=\"validateForm(this,'plainText')\" />";
     portArrivalDiv.innerHTML = "<input id=\"POC_Edit_Arrival\" type=\"text\" value=\"" + portItem[4] + "\" style=\"width:75px;\" oninput=\"validateForm(this,'time24')\" />";
@@ -492,6 +498,23 @@ function cancelEditCurrentDayPOC(targetData) {
     viewdaySelectedOverlay((""+targetData), document.getElementById("dayItem_" + targetData), (activityList[""+targetData].schedule.length * 50) + 88);
     return true;
 }
+
+function trashPOCDay(targetData, portIndex,) {
+    console.log("entering trashPOCDay()");
+    console.log("targetData=" + targetData + ", portIndex=" + portIndex);
+    //console.log("portList.splice("+portIndex+",1)");
+    //console.log("delete activityList['"+targetData+"']");
+    // array.splice(a,b); --> take 'array' from index 'a' remove 'b' items, ie. (1,1) means remove 1 item, at array[1]; (2,3) means remove items [2],[3], and[4]
+    // presumably this action is copying the back of the array after the operation, "pop-ing" all elements starting with 'a' and pushing (splicing) the copied array back onto the original
+    portList.splice(portIndex, 1);
+    delete activityList["" + targetData];
+    toggleFlags.rolloutID = null;
+    portList.sort();
+
+    generatePOCList();
+    console.log("exiting trashPOCDay()");
+}
+
 
 function editCurrentDayActivity(targetData, i) {
     console.log("Entering editCurrentDayActivity()");
