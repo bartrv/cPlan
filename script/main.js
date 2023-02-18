@@ -168,7 +168,7 @@ function generatePOCList() {
     
     
     for (const portItem of portList) {
-        //POCHTML += "<div id=\"dayItem_" + portItem[0] + "\" style=\"position:relative; cursor:pointer; height:40px;\" onmouseover=\"\" onmouseout=\"\" onclick=\"launchPopUp('daySelectedOverlay'," + portItem[0] +")\">";
+
         POCHTML += "<div id=\"dayItem_" + portItem[0] + "\" style=\"position:relative; width:100%; cursor:pointer; height:40px;\" onclick=\"viewdaySelectedOverlay(" + portItem[0] +", this, " + ((activityList[portItem[0]].schedule.length*50)+46+42) + ")\">"; //((# of activities tin this day's schedule)*50(row height(40)margin(6)border(4))+header(46)+42(addBtn))
         POCHTML += "<div class=\"boxStyle_01\" style=\"position:relative; float:left; background-color:#aaccee; width:27px; height:100%; text-align:center; font-size:24px; border-radius:5px 3px 3px 20px;\">";
         POCHTML += "<div id=\"dayItem_"+ portItem[0] + "_Day\" style=\"padding-top:5px;\">" + portItem[0] + "</div></div>";
@@ -456,8 +456,8 @@ function editCurrentDayPOC(targetData) {
         blockPanelTBottomHTML += "<div style=\"position:relative; float:left; height:20px; width: calc(100% - 55px); top: 16px; background-color:#00FF0055; border-radius: 0px 4px 4px 0px;\"></div></div>";
     }
 
-    blockPanelTBottomHTML += "<div style=\"position:relative; float:left; left: calc(50% - 50px); background-color: #eeffeedd; width:35px; height:35px; text-align:center; padding-top:2px; border-radius:4px;\"><img src='./images/checkMark.svg' style=\"height:30px; width:30px;\" /></div>";
-    blockPanelTBottomHTML += "<div style=\"position:relative; float:left; left: calc(50% + 15px); background-color: #ffeeeedd; width:35px; height:35px; text-align:center; padding-top:2px; border-radius:4px;\"><img src='./images/xMark.svg' style=\"height:30px; width:30px;\" /></div>";
+    blockPanelTBottomHTML += "<div style=\"position:relative; float:left; left: calc(50% - 50px); background-color: #eeffeedd; width:35px; height:35px; text-align:center; padding-top:2px; border-radius:4px; cursor:pointer;\"><img src='./images/checkMark.svg' style=\"height:30px; width:30px;\" /></div>";
+    blockPanelTBottomHTML += "<div onclick=\"cancelEditCurrentDayPOC("+ targetData +")\" style=\"position:relative; float:left; left: calc(50% + 15px); background-color: #ffeeeedd; width:35px; height:35px; text-align:center; padding-top:2px; border-radius:4px; cursor:pointer;\"><img src='./images/xMark.svg' style=\"height:30px; width:30px;\" /></div>";
 
 
 
@@ -470,13 +470,13 @@ function editCurrentDayPOC(targetData) {
     const portItem = portList[currentRow];
     portHeaderDiv_Day.innerHTML = "<input id=\"POC_Edit_Day\" type=\"text\" value=\"" + portItem[0] + "\" oninput=\"validateForm(this,'number')\" style=\"font-size:18px; width:19px; text-align:center;\" />";
     portHeaderDiv_CC.innerHTML = "<input id=\"POC_Edit_City\" type=\"text\" value=\"" + portItem[1] + "\" style=\"width:120px;\" oninput=\"validateForm(this,'plainText')\" />, <input id=\"POC_Edit_Country\" type=\"text\" value=\"" + portItem[2] + "\" style=\"width:120px;\" oninput=\"validateForm(this,'plainText')\" />";
-    portArrivalDiv.innerHTML = "<input id=\"POC_Edit_Arrival\" type=\"text\" value=\"" + portItem[4] + "\" style=\"width:75px;\" oninput=\"validateForm(this,'plainText')\" />";
+    portArrivalDiv.innerHTML = "<input id=\"POC_Edit_Arrival\" type=\"text\" value=\"" + portItem[4] + "\" style=\"width:75px;\" oninput=\"validateForm(this,'time24')\" />";
     portArrivalDiv.style.padding = "0px";
-    portDepartureDiv.innerHTML = "<input id=\"POC_Edit_Departure\" type=\"text\" value=\"" + portItem[5] + "\" style=\"width: 75px; text-align: right;\"oninput=\"validateForm(this,'plainText')\" />";
+    portDepartureDiv.innerHTML = "<input id=\"POC_Edit_Departure\" type=\"text\" value=\"" + portItem[5] + "\" style=\"width: 75px; text-align: right;\"oninput=\"validateForm(this,'time24')\" />";
     portDepartureDiv.style.padding = "0px";
-    portDateDiv.innerHTML = "<input id=\"POC_Edit_Departure\" type=\"text\" value=\"" + portItem[3] + "\" oninput=\"validateForm(this,'plainText')\" style=\"width:75px;\" />";
+    portDateDiv.innerHTML = "<input id=\"POC_Edit_Departure\" type=\"text\" value=\"" + portItem[3] + "\" oninput=\"validateForm(this,'dateAsText')\" style=\"width:75px;\" />";
     portDateDiv.style.padding = '0px';
-    portTerminalDiv.innerHTML = "Term:<input id=\"POC_Edit_Terminal\" type=\"text\" value=\"" + portItem[6] + "\" oninput=\"validateForm(this,'plainText')\" style=\"width:24px; text-align:right;\"/>";
+    portTerminalDiv.innerHTML = "Term:<input id=\"POC_Edit_Terminal\" type=\"text\" value=\"" + portItem[6] + "\" oninput=\"validateForm(this,'number')\" style=\"width:24px; text-align:right;\"/>";
     portTerminalDiv.style.padding = '0px';
 
     blockPanelTop.style.height = (42 + ((currentRow) * 44)) + "px";
@@ -487,7 +487,9 @@ function editCurrentDayPOC(targetData) {
 }
 
 function cancelEditCurrentDayPOC(targetData) {
-
+    generatePOCList();
+    toggleFlags.rolloutID = null;
+    viewdaySelectedOverlay((""+targetData), document.getElementById("dayItem_" + targetData), (activityList[""+targetData].schedule.length * 50) + 88);
     return true;
 }
 
