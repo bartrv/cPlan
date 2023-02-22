@@ -106,7 +106,7 @@ function mouseClick(mouseObject, actionTarget) {
         console.log("Main Menu Button");
         for (const [key, value] of Object.entries(toggleFlags)) {
             //console.log("key = "+key+", value = "+value);
-            if ((key != actionTarget) && (value == -1) && ! (key == "rolloutID")) {
+            if ((key != actionTarget) && (value == -1) && !(key == "rolloutID")) {
                 console.log("in if block: sending-->" + document.getElementById("btn_" + key) + ", "+key);
 
                 document.getElementById(key).style.right = "calc(-100% + 47px)";
