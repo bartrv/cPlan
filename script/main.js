@@ -525,7 +525,7 @@ function removePOCDayActivity(thisElement, targetData, i, thisAction,) {
         }
         if (activityList["" + targetData].schedule.length == 0) appendNewDayActivity(targetData, null, null); //schedule.length should not be 0, re-seed with default entry if schedule is empty
     }
-    
+    storeUserData();
     return true;
 }
 
@@ -542,6 +542,7 @@ function acceptEditCurrentDayPOC(targetData) {
     removePOCDayActivity(null, targetData, null, "remove");
     generatePOCList();
     toggleFlags.rolloutID = null;
+    storeUserData();
     viewdaySelectedOverlay(("" + targetData), document.getElementById("dayItem_" + targetData), (activityList["" + targetData].schedule.length * 50) + 88);
 
     return true;
@@ -559,7 +560,7 @@ function trashPOCDay(targetData, portIndex,) {
     delete activityList["" + targetData];
     toggleFlags.rolloutID = null;
     portList.sort();
-
+    storeUserData();
     generatePOCList();
     console.log("exiting trashPOCDay()");
     return true;
@@ -588,7 +589,7 @@ function editCurrentDayActivity(targetData, i) {
             document.getElementById("buttonAImg" + targetData + i).style.opacity = "0.3";
             document.getElementById("buttonAImg" + targetData + i).setAttribute('onclick', null);
 
-            document.getElementById("buttonB" + targetData + i).innerHTML = "<img src=\"images/checkMark.svg\" style=\"width: 25px; height: 25px; cursor: pointer;\" />";
+            document.getElementById("buttonB" + targetData + i).innerHTML = "<img src=\"images/checkMark.svg\" onclick=\"closeCurrentDayActivityEdit("+ targetData +", "+ i +", true)\" style=\"width: 25px; height: 25px; cursor: pointer;\" />";
             document.getElementById("formDayActivityItemFooter" + targetData + i).style.display = "block";
             document.getElementById("dayItem" + targetData + i + "_start").focus();
         }
@@ -596,7 +597,8 @@ function editCurrentDayActivity(targetData, i) {
     document.getElementById('dayActivityFooter').style.display = "none";
 }
 
-function closeCurrentDayActivityEdit(targetData, i) {
+
+function closeCurrentDayActivityEdit(targetData, i, acceptEdit=false) {
     console.log("Entering closeCurrentDayActivityEdit()");
     document.activeElement.blur();
     for (let n = 0; n < activityList[targetData].schedule.length; n++) {
@@ -610,10 +612,18 @@ function closeCurrentDayActivityEdit(targetData, i) {
 
         } else {
             for (const post$ of ["_start", "_end", "_location", "_activity", "_notes"]) {
-                document.getElementById("dayItem" + targetData + i + post$).disabled = true;
-                document.getElementById("dayItem" + targetData + i + post$).style.backgroundColor = "#ffffff11";
-                document.getElementById("dayItem" + targetData + i + post$).style.border = "0px";
-                document.getElementById("dayItem" + targetData + i + post$).style.color = "#222299";
+                let targetActivityElement = document.getElementById("dayItem" + targetData + i + post$);
+                targetActivityElement.disabled = true;
+                targetActivityElement.style.backgroundColor = "#ffffff11";
+                targetActivityElement.style.border = "0px";
+                targetActivityElement.style.color = "#222299";
+                if (acceptEdit == false) {
+                    if (targetActivityElement.type == "text" || targetActivityElement.type == 'textarea') {
+                        targetActivityElement.value = activityList["" + targetData].schedule[i][post$.match("[^_]+")[0]];
+                    } else if (targetActivityElement.type == "select-one") {
+                        targetActivityElement.selectedIndex = activityList["" + targetData].schedule[i][post$.match("[^_]+")]
+                    }
+                }
             }
             document.getElementById("buttonAImg" + targetData + i).style.cursor = "pointer";
             document.getElementById("buttonAImg" + targetData + i).style.opacity = "1.0";
@@ -623,6 +633,8 @@ function closeCurrentDayActivityEdit(targetData, i) {
             document.getElementById("formDayActivityItemFooter" + targetData + i).style.display = "none";
         }
     }
+    if (acceptEdit == true) storeUserData();
+
     document.getElementById('dayActivityFooter').style.display = "block";
 }
 
@@ -687,7 +699,7 @@ function viewdaySelectedOverlay(targetData, rollCap, rollHeight, itemAppended) {
             }
             daySelectedHTML += "</select></td><td id=\"buttonB" + targetData + i + "\" rowspan=\"2\" style=\"width:27px;padding-top:10px;\"><img id=\"buttonBImg" + targetData + i + "\" src=\"./images/pencilEdit.svg\" style=\"height: 25px; width: 25px; cursor: pointer; opacity: 1\" onclick=\"editCurrentDayActivity(" + targetData + ", " + i + ")\" /></td></tr>";
             daySelectedHTML += "<tr><td style=\"width:42px; background-color:#a0deff99;\"><input id=\"dayItem" + targetData + i + "_end\" type=\"text\" value=\"" + portSchedule[i].end + "\" style=\"width:41px; font-size:16px;\" disabled /></td><td colspan=\"3\" style=\"font-size:14px;\"><textarea id=\"dayItem" + targetData + i + "_notes\" style=\"height:17px; font-size:13px; resize:none;\" disabled>" + portSchedule[i].notes + "</textarea></td></tr>";
-            daySelectedHTML += "</table></form><div id=\"formDayActivityItemFooter" + targetData + i + "\" style=\"height:30px; width:50%; margin:auto; text-align:center; display:none;\"><img src=\"./images/xMark.svg\" style=\"position:relative; float:left; width:25px; height:25px; cursor:pointer;\"  onclick=\"closeCurrentDayActivityEdit(" + targetData + ", " + i + ")\"/><img src=\"./images/checkMark.svg\" style=\"position:relative; float:right; width:25px; height:25px\" /></div>";
+            daySelectedHTML += "</table></form><div id=\"formDayActivityItemFooter" + targetData + i + "\" style=\"height:30px; width:50%; margin:auto; text-align:center; display:none;\"><img src=\"./images/trashBin.svg\" style=\"position:relative; float:left; width:25px; height:25px\" /><img src=\"./images/xMark.svg\" style=\"position:relative; float:right; width:25px; height:25px; cursor:pointer;\"  onclick=\"closeCurrentDayActivityEdit(" + targetData + ", " + i + ", false)\"/></div>";
         }
         daySelectedHTML += "<div id=\"dayActivityFooter\" style=\"width: 55%; margin-top:2px;\">";
         daySelectedHTML += "<div id=\"dayActivityAdd\" class=\"dayActivityItem\" style=\"float:left; margin-left:10px; width:28px; height: 28px; text-align:center; background-color: #ffffffaa; font-size:24px; cursor:pointer;\" onclick=\"appendNewDayActivity(" + targetData + ", '" + rollCap.id + "', " + rollHeight + ")\">+</div>";
