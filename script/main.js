@@ -623,6 +623,12 @@ function closeCurrentDayActivityEdit(targetData, i, acceptEdit=false) {
                     } else if (targetActivityElement.type == "select-one") {
                         targetActivityElement.selectedIndex = activityList["" + targetData].schedule[i][post$.match("[^_]+")]
                     }
+                } else if (acceptEdit == true) {
+                    if (targetActivityElement.type == "text" || targetActivityElement.type == 'textarea') {
+                        activityList["" + targetData].schedule[i][post$.match("[^_]+")] = targetActivityElement.value;
+                    } else if (targetActivityElement.type == "select-one") {
+                        activityList["" + targetData].schedule[i][post$.match("[^_]+")] = targetActivityElement.selectedIndex;
+                    }
                 }
             }
             document.getElementById("buttonAImg" + targetData + i).style.cursor = "pointer";

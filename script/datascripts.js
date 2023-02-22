@@ -37,7 +37,7 @@
 
 const toggleFlags = { "shipDetails": 1, "portOfCallList": 1, "travelInfo": 1, "emergancyInfo": 1, "configOptions": 1, "rolloutID": null };
 
-const tripOverViewList = {
+let tripOverViewList = {
     "tripName": "Mediterranean Cruise", "duration": "12",
     "dateStart": "2023/06/13", "dateEnd": "2023/06/25", "embarkationDate": "2023/06/14",
     "debarkationDate": "2023/06/23", "cruiseLine": "Norwegian Cruise Line", "cruiseLineCommon": "Norwegian", "cruiseLineAbbr": "NCL", "shipName": "Getaway",
@@ -47,7 +47,7 @@ const tripOverViewList = {
 };
 
 // [Day, City, Country, Date, Arrival, Departure, Terminal]
-const portList = [
+let portList = [
     ['-1', 'Lisbon', 'Portugal', '2023/06/14', '18:00', '24:00', '0'],
     ['0', 'Lisbon', 'Portugal', '2023/06/15', '00:00', '20:00', '12'],
     ['1', 'At Sea', 'NCL Getaway', '2023/06/16', '00:00', '24:00', '0']
@@ -58,20 +58,20 @@ const portList = [
 //activitylist['-1'].schedule[0].location='Beach'
 //activitylist['-1'].schedule[1].activity = 'Lunch'
 
-const activityList = {'staged':[],
+let activityList = {'staged':[],
     '-1': { "city": "Lisbon", "schedule": [{ "location": "Beach", "activity": '10', "start": "13:00", "end": "18:00", "notes": "anything noteworthy" }, { "location": "Hotel Restaurant", "activity": "12", "start": "18:30", 'end': "20:00", "notes":"anything" }] },
     '0': { "city": "Lisbon", "schedule": [{ "location": "Hotel", "activity": '12', "start": "9:00", "end": "10:00", "notes": "anything noteworthy" }] },
     '1': { "city": "At Sea", "schedule": [{ "location": "Main Dining Room", "activity": '12', "start": "8:00", "end": "9:30", "notes": "anything noteworthy" }] },
 };
 
 
-const emergencyDataList = [];
+let emergencyDataList = [];
 
-const activityTypeList = ['Activity...', 'Bus Tour', 'Check-in', 'Check-out', 'Dancing', 'Entertainment', 'Excursion', 'Free time', 'Gambling',
+let activityTypeList = ['Activity...', 'Bus Tour', 'Check-in', 'Check-out', 'Dancing', 'Entertainment', 'Excursion', 'Free time', 'Gambling',
     'Group Tour', 'Hang Out', 'Hiking', 'Eat/Drink', 'Planning', 'Private Tour', 'Reading', 'SCUBA', 'Shopping', 'Sleep',
     'Snorkling', 'Social', 'Swimming', 'Tasting', 'Transit', 'Walking', 'Wiki-Tour', 'Workout'];
 
-const dataList = { "isDataSaved": 0, "tripOverViewList": tripOverViewList, "portList": portList, "activityList": activityList, "emergencyDataList": emergencyDataList, "activityTypeList": activityTypeList };
+let dataList = { "isDataSaved": 0, "tripOverViewList": tripOverViewList, "portList": portList, "activityList": activityList, "emergencyDataList": emergencyDataList, "activityTypeList": activityTypeList };
 
 function loadUserData() {
     console.log("cPlanDataSaved:" + localStorage.getItem("cPlanDataSaved"));
