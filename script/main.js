@@ -193,6 +193,22 @@ function generateTravelInfoPanel() {
 }
 
 function generateEmergencyPanel() {
+    console.log("entering-> generateEmergencyPanel()");
+    let EmgcyHTML = "";
+    EmgcyHTML += "<div id=\"emergencyPanelHeader\" class=\"boxStyle_01\" style=\"width: calc(100% - 5px); background-color:#500; border: #b00 solid 1px; height:35px;\">";
+    EmgcyHTML += "<div style=\"text-align:center; font-weight:bold; color:#fee; padding-top:7px\">Emergency Information</div></div>";
+
+    let i;
+    for (item of emergencyDataList) {
+        EmgcyHTML += "<div id=\"emgcyGroup_"+item[0]+"\" class=\"boxStyle_01\" style=\"position:relative; margin: 4px auto 0px auto; width: calc(100% - 15px); background-color:#500; border: #b00 solid 1px; padding:3px;\">";
+        for (i = 1; i < item.length; i++) {
+            EmgcyHTML += "<div style=\"color:#ffffffee\">" + item[i][0] + ": <input type=\"text\" value=\"" + item[i][1] +"\" /></div>";
+        }
+        EmgcyHTML += "</div>"
+    }
+
+    document.getElementById('emergancyInfo').innerHTML = EmgcyHTML;
+
     return true;
 }
 
@@ -425,9 +441,6 @@ function appendNewDayActivity(targetData, rollCapId, rollHeight) {
 
 }
 
-function deleteCurrentActivity(targetData) {
-    return true;
-}
 
 function editCurrentDayPOC(targetData) {
     portList.sort(function (a, b) { return parseInt(a) - parseInt(b) });

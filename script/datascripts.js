@@ -65,7 +65,10 @@ let activityList = {'staged':[],
 };
 
 
-let emergencyDataList = [];
+let emergencyDataList = [["Data Set 1", ["title 1", "Information 1"], ["title 2", "Information 2"], ["title 3", "Information 3"]],
+    ["Data Set 2", ["title 1", "Information 1"], ["title 2", "Information 2"]],
+    ["Data Set 3", ["title 1", "Information 1"]]
+];
 
 let activityTypeList = ['Activity...', 'Bus Tour', 'Check-in', 'Check-out', 'Dancing', 'Entertainment', 'Excursion', 'Free time', 'Gambling',
     'Group Tour', 'Hang Out', 'Hiking', 'Eat/Drink', 'Planning', 'Private Tour', 'Reading', 'SCUBA', 'Shopping', 'Sleep',
