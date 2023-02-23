@@ -200,11 +200,12 @@ function generateEmergencyPanel() {
 
     let i;
     for (item of emergencyDataList) {
-        EmgcyHTML += "<div id=\"emgcyGroup_"+item[0]+"\" class=\"boxStyle_01\" style=\"position:relative; margin: 4px auto 0px auto; width: calc(100% - 15px); background-color:#500; border: #b00 solid 1px; padding:3px;\">";
+        EmgcyHTML += "<div id=\"emgcyGroup_" + item[0] + "\" class=\"boxStyle_01\" style=\"position:relative; margin: 4px auto 0px auto; width: calc(100% - 15px); background-color:#500; border: #b00 solid 1px; padding:3px;\">";
+        EmgcyHTML += "<table style=\"border-spacing: 0px; border-collapse: separate;\">"
         for (i = 1; i < item.length; i++) {
-            EmgcyHTML += "<div style=\"color:#ffffffee\">" + item[i][0] + ": <input type=\"text\" value=\"" + item[i][1] +"\" /></div>";
+            EmgcyHTML += "<tr><td style=\"color:#ffffffee;padding-right: 5px\">" + item[i][0] + ":</td><td><input type=\"text\" value=\"" + item[i][1] +"\" /></td></tr>";
         }
-        EmgcyHTML += "</div>"
+        EmgcyHTML += "</table></div>"
     }
 
     document.getElementById('emergancyInfo').innerHTML = EmgcyHTML;
