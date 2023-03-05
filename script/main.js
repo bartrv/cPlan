@@ -195,19 +195,27 @@ function generateTravelInfoPanel() {
 function generateEmergencyPanel() {
     console.log("entering-> generateEmergencyPanel()");
     let EmgcyHTML = "";
-    EmgcyHTML += "<div id=\"emergencyPanelHeader\" class=\"boxStyle_01\" style=\"width: calc(100% - 5px); background-color:#500; border: #b00 solid 1px; height:35px;\">";
+    EmgcyHTML += "<div id=\"emergencyPanelHeader\" class=\"boxStyle_01\" style=\"width: calc(100% - 5px); background-color:#600; border: #700 solid 1px; height:35px;\">";
     EmgcyHTML += "<div style=\"text-align:center; font-weight:bold; color:#fee; padding-top:7px\">Emergency Information</div></div>";
 
-    let i;
-    for (item of emergencyDataList) {
-        EmgcyHTML += "<div id=\"emgcyGroup_" + item[0] + "\" class=\"boxStyle_01\" style=\"position:relative; margin: 4px auto 0px auto; width: calc(100% - 15px); background-color:#500; border: #b00 solid 1px; padding:3px;\">";
+    //let i;
+    for (let item = 0; item < emergencyDataList.length; item++) {
+        EmgcyHTML += "<div id=\"emgcyGroup_" + item + "\" class=\"boxStyle_01\" style=\"position:relative; margin: 8px auto 0px auto; width: calc(100% - 15px); background-color:#500; border: #600 solid 1px; border-top:none; padding:0px 3px 3px 3px;\">";
+        EmgcyHTML += "<div id=\"emgcyGroup" + item + "_title\" style=\"position:relative; height:27px; left:-3px; width:calc(100% + 6px); padding-left: 3px; text-align:center; font-size:16px; color: #ffffffee; background-color: #77777799;\">";
+        EmgcyHTML += "<div style=\"position:relative; float:left; background-color:#cceecc44; margin:2px; border:none; padding:1px; height:19px; width: 19px; border-radius:2px;\"><img src=\"./images/pencilEdit.svg\" height=\"19px\" width=\"19px\"></div>";
+        EmgcyHTML += "<div style=\"position:relative; float:left; background-color:#eecccc44; margin:2px; margin-left: 10px; border:none; padding:1px; height:19px; width:19px; border-radius:2px;\"><img src=\"./images/trashBin.svg\" height=\"19px\" width=\"19px\"></div>";
+        EmgcyHTML += emergencyDataList[item][0] + "</div>";
         EmgcyHTML += "<table style=\"border-spacing: 0px; border-collapse: separate;\">"
-        for (i = 1; i < item.length; i++) {
-            EmgcyHTML += "<tr><td style=\"color:#ffffffee;padding-right: 5px\">" + item[i][0] + ":</td><td><input type=\"text\" value=\"" + item[i][1] +"\" /></td></tr>";
-        }
-        EmgcyHTML += "</table></div>"
+        for (let i = 1; i < emergencyDataList[item].length; i++) {
+            EmgcyHTML += "<tr><td><div style=\"background-color:#cceecc77; margin:2px;border:none;padding:1px; height:19px; border-radius:2px;\"><img src=\"./images/pencilEdit.svg\" height=\"19px\" width=\"19px\"></div></td>";
+            EmgcyHTML += "<td><div style=\"background-color:#eecccc77; margin:2px; margin-left: 10px; border:none;padding:1px; height:19px; border-radius:2px;\"><img src=\"./images/trashBin.svg\" height=\"19px\" width=\"19px\"></div></td>";
+            EmgcyHTML += "<td style=\"color:#ffffffee;padding-right: 5px; padding-left: 10px; font-size:15px;\">" + emergencyDataList[item][i][0] + ":</td><td><input type=\"text\" value=\"" + emergencyDataList[item][i][1] + "\" disabled style=\"background-color:#ffffff00; border:none; color:#bbb; font-size:14px;\"/></td></tr>";
+                    }
+        EmgcyHTML += "</table>";
+        EmgcyHTML += "<div id=\"emgcyGroupAdd\" class=\"boxStyle_01\" style=\"float:left; margin-left:0px; margin-top:5px; border-radius:4px; width:20px; height: 20px; color: #ffffffaa; text-align:center; background-color: #77777799; font-size:16px; cursor:pointer;\" onclick=\"emgcyDataEdit.addItem()\">+</div>";
+        EmgcyHTML += "</div>";
     }
-
+    EmgcyHTML += "<div id=\"emgcyGroupAdd\" class=\"boxStyle_01\" style=\"float:left; margin-left:4px; margin-top:5px; width:29px; height: 29px; color: #ffffffaa; text-align:center; background-color: #500; font-size:24px; cursor:pointer;\" onclick=\"emgcyDataEdit.addGroup()\">+</div>";
     document.getElementById('emergancyInfo').innerHTML = EmgcyHTML;
 
     return true;

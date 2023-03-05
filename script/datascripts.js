@@ -206,3 +206,21 @@ function clearAllData() {
     closePopUp();
     window.location.href = window.location.href;
 }
+
+class emgcyDataEdit {
+    addGroup() {
+
+    }
+
+    removeGroup() {
+
+    }
+
+    addItem() {
+
+    }
+
+    removeItem() {
+
+    }
+}
