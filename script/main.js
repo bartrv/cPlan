@@ -202,17 +202,17 @@ function generateEmergencyPanel() {
     for (let item = 0; item < emergencyDataList.length; item++) {
         EmgcyHTML += "<div id=\"emgcyGroup_" + item + "\" class=\"boxStyle_01\" style=\"position:relative; margin: 8px auto 0px auto; width: calc(100% - 15px); background-color:#500; border: #600 solid 1px; border-top:none; padding:0px 3px 3px 3px;\">";
         EmgcyHTML += "<div id=\"emgcyGroup" + item + "_title\" style=\"position:relative; height:27px; left:-3px; width:calc(100% + 6px); padding-left: 3px; text-align:center; font-size:16px; color: #ffffffee; background-color: #77777799;\">";
-        EmgcyHTML += "<div style=\"position:relative; float:left; background-color:#cceecc44; margin:2px; border:none; padding:1px; height:19px; width: 19px; border-radius:2px;\"><img src=\"./images/pencilEdit.svg\" height=\"19px\" width=\"19px\"></div>";
-        EmgcyHTML += "<div style=\"position:relative; float:left; background-color:#eecccc44; margin:2px; margin-left: 10px; border:none; padding:1px; height:19px; width:19px; border-radius:2px;\"><img src=\"./images/trashBin.svg\" height=\"19px\" width=\"19px\"></div>";
+        EmgcyHTML += "<div style=\"position:relative; float:left; background-color:#cceecc44; margin:2px; border:none; padding:1px; height:19px; width: 19px; border-radius:2px; cursor:pointer;\" onclick=\"emgcyDataEdit.editItem(" + item + ", 0)\"><img src=\"./images/pencilEdit.svg\" height=\"19px\" width=\"19px\"></div>";
+        EmgcyHTML += "<div style=\"position:relative; float:left; background-color:#eecccc44; margin:2px; margin-left: 10px; border:none; padding:1px; height:19px; width:19px; border-radius:2px; cursor:pointer;\" onclick=\"emgcyDataEdit.alert(" + item + ", 0)\"><img src=\"./images/trashBin.svg\" height=\"19px\" width=\"19px\"></div>";
         EmgcyHTML += emergencyDataList[item][0] + "</div>";
         EmgcyHTML += "<table style=\"border-spacing: 0px; border-collapse: separate;\">"
         for (let i = 1; i < emergencyDataList[item].length; i++) {
-            EmgcyHTML += "<tr><td><div style=\"background-color:#cceecc77; margin:2px;border:none;padding:1px; height:19px; border-radius:2px;\"><img src=\"./images/pencilEdit.svg\" height=\"19px\" width=\"19px\"></div></td>";
-            EmgcyHTML += "<td><div style=\"background-color:#eecccc77; margin:2px; margin-left: 10px; border:none;padding:1px; height:19px; border-radius:2px;\"><img src=\"./images/trashBin.svg\" height=\"19px\" width=\"19px\"></div></td>";
-            EmgcyHTML += "<td style=\"color:#ffffffee;padding-right: 5px; padding-left: 10px; font-size:15px;\">" + emergencyDataList[item][i][0] + ":</td><td><input type=\"text\" value=\"" + emergencyDataList[item][i][1] + "\" disabled style=\"background-color:#ffffff00; border:none; color:#bbb; font-size:14px;\"/></td></tr>";
+            EmgcyHTML += "<tr><td><div id=\"greenItem"+item+i +"\" style=\"background-color:#cceecc77; margin:2px;border:none;padding:1px; height:19px; border-radius:2px; cursor:pointer;\" onclick=\"emgcyDataEdit.editItem("+ item +","+ i +")\"><img src=\"./images/pencilEdit.svg\" height=\"19px\" width=\"19px\"></div></td>";
+            EmgcyHTML += "<td><div id=\"redItem" + item + i + "\"style=\"background-color:#eecccc77; margin:2px; margin-left: 10px; border:none;padding:1px; height:19px; border-radius:2px; cursor:pointer;\" onclick=\"emgcyDataEdit.alert(" + item + "," + i +")\"><img src=\"./images/trashBin.svg\" height=\"19px\" width=\"19px\"></div></td>";
+            EmgcyHTML += "<td style=\"color:#ffffffee;padding-right: 5px; padding-left: 10px; font-size:15px;\"><div id=\"emgcyLabel_" + item + i + "\">" + emergencyDataList[item][i][0] + ":</div></td><td><input id=\"emgcyData_" + item + i +"\" type=\"text\" value=\"" + emergencyDataList[item][i][1] + "\" disabled style=\"background-color:#ffffff00; border:none; color:#bbb; font-size:14px;\"/></td></tr>";
                     }
         EmgcyHTML += "</table>";
-        EmgcyHTML += "<div id=\"emgcyGroupAdd\" class=\"boxStyle_01\" style=\"float:left; margin-left:0px; margin-top:5px; border-radius:4px; width:20px; height: 20px; color: #ffffffaa; text-align:center; background-color: #77777799; font-size:16px; cursor:pointer;\" onclick=\"emgcyDataEdit.addItem()\">+</div>";
+        EmgcyHTML += "<div id=\"emgcyItemAdd_g"+ item +"\" class=\"boxStyle_01\" style=\"float:left; margin-left:0px; margin-top:5px; border-radius:4px; width:20px; height: 20px; color: #ffffffaa; text-align:center; background-color: #77777799; font-size:16px; cursor:pointer;\" onclick=\"emgcyDataEdit.addItem("+ item +")\">+</div>";
         EmgcyHTML += "</div>";
     }
     EmgcyHTML += "<div id=\"emgcyGroupAdd\" class=\"boxStyle_01\" style=\"float:left; margin-left:4px; margin-top:5px; width:29px; height: 29px; color: #ffffffaa; text-align:center; background-color: #500; font-size:24px; cursor:pointer;\" onclick=\"emgcyDataEdit.addGroup()\">+</div>";
@@ -338,8 +338,20 @@ function launchPopUp(popTarget, targetData) {
         case "trashPOCDay":
             alertHTML += "This operation will irrevocably trash <strong>Port of Call " + targetData[0] + "</strong> and all scheduled activities for that day.<br /><br />";
             alertHTML += "<input type=\"button\" onclick=\"closePopUp()\" value=\"* Cancel *\" style=\"width:125px\"\><br /><br />";
-            alertHTML += "<input type=\"button\" onclick=\"closePopUp(); trashPOCDay("+targetData[0]+", "+targetData[1]+");\" value=\"Trash Port/Day\"  style=\"width:125px\"\><br />";
-     
+            alertHTML += "<input type=\"button\" onclick=\"closePopUp(); trashPOCDay(" + targetData[0] + ", " + targetData[1] + ");\" value=\"Trash Port/Day\"  style=\"width:125px\"\><br />";
+            break;
+        case "emData":
+            if (targetData[1] > 0) {
+                alertHTML += "This operation will irrevocably remove <strong>" + emergencyDataList[targetData[0]][targetData[1]][0] + "</strong>.<br /><br />";
+                alertHTML += "<input type=\"button\" onclick=\"closePopUp();\" value=\"* Cancel *\" style=\"width:125px\"\><br /><br />";
+                alertHTML += "<input type=\"button\" onclick=\"closePopUp(); emgcyDataEdit.removeItem(" + targetData[0] + ", " + targetData[1] + ");\" value=\"Remove Item\"  style=\"width:125px\"\><br />";
+            } else if (targetData[1] == 0) {
+                alertHTML += "This operation will irrevocably remove <strong>The Entire Group:" + emergencyDataList[targetData[0]][0] + "</strong>.<br /><br />";
+                alertHTML += "<input type=\"button\" onclick=\"closePopUp();\" value=\"* Cancel *\" style=\"width:125px\"\><br /><br />";
+                alertHTML += "<input type=\"button\" onclick=\"closePopUp(); emgcyDataEdit.removeGroup(" + targetData[0] + ");\" value=\"Remove Item\"  style=\"width:125px\"\><br />";
+            }
+
+            break;
     }
     document.getElementById("popUpPanel").innerHTML = alertHTML;
     return true;

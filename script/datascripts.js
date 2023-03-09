@@ -39,8 +39,8 @@ const toggleFlags = { "shipDetails": 1, "portOfCallList": 1, "travelInfo": 1, "e
 
 let tripOverViewList = {
     "tripName": "Mediterranean Cruise", "duration": "12",
-    "dateStart": "2023/06/13", "dateEnd": "2023/06/25", "embarkationDate": "2023/06/14",
-    "debarkationDate": "2023/06/23", "cruiseLine": "Norwegian Cruise Line", "cruiseLineCommon": "Norwegian", "cruiseLineAbbr": "NCL", "shipName": "Getaway",
+    "dateStart": "2023/01/01", "dateEnd": "2023/01/13", "embarkationDate": "2023/01/02",
+    "debarkationDate": "2023/01/11", "cruiseLine": "Norwegian Cruise Line", "cruiseLineCommon": "Norwegian", "cruiseLineAbbr": "NCL", "shipName": "Getaway",
     "tonnes": "145,655", "guests": "3963","shpLength":"1068'","maxBeam":"170'","crew":"1646","constructed":"2020 (2014)",
     "embarkatonCity": "Lisbon", "embarkationCountry": "Portugal", "embarkationCountryAbbr": "PRT", "debarkationCity": "Civitavecchia", "debarkationCountry": "Italy", "debarkationCountryAbbr": "ITA",
     "reservationNumber": "1234567890", "stateRoom": "1403", "travelerFName":"Bart","travelerMI":"R","travelerLName":"Voigt","travelerMobileIntnl":"013179979299"
@@ -173,21 +173,19 @@ function storeUserData() {
     console.log("cPlanDataSaved:" + localStorage.getItem("cPlanDataSaved"));
 }
 
-function validateForm(frmItem, type, charLimit) {
+function validateForm(frmItem, type, charLimit = 12) {
     console.log("Validate Form-> value:" + frmItem.value + ", type:" + type + ", Limit:" + charLimit);
-    if (charLimit == undefined) charLimit = 12;
+    //if (charLimit == undefined) charLimit = 12;
     let itemValue = frmItem.value;
     let validOutput = "";
     let matchString = ""
     if (type == 'plainText') matchString = "^[a-zA-Z \\-'.]{0," + charLimit + "}";
     if (type == 'number') matchString = "^[\\d]{0," + charLimit + "}";
-    if (type == 'mixedText') matchString = "^[a-zA-Z \\-'.\\d,@()$?]{0," + charLimit + "}";
+    if (type == 'mixedText') matchString = "^[a-zA-Z \\-'.\\d,@()$?_<>:&%]{0," + charLimit + "}";
     if (type == 'dateAsText') matchString = "^[\\d]{0,4}/{0,1}\\d{0,2}/{0,1}\\d{0,2}";
     if (type == 'time24') matchString = "^\\d{1,2}:{0,1}[0-5]{0,1}\\d{0,1}";
 
-    //for (let i = 0; i < itemValue.length; i++) {
-    //    if (itemValue.charAt(i).match(matchString) != null) validOutput = validOutput + itemValue.charAt(i);
-    //}
+
     console.log("matchString:" + matchString + ", itemValue.match(matchString):" + itemValue.match(matchString));
     if (itemValue.match(matchString) != null) validOutput = itemValue.match(matchString);
 
@@ -207,20 +205,85 @@ function clearAllData() {
     window.location.href = window.location.href;
 }
 
-class emgcyDataEdit {
+class emDataEdit {
+    alert(groupIndex,itemIndex) {
+        launchPopUp("emData", [groupIndex, itemIndex]);
+    }
+
     addGroup() {
-
+        // const seedData = ["New Group", ["Item 1", "Information 1"]];
+        // emergencyDataList.push(seedData);
+        emergencyDataList.push(["New Group", ["Item 1", "Information 1"]]);
+        generateEmergencyPanel();
     }
 
-    removeGroup() {
-
+    removeGroup(groupIndex) {
+        emergencyDataList.splice(groupIndex, 1);
+        generateEmergencyPanel();
     }
 
-    addItem() {
-
+    addItem(groupIndex) {
+        let itemNumber = emergencyDataList[groupIndex].length;
+        // const seedData = ["Item " + itemNumber, "Information " + itemNumber];
+        // emergencyDataList[groupIndex].push(seedData);
+        emergencyDataList[groupIndex].push(["Item " + itemNumber, "Information " + itemNumber]);
+        generateEmergencyPanel();
     }
 
-    removeItem() {
+    removeItem(groupIndex,itemIndex) {
+        emergencyDataList[groupIndex].splice(itemIndex, 1);
+        generateEmergencyPanel();
+        // storeUserData();
+    }
 
+    editItem(groupIndex, itemIndex) {
+        if (itemIndex > 0) {
+            let labelName = "emgcyLabel_" + groupIndex + itemIndex;
+            let dataName = "emgcyData_" + groupIndex + itemIndex;
+            document.getElementById(labelName).innerHTML = "<input id=\"input_" + labelName + "\" type=\"text\" value=\"" + emergencyDataList[groupIndex][itemIndex][0] + "\" style=\"background-color:#ffffffee; border:none; color:#000; font-size:14px;\" oninput=\"validateForm(this,'mixedText',24)\" />";
+            document.getElementById(dataName).disabled = false;
+            document.getElementById(dataName).setAttribute("oninput", "validateForm(this,'mixedText',32)");
+            document.getElementById(dataName).style.backgroundColor = "#ffffffee";
+            document.getElementById(dataName).style.color = "#000";
+            document.getElementById("greenItem" + groupIndex + itemIndex).innerHTML = "<img src=\"./images/checkMark.svg\" height=\"19px\" width=\"19px\">";
+            document.getElementById("greenItem" + groupIndex + itemIndex).setAttribute("onclick", "emgcyDataEdit.updateItem(" + groupIndex + "," + itemIndex +")");
+            document.getElementById("redItem" + groupIndex + itemIndex).innerHTML = "<img src=\"./images/xMark.svg\" height=\"19px\" width=\"19px\">";
+            document.getElementById("redItem" + groupIndex + itemIndex).setAttribute("onclick", "emgcyDataEdit.closeEdit(" + groupIndex + "," + itemIndex + ")");
+        }
+        else if (itemIndex == 0) {
+
+        }
+    }
+
+    updateItem(groupIndex, itemIndex) {
+        if (itemIndex > 0) {
+            let labelName = "input_emgcyLabel_" + groupIndex + itemIndex;
+            let dataName = "emgcyData_" + groupIndex + itemIndex;
+            emergencyDataList[groupIndex][itemIndex][0] = "" + document.getElementById(labelName).value;
+            emergencyDataList[groupIndex][itemIndex][1] = "" + document.getElementById(dataName).value;
+        } else if (itemIndex == 0) {
+
+        }
+        this.closeEdit(groupIndex, itemIndex);
+    }
+
+    closeEdit(groupIndex, itemIndex) {
+        if (itemIndex > 0) {
+            let labelName = "emgcyLabel_" + groupIndex + itemIndex;
+            let dataName = "emgcyData_" + groupIndex + itemIndex;
+            document.getElementById(labelName).innerHTML = emergencyDataList[groupIndex][itemIndex][0];
+            document.getElementById(dataName).value = emergencyDataList[groupIndex][itemIndex][1];
+            document.getElementById(dataName).disabled = true;
+            document.getElementById(dataName).style.backgroundColor = "#ffffff00";
+            document.getElementById(dataName).style.color = "#bbb";
+            document.getElementById(dataName).setAttribute("oninput", "");
+            document.getElementById("greenItem" + groupIndex + itemIndex).innerHTML = "<img src=\"./images/pencilEdit.svg\" height=\"19px\" width=\"19px\">";
+            document.getElementById("greenItem" + groupIndex + itemIndex).setAttribute("onclick", "emgcyDataEdit.editItem(" + groupIndex + "," + itemIndex + ")");
+            document.getElementById("redItem" + groupIndex + itemIndex).innerHTML = "<img src=\"./images/trashBin.svg\" height=\"19px\" width=\"19px\">";
+            document.getElementById("redItem" + groupIndex + itemIndex).setAttribute("onclick", "emgcyDataEdit.removeItem(" + groupIndex + "," + itemIndex + ")");
+        } else if (itemIndex == 0) {
+
+        }
     }
 }
+const emgcyDataEdit = new emDataEdit();
