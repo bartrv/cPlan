@@ -113,8 +113,15 @@ function loadUserData() {
         portList.sort(function (a, b) { return parseInt(a) - parseInt(b) }); // Sort Port of Call List by [0] - targetData
         activityList.staged.length = 0; // clear POC activity removal staging list
         // sort daily activities by start time
-        for (let i = 1; i < activityList.length; i++) {
-            activityList[i].schedule.sort((a, b) => a.start - b.start);
+        //for (i in activityList) {
+            //    activityList[i].schedule.sort((a, b) => a.start - b.start);
+            // activityList[i].schedule.sort((a, b) => a["start"] - b["start"]);
+            // i.schedule.sort((a, b) => a["start"] - b["start"]);
+        //}
+        for (const [key, value] of Object.entries(activityList)) {
+            if (key != "staged") {
+                value.schedule.sort((a, b) => (a["start"] > b["start"]) ? 1 : -1);
+            }
         }
 
         return true;
@@ -126,8 +133,14 @@ function storeUserData() {
     portList.sort(function (a, b) { return parseInt(a) - parseInt(b) });  // Sort Port of Call List by [0] - targetData
     activityList.staged.length = 0; // clear POC activity removal staging list
     // sort daily activities by start time
-    for (let i = 1; i < activityList.length; i++) {
-        activityList[i].schedule.sort((a, b) => a.start - b.start);
+    //for (let i = 1; i < activityList.length; i++) {
+    //    activityList[i].schedule.sort((a, b) => a.start - b.start);
+    //    activityList[i].schedule.sort((a, b) => a["start"] - b["start"]);
+    //}
+    for (const [key, value] of Object.entries(activityList)) {
+        if (key != "staged") {
+            value.schedule.sort((a, b) => (a["start"] > b["start"]) ? 1 : -1);
+        }
     }
     //let tempToggle = JSON.stringify(toggleFlags);
     //for (const key in toggleFlags) {

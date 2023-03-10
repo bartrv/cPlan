@@ -601,7 +601,7 @@ function trashPOCDay(targetData, portIndex,) {
 }
 
 
-function editCurrentDayActivity(targetData, i) {
+function editCurrentDayActivity(targetData, i, rollCapID) {
     console.log("Entering editCurrentDayActivity()");
     for (let n = 0; n < activityList[targetData].schedule.length; n++) {
         //console.log("n="+n+", i="+i)
@@ -623,7 +623,7 @@ function editCurrentDayActivity(targetData, i) {
             document.getElementById("buttonAImg" + targetData + i).style.opacity = "0.3";
             document.getElementById("buttonAImg" + targetData + i).setAttribute('onclick', null);
 
-            document.getElementById("buttonB" + targetData + i).innerHTML = "<img src=\"images/checkMark.svg\" onclick=\"closeCurrentDayActivityEdit("+ targetData +", "+ i +", true)\" style=\"width: 25px; height: 25px; cursor: pointer;\" />";
+            document.getElementById("buttonB" + targetData + i).innerHTML = "<img src=\"images/checkMark.svg\" onclick=\"closeCurrentDayActivityEdit(" + targetData + ", " + i + ", '" + rollCapID + "', true)\" style=\"width: 25px; height: 25px; cursor: pointer;\" />";
             document.getElementById("formDayActivityItemFooter" + targetData + i).style.display = "block";
             document.getElementById("dayItem" + targetData + i + "_start").focus();
         }
@@ -632,7 +632,7 @@ function editCurrentDayActivity(targetData, i) {
 }
 
 
-function closeCurrentDayActivityEdit(targetData, i, acceptEdit=false) {
+function closeCurrentDayActivityEdit(targetData, i, rollCapID, acceptEdit=false) {
     console.log("Entering closeCurrentDayActivityEdit()");
     document.activeElement.blur();
     for (let n = 0; n < activityList[targetData].schedule.length; n++) {
@@ -673,7 +673,34 @@ function closeCurrentDayActivityEdit(targetData, i, acceptEdit=false) {
             document.getElementById("formDayActivityItemFooter" + targetData + i).style.display = "none";
         }
     }
-    if (acceptEdit == true) storeUserData();
+    if (acceptEdit == true) {
+        // check time format
+        let sTime = document.getElementById('dayItem' + targetData + i + '_start').value;
+        let eTime = document.getElementById('dayItem' + targetData + i + '_end').value;
+        if (sTime.length != 5) {
+            //stList = sTime.split('');
+            if (sTime.indexOf(':') == 1) sTime = "0" + sTime;
+            if (sTime.indexOf(':') == 2) sTime += "0";
+            if (sTime.indexOf(':') == -1 && sTime.length == 1) sTime = "0"+sTime+":00";
+            if (sTime.indexOf(':') == -1 && sTime.length == 2) sTime += ":00";
+        }
+        if (eTime.length != 5) {
+            //stList = sTime.split('');
+            if (eTime.indexOf(':') == 1) eTime = "0" + eTime;
+            if (eTime.indexOf(':') == 2) eTime += "0";
+            if (eTime.indexOf(':') == -1 && eTime.length == 1) eTime = "0" + eTime + ":00";
+            if (eTime.indexOf(':') == -1 && eTime.length == 2) eTime += ":00";       
+        }
+        activityList["" + targetData]["schedule"][i]["start"] = sTime;
+        activityList["" + targetData]["schedule"][i]["end"] = eTime;
+        document.getElementById('dayItem' + targetData + i + '_start').value = sTime;
+        document.getElementById('dayItem' + targetData + i + '_end').value = eTime;
+        storeUserData();
+        const rollCap = document.getElementById(rollCapID);
+        const rollout = document.getElementById(rollCapID + "Rollout");
+        const rollHeight = rollout.scrollHeight;
+        viewdaySelectedOverlay(targetData, rollCap, rollHeight, true);
+    }
 
     document.getElementById('dayActivityFooter').style.display = "block";
 }
@@ -737,7 +764,7 @@ function viewdaySelectedOverlay(targetData, rollCap, rollHeight, itemAppended) {
 
                 daySelectedHTML += "<option value=\"" + item + "\" " + (item == portSchedule[i].activity ? 'selected' : '') + ">" + activityTypeList[item] + "</option>";
             }
-            daySelectedHTML += "</select></td><td id=\"buttonB" + targetData + i + "\" rowspan=\"2\" style=\"width:27px;padding-top:10px;\"><img id=\"buttonBImg" + targetData + i + "\" src=\"./images/pencilEdit.svg\" style=\"height: 25px; width: 25px; cursor: pointer; opacity: 1\" onclick=\"editCurrentDayActivity(" + targetData + ", " + i + ")\" /></td></tr>";
+            daySelectedHTML += "</select></td><td id=\"buttonB" + targetData + i + "\" rowspan=\"2\" style=\"width:27px;padding-top:10px;\"><img id=\"buttonBImg" + targetData + i + "\" src=\"./images/pencilEdit.svg\" style=\"height: 25px; width: 25px; cursor: pointer; opacity: 1\" onclick=\"editCurrentDayActivity(" + targetData + ", " + i + ", '" + rollCap.id + "')\" /></td></tr>";
             daySelectedHTML += "<tr><td style=\"width:42px; background-color:#a0deff99;\"><input id=\"dayItem" + targetData + i + "_end\" type=\"text\" value=\"" + portSchedule[i].end + "\" style=\"width:41px; font-size:16px;\" disabled /></td><td colspan=\"3\" style=\"font-size:14px;\"><textarea id=\"dayItem" + targetData + i + "_notes\" style=\"height:17px; font-size:13px; resize:none;\" disabled>" + portSchedule[i].notes + "</textarea></td></tr>";
             daySelectedHTML += "</table></form><div id=\"formDayActivityItemFooter" + targetData + i + "\" style=\"height:30px; width:50%; margin:auto; text-align:center; display:none;\"><img src=\"./images/trashBin.svg\" style=\"position:relative; float:left; width:25px; height:25px\" /><img src=\"./images/xMark.svg\" style=\"position:relative; float:right; width:25px; height:25px; cursor:pointer;\"  onclick=\"closeCurrentDayActivityEdit(" + targetData + ", " + i + ", false)\"/></div>";
         }
