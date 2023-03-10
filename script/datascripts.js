@@ -211,8 +211,6 @@ class emDataEdit {
     }
 
     addGroup() {
-        // const seedData = ["New Group", ["Item 1", "Information 1"]];
-        // emergencyDataList.push(seedData);
         emergencyDataList.push(["New Group", ["Item 1", "Information 1"]]);
         generateEmergencyPanel();
     }
@@ -220,12 +218,11 @@ class emDataEdit {
     removeGroup(groupIndex) {
         emergencyDataList.splice(groupIndex, 1);
         generateEmergencyPanel();
+        storeUserData();
     }
 
     addItem(groupIndex) {
         let itemNumber = emergencyDataList[groupIndex].length;
-        // const seedData = ["Item " + itemNumber, "Information " + itemNumber];
-        // emergencyDataList[groupIndex].push(seedData);
         emergencyDataList[groupIndex].push(["Item " + itemNumber, "Information " + itemNumber]);
         generateEmergencyPanel();
     }
@@ -233,7 +230,7 @@ class emDataEdit {
     removeItem(groupIndex,itemIndex) {
         emergencyDataList[groupIndex].splice(itemIndex, 1);
         generateEmergencyPanel();
-        // storeUserData();
+        storeUserData();
     }
 
     editItem(groupIndex, itemIndex) {
@@ -265,6 +262,7 @@ class emDataEdit {
 
         }
         this.closeEdit(groupIndex, itemIndex);
+        storeUserData();
     }
 
     closeEdit(groupIndex, itemIndex) {
