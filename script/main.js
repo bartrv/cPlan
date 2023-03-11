@@ -674,18 +674,16 @@ function closeCurrentDayActivityEdit(targetData, i, rollCapID, acceptEdit=false)
         }
     }
     if (acceptEdit == true) {
-        // check time format
+        // check/enforce time format
         let sTime = document.getElementById('dayItem' + targetData + i + '_start').value;
         let eTime = document.getElementById('dayItem' + targetData + i + '_end').value;
         if (sTime.length != 5) {
-            //stList = sTime.split('');
             if (sTime.indexOf(':') == 1) sTime = "0" + sTime;
             if (sTime.indexOf(':') == 2) sTime += "0";
             if (sTime.indexOf(':') == -1 && sTime.length == 1) sTime = "0"+sTime+":00";
             if (sTime.indexOf(':') == -1 && sTime.length == 2) sTime += ":00";
         }
         if (eTime.length != 5) {
-            //stList = sTime.split('');
             if (eTime.indexOf(':') == 1) eTime = "0" + eTime;
             if (eTime.indexOf(':') == 2) eTime += "0";
             if (eTime.indexOf(':') == -1 && eTime.length == 1) eTime = "0" + eTime + ":00";

@@ -113,11 +113,6 @@ function loadUserData() {
         portList.sort(function (a, b) { return parseInt(a) - parseInt(b) }); // Sort Port of Call List by [0] - targetData
         activityList.staged.length = 0; // clear POC activity removal staging list
         // sort daily activities by start time
-        //for (i in activityList) {
-            //    activityList[i].schedule.sort((a, b) => a.start - b.start);
-            // activityList[i].schedule.sort((a, b) => a["start"] - b["start"]);
-            // i.schedule.sort((a, b) => a["start"] - b["start"]);
-        //}
         for (const [key, value] of Object.entries(activityList)) {
             if (key != "staged") {
                 value.schedule.sort((a, b) => (a["start"] > b["start"]) ? 1 : -1);
@@ -198,7 +193,6 @@ function validateForm(frmItem, type, charLimit = 12) {
     if (type == 'dateAsText') matchString = "^[\\d]{0,4}/{0,1}\\d{0,2}/{0,1}\\d{0,2}";
     if (type == 'time24') matchString = "^\\d{1,2}:{0,1}[0-5]{0,1}\\d{0,1}";
 
-
     console.log("matchString:" + matchString + ", itemValue.match(matchString):" + itemValue.match(matchString));
     if (itemValue.match(matchString) != null) validOutput = itemValue.match(matchString);
 
@@ -206,13 +200,6 @@ function validateForm(frmItem, type, charLimit = 12) {
 }
 
 function clearAllData() {
-    //let alertHTML = ""
-   // alertHTML = "<span style=\"font-size:24px; font-weight:bold; color:red;\">- Warning -</span><br />";
-    //alertHTML += "This operation will irrevocably erase all data from <strong>this app</strong> and re-load the default values.<br /><br />";
-   // alertHTML += "<input type=\"button\" onclick=\"closePopUp()\" value=\"* Cancel *\" style=\"width:125px\"\><br /><br />";
-    //alertHTML += "<input type=\"button\" onclick=\"closePopUp(); localStorage.clear(); window.location.href = window.location.href;\" value=\"Erase Planning Data\"  style=\"width:125px\"\><br />";
-    //document.getElementById("popUpPanel").innerHTML = alertHTML;
-    //document.getElementById("popUpPanel").style.display = "block";
     localStorage.clear();
     closePopUp();
     window.location.href = window.location.href;
