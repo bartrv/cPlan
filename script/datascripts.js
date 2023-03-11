@@ -248,7 +248,12 @@ class emDataEdit {
             document.getElementById("redItem" + groupIndex + itemIndex).setAttribute("onclick", "emgcyDataEdit.closeEdit(" + groupIndex + "," + itemIndex + ")");
         }
         else if (itemIndex == 0) {
-
+            let labelName = "emgcyGroup" + groupIndex + "_title";
+            let dataName = "emgcyData" + groupIndex + "_title";
+            let headerHTML = "<div style=\"position:relative; float:left; background-color:#cceecc44; margin:2px; border:none; padding:1px; height:19px; width: 19px; border-radius:2px; cursor:pointer;\" onclick=\"emgcyDataEdit.updateItem(" + groupIndex + ", 0)\"><img src=\"./images/checkMark.svg\" height=\"19px\" width=\"19px\"></div>";
+            headerHTML += "<div style=\"position:relative; float:left; background-color:#eecccc44; margin:2px; margin-left: 10px; border:none; padding:1px; height:19px; width:19px; border-radius:2px; cursor:pointer;\" onclick=\"emgcyDataEdit.closeEdit(" + groupIndex + ", 0)\"><img src=\"./images/xMark.svg\" height=\"19px\" width=\"19px\"></div>";
+            headerHTML += "<input id=\"" + dataName + "\" type=\"text\" value=\"" + emergencyDataList[groupIndex][0] + "\" style=\"background-color:#ffffffee; border:none; color:#000; font-size:14px;\" oninput=\"validateForm(this,'mixedText',36)\" />";
+            document.getElementById(labelName).innerHTML = headerHTML;
         }
     }
 
@@ -259,7 +264,8 @@ class emDataEdit {
             emergencyDataList[groupIndex][itemIndex][0] = "" + document.getElementById(labelName).value;
             emergencyDataList[groupIndex][itemIndex][1] = "" + document.getElementById(dataName).value;
         } else if (itemIndex == 0) {
-
+            let dataName = "emgcyData" + groupIndex + "_title";
+            emergencyDataList[groupIndex][0] = "" + document.getElementById(dataName).value;
         }
         this.closeEdit(groupIndex, itemIndex);
         storeUserData();
@@ -280,7 +286,11 @@ class emDataEdit {
             document.getElementById("redItem" + groupIndex + itemIndex).innerHTML = "<img src=\"./images/trashBin.svg\" height=\"19px\" width=\"19px\">";
             document.getElementById("redItem" + groupIndex + itemIndex).setAttribute("onclick", "emgcyDataEdit.removeItem(" + groupIndex + "," + itemIndex + ")");
         } else if (itemIndex == 0) {
-
+            let labelName = "emgcyGroup" + groupIndex + "_title";
+            let headerHTML = "<div style=\"position:relative; float:left; background-color:#cceecc44; margin:2px; border:none; padding:1px; height:19px; width: 19px; border-radius:2px; cursor:pointer;\" onclick=\"emgcyDataEdit.editItem(" + groupIndex + ", 0)\"><img src=\"./images/pencilEdit.svg\" height=\"19px\" width=\"19px\"></div>";
+            headerHTML += "<div style=\"position:relative; float:left; background-color:#eecccc44; margin:2px; margin-left: 10px; border:none; padding:1px; height:19px; width:19px; border-radius:2px; cursor:pointer;\" onclick=\"emgcyDataEdit.alert(" + groupIndex + ", 0)\"><img src=\"./images/trashBin.svg\" height=\"19px\" width=\"19px\"></div>";
+            headerHTML += emergencyDataList[groupIndex][0];
+            document.getElementById(labelName).innerHTML = headerHTML;
         }
     }
 }
