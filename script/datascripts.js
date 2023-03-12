@@ -199,6 +199,18 @@ function validateForm(frmItem, type, charLimit = 12) {
     frmItem.value = validOutput;
 }
 
+function enforceTimeFormat(tElement) {
+    // check/enforce time format
+    vTime = tElement.value;
+    vTime = vTime.match("^\\d{1,2}:{0,1}[0-5]{0,1}\\d{0,1}");
+    if (vTime.length != 5) {
+        if (vTime.indexOf(':') == 1) vTime = "0" + sTime;
+        if (vTime.indexOf(':') == 2) vTime += "0";
+        if (vTime.indexOf(':') == -1 && vTime.length == 1) sTime = "0" + sTime + ":00";
+        if (vTime.indexOf(':') == -1 && vTime.length == 2) sTime += ":00";
+    }
+    return vTime;
+}
 function clearAllData() {
     localStorage.clear();
     closePopUp();

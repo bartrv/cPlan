@@ -387,7 +387,7 @@ function addPortOfCall(addNewPOCButton) {
     */
 
     //const addPOCBox = document.getElementById("popUpPanel");
-    const default_POC_Data = ["0", "City / Ship Name", "Country / 'At Sea'", "2020/12/31", "00:00", "24:00"];
+    const default_POC_Data = ["0", "City / Ship Name", "Country / 'At Sea'", "2020/12/31", "00:00", "24:00", "0"];
     let newPOC_Item = document.createElement("div");
     let newPOC_Rollout = document.createElement("div");
     let nextDayNumber = 0;
@@ -518,9 +518,9 @@ function editCurrentDayPOC(targetData) {
     portHeaderDiv_CC.innerHTML = "<input id=\"POC_Edit_City\" type=\"text\" value=\"" + portItem[1] + "\" style=\"width:120px;\" oninput=\"validateForm(this,'plainText')\" />, <input id=\"POC_Edit_Country\" type=\"text\" value=\"" + portItem[2] + "\" style=\"width:120px;\" oninput=\"validateForm(this,'plainText')\" />";
     portArrivalDiv.innerHTML = "<input id=\"POC_Edit_Arrival\" type=\"text\" value=\"" + portItem[4] + "\" style=\"width:75px;\" oninput=\"validateForm(this,'time24')\" />";
     portArrivalDiv.style.padding = "0px";
-    portDepartureDiv.innerHTML = "<input id=\"POC_Edit_Departure\" type=\"text\" value=\"" + portItem[5] + "\" style=\"width: 75px; text-align: right;\"oninput=\"validateForm(this,'time24')\" />";
+    portDepartureDiv.innerHTML = "<input id=\"POC_Edit_Departure\" type=\"text\" value=\"" + portItem[5] + "\" style=\"width: 75px; text-align: right;\" oninput=\"validateForm(this,'time24')\" />";
     portDepartureDiv.style.padding = "0px";
-    portDateDiv.innerHTML = "<input id=\"POC_Edit_Departure\" type=\"text\" value=\"" + portItem[3] + "\" oninput=\"validateForm(this,'dateAsText')\" style=\"width:75px;\" />";
+    portDateDiv.innerHTML = "<input id=\"POC_Edit_Date\" type=\"text\" value=\"" + portItem[3] + "\" oninput=\"validateForm(this,'dateAsText')\" style=\"width:75px;\" />";
     portDateDiv.style.padding = '0px';
     portTerminalDiv.innerHTML = "Term:<input id=\"POC_Edit_Terminal\" type=\"text\" value=\"" + portItem[6] + "\" oninput=\"validateForm(this,'number')\" style=\"width:24px; text-align:right;\"/>";
     portTerminalDiv.style.padding = '0px';
@@ -538,7 +538,7 @@ function removePOCDayActivity(thisElement, targetData, i, thisAction,) {
         thisElement.innerHTML = "<img src='./images/xMark.svg' style=\"height:30px; width:30px;\" />";
         thisElement.setAttribute('onclick', "removePOCDayActivity(this,'" + targetData + "', " + i + ", 'clear')")
         document.getElementById("activity_" + targetData + i + "_stripe").style.backgroundColor = "#FF000055";
-        if (!activityList.staged.includes(i)) activityList.staged.push(i);
+        if (!activityList.staged.includes(i)) { activityList.staged.push(i); }
     } else if (thisAction == "clear") {
         thisElement.innerHTML = "<img src='./images/checkMark.svg' style=\"height:30px; width:30px;\" />";
         thisElement.setAttribute('onclick', "removePOCDayActivity(this,'" + targetData + "', " + i + ", 'stage')")
@@ -558,8 +558,9 @@ function removePOCDayActivity(thisElement, targetData, i, thisAction,) {
             activityList["" + targetData].schedule.sort((a, b) => a.start - b.start);  // resorts remaining items - If there were edits prior to removal, the ordering could become unknown
         }
         if (activityList["" + targetData].schedule.length == 0) appendNewDayActivity(targetData, null, null); //schedule.length should not be 0, re-seed with default entry if schedule is empty
+        storeUserData();
     }
-    storeUserData();
+    
     return true;
 }
 
@@ -572,8 +573,23 @@ function cancelEditCurrentDayPOC(targetData) {
 }
 
 function acceptEditCurrentDayPOC(targetData) {
-
     removePOCDayActivity(null, targetData, null, "remove");
+    arriveTimeEl = document.getElementById("POC_Edit_Arrival");
+    departTimeEl = document.getElementById("POC_Edit_Departure");
+    arriveTimeEl.value = enforceTimeFormat(arriveTimeEl);
+    departTimeEl.value = enforceTimeFormat(arriveTimeEl);
+    for (let i = 0; i < portList.length;i++) {
+        if (portList[i][0] == targetData) {
+            portList[i][0] = document.getElementById("POC_Edit_Day").value;
+            portList[i][1] = document.getElementById("POC_Edit_City").value;
+            portList[i][2] = document.getElementById("POC_Edit_Country").value;
+            portList[i][3] = document.getElementById("POC_Edit_Date").value;
+            portList[i][4] = arriveTimeEl.value;
+            portList[i][5] = departTimeEl.value;
+            portList[i][6] = document.getElementById("POC_Edit_Terminal").value;
+        }
+    }
+    
     generatePOCList();
     toggleFlags.rolloutID = null;
     storeUserData();
@@ -675,7 +691,9 @@ function closeCurrentDayActivityEdit(targetData, i, rollCapID, acceptEdit=false)
     }
     if (acceptEdit == true) {
         // check/enforce time format
-        let sTime = document.getElementById('dayItem' + targetData + i + '_start').value;
+        
+        /*
+         * let sTime = document.getElementById('dayItem' + targetData + i + '_start').value;
         let eTime = document.getElementById('dayItem' + targetData + i + '_end').value;
         if (sTime.length != 5) {
             if (sTime.indexOf(':') == 1) sTime = "0" + sTime;
@@ -689,10 +707,17 @@ function closeCurrentDayActivityEdit(targetData, i, rollCapID, acceptEdit=false)
             if (eTime.indexOf(':') == -1 && eTime.length == 1) eTime = "0" + eTime + ":00";
             if (eTime.indexOf(':') == -1 && eTime.length == 2) eTime += ":00";       
         }
+        */
+        sTimeElement = document.getElementById('dayItem' + targetData + i + '_start');
+        sTime = enforceTimeFormat(sTimeElement);
+        eTimeElement = document.getElementById('dayItem' + targetData + i + '_end');
+        eTime = enforceTimeFormat(eTimeElement);
         activityList["" + targetData]["schedule"][i]["start"] = sTime;
         activityList["" + targetData]["schedule"][i]["end"] = eTime;
-        document.getElementById('dayItem' + targetData + i + '_start').value = sTime;
-        document.getElementById('dayItem' + targetData + i + '_end').value = eTime;
+        //document.getElementById('dayItem' + targetData + i + '_start').value = sTime;
+        //document.getElementById('dayItem' + targetData + i + '_end').value = eTime;
+        sTimeElement.value = sTime;
+        eTimeElement.value = eTime;
         storeUserData();
         const rollCap = document.getElementById(rollCapID);
         const rollout = document.getElementById(rollCapID + "Rollout");
