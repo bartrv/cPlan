@@ -194,7 +194,9 @@ function validateForm(frmItem, type, charLimit = 12) {
     if (type == 'time24') matchString = "^\\d{1,2}:{0,1}[0-5]{0,1}\\d{0,1}";
 
     console.log("matchString:" + matchString + ", itemValue.match(matchString):" + itemValue.match(matchString));
-    if (itemValue.match(matchString) != null) validOutput = itemValue.match(matchString);
+    tempMatch = itemValue.match(matchString);
+//    if (itemValue.match(matchString) != null) validOutput = itemValue.match(matchString);
+    if (tempMatch != null) validOutput = tempMatch[0];
 
     frmItem.value = validOutput;
 }
@@ -202,13 +204,17 @@ function validateForm(frmItem, type, charLimit = 12) {
 function enforceTimeFormat(tElement) {
     // check/enforce time format
     vTime = tElement.value;
+    console.log(vTime);
     vTime = vTime.match("^\\d{1,2}:{0,1}[0-5]{0,1}\\d{0,1}");
-    if (vTime.length != 5) {
-        if (vTime.indexOf(':') == 1) vTime = "0" + sTime;
-        if (vTime.indexOf(':') == 2) vTime += "0";
-        if (vTime.indexOf(':') == -1 && vTime.length == 1) sTime = "0" + sTime + ":00";
-        if (vTime.indexOf(':') == -1 && vTime.length == 2) sTime += ":00";
+    console.log(vTime);
+    if (vTime.length < 5) {
+        if (vTime.indexOf(':') == 1) vTime = "0" + vTime;
+        if (vTime.indexOf(':') == 2 && vTime.length == 3) vTime += "00";
+        if (vTime.indexOf(':') == -1 && vTime.length == 1) vTime = "0" + vTime + ":00";
+        if (vTime.indexOf(':') == -1 && vTime.length == 2) vTime += ":00";
+        if (vTime.indexOf(':') == -1 && vTime.length == 4) vTime = vTime[0];
     }
+    console.log(vTime);
     return vTime;
 }
 function clearAllData() {
