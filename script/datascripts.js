@@ -191,7 +191,7 @@ function validateForm(frmItem, type, charLimit = 12) {
     if (type == 'number') matchString = "^[\\d]{0," + charLimit + "}";
     if (type == 'mixedText') matchString = "^[a-zA-Z \\-'.\\d,@()$?_<>:&%]{0," + charLimit + "}";
     if (type == 'dateAsText') matchString = "^[\\d]{0,4}/{0,1}\\d{0,2}/{0,1}\\d{0,2}";
-    if (type == 'time24') matchString = "(^[01]?\\d|2[0-3]):?[0-5]?\\d?";
+    if (type == 'time24') matchString = "^(2[0-3]|[01]?\\d):?(:?[0-5]?\\d?)";
 
     console.log("matchString:" + matchString + ", itemValue.match(matchString):" + itemValue.match(matchString));
     tempMatch = itemValue.match(matchString);
@@ -206,7 +206,7 @@ function enforceTimeFormat(tElement) {
     vTime = tElement.value;
     console.log(vTime);
     //vTime = vTime.match("^\\d{1,2}:{0,1}[0-5]{0,1}\\d{0,1}");
-    vTime = vTime.match("^([01]?\\d|2[0-3])(:?[0-5]\\d)?")[0];
+    vTime = vTime.match("^(2[0-3]|[01]?\\d):?(:?[0-5]\\d)?")[0];
     console.log(vTime);
     if (vTime.length < 5) {
         if (vTime.indexOf(':') == 1) vTime = "0" + vTime;

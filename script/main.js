@@ -577,7 +577,7 @@ function acceptEditCurrentDayPOC(targetData) {
     arriveTimeEl = document.getElementById("POC_Edit_Arrival");
     departTimeEl = document.getElementById("POC_Edit_Departure");
     arriveTimeEl.value = enforceTimeFormat(arriveTimeEl);
-    departTimeEl.value = enforceTimeFormat(arriveTimeEl);
+    departTimeEl.value = enforceTimeFormat(departTimeEl);
     for (let i = 0; i < portList.length;i++) {
         if (portList[i][0] == targetData) {
             portList[i][0] = document.getElementById("POC_Edit_Day").value;
