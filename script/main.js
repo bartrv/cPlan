@@ -825,9 +825,37 @@ function stopPOCTimer() {
 }
 function countdownTimer(portListIndex) {
     console.log("Tick: " + portList[portListIndex][3] + ", " + portList[portListIndex][4] + ", " + portList[portListIndex][5]);
-    let durationUntilDeparture = (new Date(portList[0][3] + " " + portList[0][5]) - new Date(Date.now())) / 1000 / 60; // Converted to minuites
-    let departureClockString = parseInt(durationUntilDeparture / 60) + ":" + parseInt(durationUntilDeparture % 60);
+    // rgb at arrival = [68, 187, 68, 153], rgb at departure = [187, 68, 68, 153] --> + or - 119 is 100% offset, Alpha 153 = 0.6
+    const arrivalTimeInMs = new Date(portList[portListIndex][3] + " " + portList[portListIndex][4]);
+    const departureTimeInMs = new Date(portList[portListIndex][3] + " " + portList[portListIndex][5]);
+    const timeInPortInMins = parseInt((departureTimeInMs - arrivalTimeInMs) / 1000 / 60);
+    let durationUntilDeparture = parseInt((departureTimeInMs - new Date(Date.now())) / 1000 / 60); // Converted to minuites
+
+    let departureClockString = parseInt(Math.abs(durationUntilDeparture) / 60) + ":" + minsLeft();
     document.getElementById("currentTimeObj").innerHTML = departureClockString;
+    //console.log("durationUntilDeparture=" + durationUntilDeparture)
+    if (durationUntilDeparture > 0) {
+        let timeRemainingRatio = (durationUntilDeparture - 60) / timeInPortInMins;
+        let rgbOffset = parseInt(119 * timeRemainingRatio);
+        let rgbNow = [187 - rgbOffset, 68 + rgbOffset];
+        document.getElementById("currentTimeObj").style.backgroundColor = "rgba(" + rgbNow[0] + "," + rgbNow[1] + ",68,0.6)";
+        if (durationUntilDeparture > 60) {
+            document.getElementById("currentTimeObj").style.color = "#DDFFEEFF";
+        } else {
+            document.getElementById("currentTimeObj").style.color = "#FFDDDDFF";
+        }
+    } else {
+        document.getElementById("currentTimeObj").style.backgroundColor = "#000000FF";
+        document.getElementById("currentTimeObj").style.color = "#FF0000FF";
+    }
+
+    function minsLeft() {
+        if (("" + parseInt(Math.abs(durationUntilDeparture)) % 60).length > 1) {
+            return parseInt(Math.abs(durationUntilDeparture)) % 60;
+        } else {
+            return "0" + parseInt(Math.abs(durationUntilDeparture)) % 60;
+        }
+    }
     // (new Date("2023/05/01 13:30:00") - new Date(Date.now()))/1000/60
 }
  
