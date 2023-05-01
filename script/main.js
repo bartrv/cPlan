@@ -31,6 +31,9 @@
  * "activityTypeList": array,
  * };
  */
+
+var Timer_POC = "";
+
 function initFullLoadCPlan() {
     if (loadUserData()) console.log("Load completed true");
     if (generateOverview()) console.log("generateOverview completed true");
@@ -278,14 +281,16 @@ function cancelEditPanel(panelID) {
     editInputList = [0];
 }
 
-function toggleRollout(rollCap, rollHeight) {   
+function toggleRollout(rollCap, rollHeight, portListIndex = null) {   
     let rollDir;
     let heightNow;
+    stopPOCTimer(); // Clear countdown timer to prevent duplicates - countdown is relative to .now so restarting is ok
     rolloutPanel = document.getElementById(rollCap.id + "Rollout");
     rolloutPanel.style.display = "block";
     if (getComputedStyle(rolloutPanel).height === "0px") {
         rollDir = 1;
         heightNow = 0;
+        if (portListIndex != null) startPOCTimer(portListIndex); // If opening a panel, Start Timer for that panel's data
     } else {
         rollDir = -1;
         heightNow = parseInt(getComputedStyle(rolloutPanel).height.match("^[\\d]+"));
@@ -748,11 +753,11 @@ function viewdaySelectedOverlay(targetData, rollCap, rollHeight, itemAppended) {
         document.getElementById("dayItem_" + toggleFlags.rolloutID + "Rollout").innerHTML = "";
         toggleFlags.rolloutID = null;
     }
-
+    let portListIndex = 0; // raised from inside if block
     if (toggleFlags.rolloutID == null || itemAppended === true) {
         toggleFlags.rolloutID = targetData;
         rolloutTarget = document.getElementById(rollCap.id + "Rollout")
-        let portListIndex = 0;
+        // let portListIndex = 0; //raised to outside of if block
         for (portListIndex; portListIndex < portList.length; portListIndex++) {
             if (portList[portListIndex][0] == targetData) break;
         }
@@ -800,10 +805,29 @@ function viewdaySelectedOverlay(targetData, rollCap, rollHeight, itemAppended) {
 
     }
     if (itemAppended != true) {
-        toggleRollout(rollCap, rollHeight);
+        toggleRollout(rollCap, rollHeight, portListIndex);
     } else {
         document.getElementById(rollCap.id + "Rollout").style.height = rollHeight + "px";
         rollCap.setAttribute('onclick', "viewdaySelectedOverlay(" + targetData + ", this, " + rollHeight + ")");
     }
     console.log("daySelectedHTML built/applied")
 }
+
+function startPOCTimer(portListIndex) {
+    if (new Date(Date.now()).toLocaleDateString() == new Date(portList[portListIndex][3]).toLocaleDateString()) {
+        Timer_POC = setInterval(function () { countdownTimer(portListIndex) }, 1000);
+    }
+    return true;
+}
+function stopPOCTimer() {
+    clearInterval(Timer_POC);
+    return true;
+}
+function countdownTimer(portListIndex) {
+    console.log("Tick: " + portList[portListIndex][3] + ", " + portList[portListIndex][4] + ", " + portList[portListIndex][5]);
+    let durationUntilDeparture = (new Date(portList[0][3] + " " + portList[0][5]) - new Date(Date.now())) / 1000 / 60; // Converted to minuites
+    let departureClockString = parseInt(durationUntilDeparture / 60) + ":" + parseInt(durationUntilDeparture % 60);
+    document.getElementById("currentTimeObj").innerHTML = departureClockString;
+    // (new Date("2023/05/01 13:30:00") - new Date(Date.now()))/1000/60
+}
+ 
