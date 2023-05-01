@@ -43,7 +43,7 @@ let tripOverViewList = {
     "debarkationDate": "2023/01/11", "cruiseLine": "Norwegian Cruise Line", "cruiseLineCommon": "Norwegian", "cruiseLineAbbr": "NCL", "shipName": "Getaway",
     "tonnes": "145,655", "guests": "3963","shpLength":"1068'","maxBeam":"170'","crew":"1646","constructed":"2020 (2014)",
     "embarkatonCity": "Lisbon", "embarkationCountry": "Portugal", "embarkationCountryAbbr": "PRT", "debarkationCity": "Civitavecchia", "debarkationCountry": "Italy", "debarkationCountryAbbr": "ITA",
-    "reservationNumber": "1234567890", "stateRoom": "1403", "travelerFName":"Bart","travelerMI":"R","travelerLName":"Voigt","travelerMobileIntnl":"013179979299"
+    "reservationNumber": "1234567890", "stateRoom": "1403", "travelerFName":"Jim","travelerMI":"C","travelerLName":"Monty","travelerMobileIntnl":"013177011234"
 };
 
 // [Day, City, Country, Date, Arrival, Departure, Terminal]
