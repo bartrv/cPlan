@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+    <meta charset="UTF-8" />
+    <meta name='viewport' content='width=device-width, initial-scale=1.0' />
+    <style>
+        body,html {padding:0px;width:100%;height:100%;margin:0px;}
+        .basicBox {border:#000 solid 1px; background-color:#bbbbff44; width:100%; height:32px; margin-bottom:4px;}
+        #ddArea {
+            border: #007 solid 1px;
+            border-radius: 4px;
+            background-color: #00000022;
+            width: calc(100% - 8px);
+            margin-bottom: 4px;
+            padding: 3px;
+            height:50%;
+            overflow-y:scroll;
+            z-index: 10;
+        }
+        .dragItem {
+            border: #00A solid 1px;
+            border-radius: 6px;
+            background-color: #ccccff22;
+            width: calc(100% - 4px);
+            height: 20px;
+            cursor: pointer;
+            overflow:hidden;
+        }
+        .dropBar {
+            width: calc(100% - 12px);
+            height: 2px;
+            background-color: #aa9999;
+            border: #aa9999 1px solid;
+            margin: 0px;
+            margin:auto;
+            z-index: 20;
+        }
+    </style>
+    <script>
+        var dateStart = 20230501;
+        var rangeA = 4;
+        var itemList = {
+            "0": { "day": 0, "date": 2023505, "text": "Test Item A" },
+            "1": { "day": 1, "date": 2023505, "text": "Test Item B" },
+            "2": { "day": 2, "date": 2023505, "text": "Test Item C" },
+            "3": { "day": 3, "date": 2023505, "text": "Test Item D" }
+        };
+
+        function showAction(actionType, item, data) {
+            //console.log(item);
+            if (actionType == "Clicked") {
+                document.getElementById("actionDisplay").innerHTML = "Item: " + item.id + " was clicked, Data:"+data;
+            }
+            if (actionType == "DragStart") {
+                document.getElementById("actionDisplay").innerHTML = "Item: " + item.id + " was dragged, Data:" + data;
+                document.getElementById("dataDisplay").innerHTML = data + ": Day:" + itemList[data]["day"] + ", date: " + itemList[data]["date"] + ", Info: " + itemList[data]["text"];
+            }
+
+        }
+
+        function buildList() {
+            console.log("test");
+            listHTML = "";
+            let i = 0;
+            for (const [item, value] of Object.entries(itemList)) {
+                //console.log(value);
+                listHTML += "<div id='divider" + i + "' class='dropBar' ondragover=\"allowDrop(event,this)\" ondragleave=\"dragOut(event,this)\" ondrop=\"dropItem(event,this,'" + i +"')\"></div > ";
+                listHTML += "<div id='displayItem_" + i + "' class='dragItem' onclick=\"showAction('Clicked',this," + i +")\" draggable=\"true\" ondragstart=\"drag(event,this,"+i+")\">";
+                //listHTML += "Item: "+ item;
+                listHTML += "<div id='item" + i + "_day' style='float:left;width:75px;'>Day: " + value['day'] + "</div>";
+                listHTML += "<div id='item" + i + "_date' style='float:left;width:125px;'>Date: " + value['date'] + "</div>";
+                listHTML += "<div id='item" + i + "_text' style='float:left;width:350px;'>Text: " + value['text'] + "</div>";
+                
+                listHTML += "</div>";
+                i++;
+            }
+            listHTML += "<div id='divider" + i + "' class='dropBar' ondragover=\"allowDrop(event,this)\" ondragleave=\"dragOut(event,this)\" ondrop=\"dropItem(event,this,'"+i+"')\"></div > ";
+            //document.getElementById("ddArea").innerHTML = listHTML;
+            document.getElementById("ddArea").innerHTML = listHTML;
+        }
+
+        function drag(eventData, dragItem, data) {
+            let dragField = toString(dragItem.id).substring(12);
+            //document.getElementById("dropBin").style.display = "hidden";
+            eventData.dataTransfer.setData("text", data);
+            showAction("DragStart", dragItem, data);
+        }
+
+        function dragOut(eventData, dropTarget) {
+            dropTarget.style.borderColor = "#aa9999";
+            dropTarget.style.backgroundColor = "#aa9999";
+            dropTarget.style.height = "2px";
+        }
+
+        function allowDrop(eventData,dropTarget) {
+            eventData.preventDefault();
+            dropTarget.style.borderColor = "#ff0000";
+            dropTarget.style.backgroundColor = "#ff9999";
+            dropTarget.style.height = "20px";
+        }
+
+        function dropItem(eventData, dropTarget, data) {
+            console.log(data + ", " + eventData.dataTransfer.getData("text"));
+            eventData.preventDefault();
+            let dataToMoveIndex = parseInt(eventData.dataTransfer.getData("text"));
+            //let dataToMove = { ...itemList[eventData.dataTransfer.getData("text")] };
+            //let dataToMove = eventData.dataTransfer.getData("text");
+            //dataToMove = itemList[dataToMove];
+            let tempList = {};
+            let dateNumber = [itemList[0].day, itemList[0].date];
+            let listLength = Object.keys(itemList).length;
+            for (let i = 0; i < listLength; i++) {
+                
+                if (i != parseInt(data)) {
+                    if (i != dataToMoveIndex) {
+                            tempList[i.toString()] = { ...itemList[i] };
+                        }
+
+                    } else if (i == dropTarget) {
+                        tempList[i.toString()] = { ...itemList[eventData.dataTransfer.getData("text")] };
+                    } 
+
+                
+                console.log(tempList[i]);
+                //tempList[i].day = dateNumber[0] + i;
+                //tempList[i].date = dateNumber[1] + i;
+            }
+            ihtml = "";
+            for (const [a, b] of Object.entries(tempList)){
+                ihtml += "Entry: "+a+", Day: "+b.day+", Date=";
+            }
+            console.log(tempList+", "+eventData);
+        }
+    </script>
+    
+</head>
+<body onload="buildList()">
+    <div id="dataDisplay" class="basicBox"></div>
+    <div id="actionDisplay" class="basicBox"></div>
+    <div id="ddArea">
+        
+    </div>
+</body>
+
+</html>
