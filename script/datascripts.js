@@ -50,18 +50,18 @@ let tripOverViewList = {
 // {uniqueKey: [0:cruiseDay, 1:City, 2:Country, 3:Date, 4:Arrival, 5:Departure, 6:Terminal, 7:ActivityKey]}
 let portList = {
     "0": ["-1", "City / Ship Name", "Country / 'At Sea'", "2020/12/31", "00:00", "24:00", "0", "0"],
-    "1": ["0", "City / Ship Name", "Country / 'At Sea'", "2020/12/31", "00:00", "24:00", "0", "0"],
-    "2": ["1", "City / Ship Name", "Country / 'At Sea'", "2020/12/31", "00:00", "24:00", "1A", "0"],
-    "3": ["2", "City / Ship Name", "Country / 'At Sea'", "2020/12/31", "00:00", "24:00", "1A", "0"],
-    "4": ["3", "City / Ship Name", "Country / 'At Sea'", "2020/12/31", "00:00", "24:00", "1A", "0"],
-    "5": ["4", "City / Ship Name", "Country / 'At Sea'", "2020/12/31", "00:00", "24:00", "1A", "0"],
-    "6": ["5", "City / Ship Name", "Country / 'At Sea'", "2020/12/31", "00:00", "24:00", "1A", "0"],
-    "7": ["6", "City / Ship Name", "Country / 'At Sea'", "2020/12/31", "00:00", "24:00", "1A", "0"],
-    "8": ["7", "City / Ship Name", "Country / 'At Sea'", "2020/12/31", "00:00", "24:00", "1A", "0"],
-    "9": ["8", "City / Ship Name", "Country / 'At Sea'", "2020/12/31", "00:00", "24:00", "1A", "0"],
-    "10": ["9", "City / Ship Name", "Country / 'At Sea'", "2020/12/31", "00:00", "24:00", "1A", "0"],
-    "11": ["10", "City / Ship Name", "Country / 'At Sea'", "2020/12/31", "00:00", "24:00", "1A", "0"],
-    "12": ["11", "City / Ship Name", "Country / 'At Sea'", "2020/12/31", "00:00", "24:00", "1A", "0"]
+    "1": ["0", "City / Ship Name", "Country / 'At Sea'", "2020/12/31", "00:00", "24:00", "0", "1"],
+    "2": ["1", "City / Ship Name", "Country / 'At Sea'", "2020/12/31", "00:00", "24:00", "1A", "2"],
+    "3": ["2", "City / Ship Name", "Country / 'At Sea'", "2020/12/31", "00:00", "24:00", "1A", "3"],
+    "4": ["3", "City / Ship Name", "Country / 'At Sea'", "2020/12/31", "00:00", "24:00", "1A", "4"],
+    "5": ["4", "City / Ship Name", "Country / 'At Sea'", "2020/12/31", "00:00", "24:00", "1A", "5"],
+    "6": ["5", "City / Ship Name", "Country / 'At Sea'", "2020/12/31", "00:00", "24:00", "1A", "6"],
+    "7": ["6", "City / Ship Name", "Country / 'At Sea'", "2020/12/31", "00:00", "24:00", "1A", "7"],
+    "8": ["7", "City / Ship Name", "Country / 'At Sea'", "2020/12/31", "00:00", "24:00", "1A", "8"],
+    "9": ["8", "City / Ship Name", "Country / 'At Sea'", "2020/12/31", "00:00", "24:00", "1A", "9"],
+    "10": ["9", "City / Ship Name", "Country / 'At Sea'", "2020/12/31", "00:00", "24:00", "1A", "10"],
+    "11": ["10", "City / Ship Name", "Country / 'At Sea'", "2020/12/31", "00:00", "24:00", "1A", "11"],
+    "12": ["11", "City / Ship Name", "Country / 'At Sea'", "2020/12/31", "00:00", "24:00", "1A", "12"]
 };
 //let portList = [
     //['-1', 'Lisbon', 'Portugal', '2023/06/14', '18:00', '24:00', '0'],
@@ -77,18 +77,18 @@ let portList = {
 
 let activityList = {'staged':[],
     '0': { "cruiseDay":"-1","city": "Lisbon", "schedule": [{ "location": "Beach", "activity": '10', "start": "13:00", "end": "18:00", "notes": "anything noteworthy" }, { "location": "Hotel Restaurant", "activity": "12", "start": "18:30", 'end': "20:00", "notes":"anything" }] },
-    '1': { "cruiseDay":"0", "city": "Lisbon", "schedule": [{ "location": "Hotel", "activity": '12', "start": "9:00", "end": "10:00", "notes": "anything noteworthy" }] },
-    '2': { "cruiseDay": "1", "city": "At Sea", "schedule": [{ "location": "Main Dining Room", "activity": '12', "start": "8:00", "end": "9:30", "notes": "anything noteworthy" }] },
-    '3': { "cruiseDay": "2", "city": "At Sea", "schedule": [{ "location": "Main Dining Room", "activity": '12', "start": "8:00", "end": "9:30", "notes": "anything noteworthy" }] },
-    '4': { "cruiseDay": "3", "city": "At Sea", "schedule": [{ "location": "Main Dining Room", "activity": '12', "start": "8:00", "end": "9:30", "notes": "anything noteworthy" }] },
-    '5': { "cruiseDay": "4", "city": "At Sea", "schedule": [{ "location": "Main Dining Room", "activity": '12', "start": "8:00", "end": "9:30", "notes": "anything noteworthy" }] },
-    '6': { "cruiseDay": "5", "city": "At Sea", "schedule": [{ "location": "Main Dining Room", "activity": '12', "start": "8:00", "end": "9:30", "notes": "anything noteworthy" }] },
-    '7': { "cruiseDay": "6", "city": "At Sea", "schedule": [{ "location": "Main Dining Room", "activity": '12', "start": "8:00", "end": "9:30", "notes": "anything noteworthy" }] },
-    '8': { "cruiseDay": "7", "city": "At Sea", "schedule": [{ "location": "Main Dining Room", "activity": '12', "start": "8:00", "end": "9:30", "notes": "anything noteworthy" }] },
-    '9': { "cruiseDay": "8", "city": "At Sea", "schedule": [{ "location": "Main Dining Room", "activity": '12', "start": "8:00", "end": "9:30", "notes": "anything noteworthy" }] },
-    '10': { "cruiseDay": "9", "city": "At Sea", "schedule": [{ "location": "Main Dining Room", "activity": '12', "start": "8:00", "end": "9:30", "notes": "anything noteworthy" }] },
-    '11': { "cruiseDay": "10", "city": "At Sea", "schedule": [{ "location": "Main Dining Room", "activity": '12', "start": "8:00", "end": "9:30", "notes": "anything noteworthy" }] },
-    '12': { "cruiseDay": "11", "city": "At Sea", "schedule": [{ "location": "Main Dining Room", "activity": '12', "start": "8:00", "end": "9:30", "notes": "anything noteworthy" }] },
+    '1': { "cruiseDay":"0", "city": "Lisbon", "schedule": [{ "location": "Hotel", "activity": '12', "start": "09:00", "end": "10:00", "notes": "anything noteworthy" }] },
+    '2': { "cruiseDay": "1", "city": "At Sea", "schedule": [{ "location": "Main Dining Room", "activity": '12', "start": "08:00", "end": "09:30", "notes": "anything noteworthy" }] },
+    '3': { "cruiseDay": "2", "city": "At Sea", "schedule": [{ "location": "Main Dining Room", "activity": '12', "start": "08:00", "end": "09:30", "notes": "anything noteworthy" }] },
+    '4': { "cruiseDay": "3", "city": "At Sea", "schedule": [{ "location": "Main Dining Room", "activity": '12', "start": "08:00", "end": "09:30", "notes": "anything noteworthy" }] },
+    '5': { "cruiseDay": "4", "city": "At Sea", "schedule": [{ "location": "Main Dining Room", "activity": '12', "start": "08:00", "end": "09:30", "notes": "anything noteworthy" }] },
+    '6': { "cruiseDay": "5", "city": "At Sea", "schedule": [{ "location": "Main Dining Room", "activity": '12', "start": "08:00", "end": "09:30", "notes": "anything noteworthy" }] },
+    '7': { "cruiseDay": "6", "city": "At Sea", "schedule": [{ "location": "Main Dining Room", "activity": '12', "start": "08:00", "end": "09:30", "notes": "anything noteworthy" }] },
+    '8': { "cruiseDay": "7", "city": "At Sea", "schedule": [{ "location": "Main Dining Room", "activity": '12', "start": "08:00", "end": "09:30", "notes": "anything noteworthy" }] },
+    '9': { "cruiseDay": "8", "city": "At Sea", "schedule": [{ "location": "Main Dining Room", "activity": '12', "start": "08:00", "end": "09:30", "notes": "anything noteworthy" }] },
+    '10': { "cruiseDay": "9", "city": "At Sea", "schedule": [{ "location": "Main Dining Room", "activity": '12', "start": "08:00", "end": "09:30", "notes": "anything noteworthy" }] },
+    '11': { "cruiseDay": "10", "city": "At Sea", "schedule": [{ "location": "Main Dining Room", "activity": '12', "start": "08:00", "end": "09:30", "notes": "anything noteworthy" }] },
+    '12': { "cruiseDay": "11", "city": "At Sea", "schedule": [{ "location": "Main Dining Room", "activity": '12', "start": "08:00", "end": "09:30", "notes": "anything noteworthy" }] },
 };
 //let activityList = {
     //'staged': [],
@@ -152,14 +152,32 @@ function loadUserData() {
         //portList.sort(function (a, b) { return parseInt(a) - parseInt(b) }); // Sort Port of Call List by [0] - targetData
         activityList.staged.length = 0; // clear POC activity removal staging list
         // sort daily activities by start time
-        for (const [key, value] of Object.entries(activityList)) {
-            if (key != "staged") {
-                value.schedule.sort((a, b) => (a["start"] > b["start"]) ? 1 : -1);
-            }
-        }
+        sortActivityList();
+        //-->sortActivityList
+        //for (const [key, value] of Object.entries(activityList)) {
+        //    if (key != "staged") {
+        //        value.schedule.sort((a, b) => (a["start"] > b["start"]) ? 1 : -1);
+        //    }
+        //}
 
         return true;
     }
+}
+
+function sortActivityList(thisDay = "none") {
+    if (thisDay != "none") {
+        //let tempVar = activityList[thisDay].schedule[0].match("\\d");
+        //testList[0]["start"].substring(0, 2) + testList[0]["start"].substring(3)
+        activityList[thisDay].schedule.sort((a, b) => (parseInt(a["start"].substring(0, 2) + a["start"].substring(3)) > parseInt(b["start"].substring(0, 2) + b["start"].substring(3))) ? 1 : -1);
+    } else {
+        for (const [key, value] of Object.entries(activityList)) {
+            if (key != "staged") {
+                //value.schedule.sort((a, b) => (a["start"] > b["start"]) ? 1 : -1);
+                value.schedule.sort((a, b) => (parseInt(a["start"].substring(0, 2) + a["start"].substring(3)) > parseInt(b["start"].substring(0, 2) + b["start"].substring(3))) ? 1 : -1);
+            }
+        }
+    }
+
 }
 
 function storeUserData() {

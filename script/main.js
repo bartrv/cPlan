@@ -187,10 +187,10 @@ function generatePOCList() {
     //}
     // [tripDay, calDateYDFormat, cruiseDay, portKey]
     for (const [CalendarKey, CalendarItem] of Object.entries(tripCalendar)) {
-        POCHTML += "<div id=\"dayItem_" + CalendarItem[0] + "\" style=\"position:relative; width:100%; cursor:pointer; height:40px;\" onclick=\"viewDaySelectedRollout(" + CalendarKey + ", this, " + ((activityList[portList[CalendarItem[3]][7]].schedule.length * 50) + 46 + 42) + ")\">"; //((# of activities tin this day's schedule)*50(row height(40)margin(6)border(4))+header(46)+42(addBtn))
-        POCHTML += "<div class=\"boxStyle_01\" style=\"position:relative; float:left; background-color:#aaccee; width:27px; height:100%; text-align:center; font-size:24px; border-radius:5px 3px 3px 20px;\">";
+        POCHTML += "<div id=\"dayItem_" + CalendarItem[0] + "\" style=\"width:100%; cursor:pointer; min-height:40px;\" onclick=\"viewDaySelectedRollout(" + CalendarKey + ", this, " + ((activityList[portList[CalendarItem[3]][7]].schedule.length * 50) + 46 + 42) + ")\">"; //((# of activities tin this day's schedule)*50(row height(40)margin(6)border(4))+header(46)+42(addBtn))
+        POCHTML += "<div class=\"boxStyle_01\" style=\"float:left; background-color:#aaccee; width:27px; height:40px; text-align:center; font-size:24px; border-radius:5px 3px 3px 20px;\">";
         POCHTML += "<div id=\"dayItem_" + CalendarItem[0] + "_Day\" style=\"padding-top:5px;\">" + CalendarItem[2] + "</div></div>";
-        POCHTML += "<div class=\"boxStyle_01\" style=\"position:relative; float:right; width: calc(100% - 40px); height:40px; border-radius:3px 6px 6px 3px;\">";
+        POCHTML += "<div class=\"boxStyle_01\" style=\"width: calc(100% - 40px); height:40px; border-radius:3px 6px 6px 3px;\">";
         POCHTML += "<table cellpadding =\"0\" cellspacing=\"0\" style=\"width: 100%;\"><tr>";
         POCHTML += "<td id=\"dayItem_" + CalendarItem[0] + "_CityCountry\" colspan=\"5\"style=\"text-align:center\">" + portList[CalendarItem[3]][1] + ", " + portList[CalendarItem[3]][2] + "</td></tr>";
         POCHTML += "<tr><td id=\"dayItem_" + CalendarItem[0] + "_Date\" style=\"width: 76px; text-align:left; font-size:.9em;\">" + CalendarItem[1] + "</td><td></td>";
@@ -766,11 +766,12 @@ function closeCurrentDayActivityEdit(targetData, i, rollCapID, acceptEdit=false)
         //document.getElementById('dayItem' + targetData + i + '_end').value = eTime;
         sTimeElement.value = sTime;
         eTimeElement.value = eTime;
+        sortActivityList("" + targetData);
         storeUserData();
         const rollCap = document.getElementById(rollCapID);
         const rollout = document.getElementById(rollCapID + "Rollout");
         const rollHeight = rollout.scrollHeight;
-        portIndex=
+        //portIndex=
         viewDaySelectedRollout(targetData, rollCap, rollHeight, true);
     }
 
@@ -799,17 +800,20 @@ function viewDaySelectedRollout(targetCalendarKey, rollCap, rollHeight, itemAppe
         document.getElementById("dayItem_" + toggleFlags.rolloutID + "Rollout").innerHTML = "";
         toggleFlags.rolloutID = null;
     }
-    let portListIndex = 0; // raised from inside if block
+    //let portListIndex = 0; // raised from inside if block
     if (toggleFlags.rolloutID == null || itemAppended === true) {
         //toggleFlags.rolloutID = targetData;
         toggleFlags.rolloutID = targetCalendarKey;
         rolloutTarget = document.getElementById(rollCap.id + "Rollout")
         // let portListIndex = 0; //raised to outside of if block
-        for (portListIndex; portListIndex < portList.length; portListIndex++) {
-            //if (portList[portListIndex][7] == targetData) break;
-            if (portList[portListIndex][7] == targetCalendarKey) break;
-        }
-        let portYear = portList[portListIndex][3].match("^\\d{4}");
+
+        //for (portListIndex; portListIndex < Object.keys(portList).length; portListIndex++) {
+        //    //if (portList[portListIndex][7] == targetData) break;
+        //    if (portList[portListIndex][7] == targetCalendarKey) break;
+        //}
+
+        //let portYear = portList[portListIndex][3].match("^\\d{4}");
+        let portYear = tripCalendar[targetCalendarKey][1].match("^\\d{4}")[0];
         //let portDayName = new Date(portList[portListIndex][3]).toLocaleDateString('en-us', { weekday: "long" }).toString();
         let portDayName = new Date(tripCalendar[targetCalendarKey][1]).toLocaleDateString('en-us', { weekday: "long" }).toString();
         //let portMonthName = new Date(portList[portListIndex][3]).toLocaleDateString('en-us', { month: "long" }).toString();
@@ -856,11 +860,11 @@ function viewDaySelectedRollout(targetCalendarKey, rollCap, rollHeight, itemAppe
             }
             daySelectedHTML += "</select></td><td id=\"buttonB" + targetCalendarKey + i + "\" rowspan=\"2\" style=\"width:27px;padding-top:10px;\"><img id=\"buttonBImg" + targetCalendarKey + i + "\" src=\"./images/pencilEdit.svg\" style=\"height: 25px; width: 25px; cursor: pointer; opacity: 1\" onclick=\"editCurrentDayActivity(" + targetCalendarKey + ", " + i + ", '" + rollCap.id + "')\" /></td></tr>";
             daySelectedHTML += "<tr><td style=\"width:42px; background-color:#a0deff99;\"><input id=\"dayItem" + targetCalendarKey + i + "_end\" type=\"text\" value=\"" + portSchedule[i].end + "\" style=\"width:41px; font-size:16px;\"  oninput=\"validateForm(this,'time24',5)\" disabled /></td><td colspan=\"3\" style=\"font-size:14px;\"><textarea id=\"dayItem" + targetCalendarKey + i + "_notes\" style=\"height:17px; font-size:13px; resize:none;\" disabled>" + portSchedule[i].notes + "</textarea></td></tr>";
-            daySelectedHTML += "</table></form><div id=\"formDayActivityItemFooter" + targetCalendarKey + i + "\" style=\"height:30px; width:50%; margin:auto; text-align:center; display:none;\"><img src=\"./images/trashBin.svg\" style=\"position:relative; float:left; width:25px; height:25px\" /><img src=\"./images/xMark.svg\" style=\"position:relative; float:right; width:25px; height:25px; cursor:pointer;\"  onclick=\"closeCurrentDayActivityEdit(" + targetCalendarKey + ", " + i + ", false)\"/></div>";
+            daySelectedHTML += "</table></form><div id=\"formDayActivityItemFooter" + targetCalendarKey + i + "\" style=\"height:30px; width:50%; margin:auto; text-align:center; display:none;\"><img src=\"./images/xMark.svg\" style=\"position:relative; float:right; width:25px; height:25px; cursor:pointer;\"  onclick=\"closeCurrentDayActivityEdit(" + targetCalendarKey + ", " + i + ", "+rollCap.id + ", false)\"/></div>";
         }
-        daySelectedHTML += "<div id=\"dayActivityFooter\" style=\"width: 55%; margin-top:2px;\">";
+        daySelectedHTML += "<div id=\"dayActivityFooter\" style=\"width: 55%; margin-top:2px; min-height:34px;\">";
         daySelectedHTML += "<div id=\"dayActivityAdd\" class=\"dayActivityItem\" style=\"float:left; margin-left:10px; width:28px; height: 28px; text-align:center; background-color: #ffffffaa; font-size:24px; cursor:pointer;\" onclick=\"appendNewDayActivity(" + targetCalendarKey + ", '" + rollCap.id + "', " + rollHeight + ")\">+</div>";
-        daySelectedHTML += "<div id=\"dayEditPOC\" class=\"dayActivityItem\" style=\"float:right; width:28px; height:28px; text-align:center; padding: 0; background-color: #ffffffaa; overflow:hidden; cursor:pointer;\" onclick=\"editCurrentDayPOC(" + portListIndex + ", " + targetCalendarKey + ")\"><img src=\"./images/pencilEdit.svg\" height=\"24px\" width=\"24px\" style=\"position:relative; top:2px;\" /></div>";
+        daySelectedHTML += "<div id=\"dayEditPOC\" class=\"dayActivityItem\" style=\"float:right; width:28px; height:28px; text-align:center; padding: 0; background-color: #ffffffaa; overflow:hidden; cursor:pointer;\" onclick=\"editCurrentDayPOC(" + tripCalendar[targetCalendarKey][3] + ", " + targetCalendarKey + ")\"><img src=\"./images/pencilEdit.svg\" height=\"24px\" width=\"24px\" style=\"position:relative; top:2px;\" /></div>";
         daySelectedHTML += "</div>";
 
         rolloutTarget.innerHTML = daySelectedHTML;
