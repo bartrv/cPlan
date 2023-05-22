@@ -208,5 +208,5 @@
     border: #e56800 1px solid;
     background-color: #999;
     overflow: hidden;
-    display:none;
+    visibility:hidden;
 }

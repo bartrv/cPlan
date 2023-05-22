@@ -143,8 +143,9 @@
 		</div>
 		<div id="emergancyInfo">Emergency Information</div>
 		<div id="configOptions" style="text-align:center;background-color:#000000e0;border-color: #f57800">
-			<div style="position:relative; width: calc(100% + 4px); left:-2px;top:-2px; height:35px; text-align:center; font-size:24px; background-color:#ffff99cc;">Configuration & Maintenance</div>
-			<div id="configGeneral" class="configRolloutHeading" onclick="toggleRollout(this,300)">General Information</div>
+			<div style="position:relative; width: calc(100% + 4px); left:-2px;top:-2px; height:30px; text-align:center; font-size:20px; background-color:#ffff99cc;padding-top:4px;">Configuration & Maintenance</div>
+			<!--<div id="configGeneral" class="configRolloutHeading" onclick="toggleRollout(this,300)">General Information</div>-->
+			<div id="configGeneral" class="configRolloutHeading" onclick="toggleRollout(this,document.getElementById('configGeneralRollout').scrollHeight+10)">General Information</div>
 			<!--let tripOverViewList = {
 	"tripName": "Mediterranean Cruise", "duration": "12",
 	"dateStart": "2023/06/13", "dateEnd": "2023/06/25", "embarkationDate": "2023/06/14",
@@ -153,63 +154,82 @@
 	"embarkatonCity": "Lisbon", "embarkationCountry": "Portugal", "embarkationCountryAbbr": "PRT", "debarkationCity": "Civitavecchia", "debarkationCountry": "Italy", "debarkationCountryAbbr": "ITA",
 	"reservationNumber": "1234567890", "stateRoom": "1403", "travelerFName":"Bart","travelerMI":"R","travelerLName":"Voigt","travelerMobileIntnl":"013179979299"-->
 			<div id="configGeneralRollout" class="configRolloutPanel">
-				<table style="width:100%; font-size:12px;border-spacing:0px">
+				<table style="width:100%; font-size:12px; border-spacing:0px">
 					<tr>
 						<td style="width:40px;padding:2px;text-align:left;">Name:</td>
-						<td style="width: 90px; padding: 2px;"><input id="configtravelerFName" class="configText" type="text" value="fName" style="width: calc(100% - 4px);" /></td>
-						<td style="width: 24px; text-align:center; padding: 2px;"><input id="configtravelerMI" class="configText" type="text" value="M" style="width: calc(100% - 4px); text-align: center;" /></td>
-						<td style="padding:2px;"><input id="configtravelerLName" class="configText" type="text" value="lName" style="width: calc(100% - 4px)" /></td>
-						<td style="width:70px;text-align:right;"><img src="images/pencilEdit.svg" style="height:20px; width:20px" /></td>
+						<td style="text-align: left;"><input id="configtravelerFName" class="configText" type="text" value="Name" style="width: calc(100% - 10px);" /></td>
+						<td style="width:26px;text-align:right;"><img src="images/xMark.svg" style="height:20px; width:20px; display:none"/></td>
+						<td style="width:26px;text-align:right;"><img src="images/pencilEdit.svg" style="height:20px; width:20px" /></td>
+					</tr>
+					<tr>
+						<td style="width: 40px; height: 19px; padding: 2px; text-align: left;">Middle:</td>
+						<td style="text-align:left;"><input id="configtravelerMI" class="configText" type="text" value="M" style="width: calc(100% - 10px);;" /></td>
+						<td style="width:26px;text-align:right;">&nbsp;</td><td style="width:26px;text-align:right;">&nbsp;</td>
+					</tr>
+					<tr>
+						<td style="width: 40px; height: 19px; padding: 2px; text-align: left;">Sirname:</td>
+						<td style="text-align:left;"><input id="configtravelerLName" class="configText" type="text" value="lName" style="width: calc(100% - 10px);" /></td>
+						<td style="width:26px;text-align:right;">&nbsp;</td><td style="width:26px;text-align:right;">&nbsp;</td>
 					</tr>
 					<tr>
 						<td style="width:40px;padding:2px;text-align:left;">Trip:</td>
-						<td colspan="3" style="text-align: left;"><input type="text" value="Trip Name" /></td>
-						<td style="width:70px;text-align:right;"><img src="images/pencilEdit.svg" style="height:20px; width:20px" /></td>
+						<td style="text-align: left;"><input type="text" value="Trip Name" style="width: calc(100% - 10px);" /></td>
+						<td style="width:26px;text-align:right;"><img src="images/xMark.svg" style="height:20px; width:20px; display:none" /></td>
+						<td style="width:26px;text-align:right;"><img src="images/pencilEdit.svg" style="height:20px; width:20px" /></td>
 					</tr>
 					<tr>
 						<td style="width:40px;padding:2px;text-align:left;">Trip start:</td>
-						<td colspan="3" style="text-align: left;"><input type="text" value="yyyy/mm/dd" /></td>
-						<td style="width:70px;text-align:right;"><img src="images/pencilEdit.svg" style="height:20px; width:20px" /></td>
+						<td style="text-align: left;"><input type="text" value="yyyy/mm/dd" style="width: 100px" /></td>
+						<td style="width:26px;text-align:right;"><img src="images/xMark.svg" style="height:20px; width:20px; display:none" /></td>
+						<td style="width:26px;text-align:right;"><img src="images/pencilEdit.svg" style="height:20px; width:20px" /></td>
 					</tr>
 					<tr>
 						<td style="width:40px;padding:2px;text-align:left;">Trip end:</td>
-						<td colspan="3" style="text-align: left;"><input type="text" value="yyyy/mm/dd" /></td>
-						<td style="width:70px;text-align:right;"><img src="images/pencilEdit.svg" style="height:20px; width:20px" /></td>
+						<td style="text-align: left;"><input type="text" value="yyyy/mm/dd" style="width: 100px" /></td>
+						<td style="width:26px;text-align:right;"><img src="images/xMark.svg" style="height:20px; width:20px; display:none" /></td>
+						<td style="width:26px;text-align:right;"><img src="images/pencilEdit.svg" style="height:20px; width:20px" /></td>
 					</tr>
 					<tr>
 						<td style="width:40px;padding:2px;text-align:left;">Duration:</td>
-						<td colspan="3" style="text-align: left;"><input type="text" value="dd" /> Days</td>
-						<td style="width:70px;text-align:right;"><img src="images/pencilEdit.svg" style="height:20px; width:20px" /></td>
+						<td style="text-align: left;"><input type="text" value="dd" style="width: 50px" /> Days</td>
+						<td style="width:26px;text-align:right;"><img src="images/xMark.svg" style="height:20px; width:20px; display:none" /></td>
+						<td style="width:26px;text-align:right;"><img src="images/pencilEdit.svg" style="height:20px; width:20px" /></td>
 					</tr>
 					<tr>
 						<td style="width:40px;padding:2px;text-align:left;">Embarkation:</td>
-						<td colspan="3" style="text-align: left;"><input type="text" value="yyyy/mm/dd" /></td>
-						<td style="width:70px;text-align:right;"><img src="images/pencilEdit.svg" style="height:20px; width:20px" /></td>
+						<td style="text-align: left;"><input type="text" value="yyyy/mm/dd" style="width: 100px" /></td>
+						<td style="width:26px;text-align:right;"><img src="images/xMark.svg" style="height:20px; width:20px; display:none" /></td>
+						<td style="width:26px;text-align:right;"><img src="images/pencilEdit.svg" style="height:20px; width:20px" /></td>
 					</tr>
 					<tr>
 						<td style="width:40px;padding:2px;text-align:left;">Debarkation:</td>
-						<td colspan="3" style="text-align: left;"><input type="text" value="yyyy/mm/dd" /></td>
-						<td style="width:70px;text-align:right;"><img src="images/pencilEdit.svg" style="height:20px; width:20px" /></td>
+						<td style="text-align: left;"><input type="text" value="yyyy/mm/dd" style="width: 100px" /></td>
+						<td style="width:26px;text-align:right;"><img src="images/xMark.svg" style="height:20px; width:20px; display:none" /></td>
+						<td style="width:26px;text-align:right;"><img src="images/pencilEdit.svg" style="height:20px; width:20px" /></td>
 					</tr>
 					<tr>
 						<td style="width:40px;padding:2px;text-align:left;">Cruise&nbsp;Length:</td>
-						<td colspan="3" style="text-align: left;"><input type="text" value="yyyy/mm/dd" /> Days</td>
-						<td style="width:70px;text-align:right;"><img src="images/pencilEdit.svg" style="height:20px; width:20px" /></td>
+						<td style="text-align: left;"><input type="text" value="dd" style="width: 50px" /> Days</td>
+						<td style="width:26px;text-align:right;"><img src="images/xMark.svg" style="height:20px; width:20px; display:none" /></td>
+						<td style="width:26px;text-align:right;"><img src="images/pencilEdit.svg" style="height:20px; width:20px" /></td>
 					</tr>
 					<tr>
 						<td style="width:40px;padding:2px;text-align:left;">Cruise Line:</td>
-						<td colspan="3" style="text-align: left;"><input type="text" value="Fun Time Cruise Line" /> Days</td>
-						<td style="width:70px;text-align:right;"><img src="images/pencilEdit.svg" style="height:20px; width:20px" /></td>
+						<td style="text-align: left;"><input type="text" value="Fun Time Cruise Line" style="width: calc(100% - 10px);" /></td>
+						<td style="width:26px;text-align:right;"><img src="images/xMark.svg" style="height:20px; width:20px; display:none" /></td>
+						<td style="width:26px;text-align:right;"><img src="images/pencilEdit.svg" style="height:20px; width:20px" /></td>
 					</tr>
 					<tr>
 						<td style="width:40px;padding:2px;text-align:left;">Name:</td>
-						<td colspan="3" style="text-align: left;"><input type="text" value="Fun Time" /> Days</td>
-						<td style="width:70px;text-align:right;"><img src="images/pencilEdit.svg" style="height:20px; width:20px" /></td>
+						<td style="text-align: left;"><input type="text" value="Fun Time" style="width: calc(100% - 10px);" /></td>
+						<td style="width:26px;text-align:right;"><img src="images/xMark.svg" style="height:20px; width:20px; display:none" /></td>
+						<td style="width:26px;text-align:right;"><img src="images/pencilEdit.svg" style="height:20px; width:20px" /></td>
 					</tr>
 					<tr>
 						<td style="width:40px;padding:2px;text-align:left;">Abbreviation:</td>
-						<td colspan="3" style="text-align: left;"><input type="text" value="FT" /> Days</td>
-						<td style="width:70px;text-align:right;"><img src="images/pencilEdit.svg" style="height:20px; width:20px" /></td>
+						<td style="text-align: left;"><input type="text" value="FTCL" style="width: 50px" /></td>
+						<td style="width:26px;text-align:right;"><img src="images/xMark.svg" style="height:20px; width:20px; display:none" /></td>
+						<td style="width:26px;text-align:right;"><img src="images/pencilEdit.svg" style="height:20px; width:20px" /></td>
 					</tr>
 				</table>
 			</div>
@@ -221,7 +241,7 @@
 			<div id="configShareLoadRollout" class="configRolloutPanel"></div>
 			<div id="configReset" class="configRolloutHeading" onclick="toggleRollout(this,65)">Clear / Reset Data</div>
 			<div id="configResetRollout" class="configRolloutPanel"><br /><input type="button" value="Erase/Reset ALL App Data" onclick="launchPopUp('clearAllData')" /></div>
-			
+
 		</div>
 		</div>
 

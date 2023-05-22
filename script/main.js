@@ -258,6 +258,9 @@ function initEditPanel(panelID) {
         document.getElementById('btn_Edit' + editInputList[0] +'Cancel').style.display = "inline";
         document.getElementById('btn_Edit' + editInputList[0]).style.display = "none";
     }
+    if (panelID == 'config_GeneralInfo') {
+        editInputList = [''];
+    }
 }
 
 function acceptEditPanel(panelID) {
@@ -302,6 +305,7 @@ function toggleRollout(rollCap, rollHeight, portListIndex = null) {
     stopPOCTimer(); // Clear countdown timer to prevent duplicates - countdown is relative to .now so restarting is ok
     rolloutPanel = document.getElementById(rollCap.id + "Rollout");
     rolloutPanel.style.display = "block";
+    rolloutPanel.style.visibility = "visible";
     if (getComputedStyle(rolloutPanel).height === "0px") {
         rollDir = 1;
         heightNow = 0;
@@ -325,7 +329,8 @@ function toggleRollout(rollCap, rollHeight, portListIndex = null) {
             rolloutPanel.style.height = "0px";
             clearInterval(slideID);
             slideID = null;
-            rolloutPanel.style.display = "none";
+            //rolloutPanel.style.display = "none";
+            rolloutPanel.style.visibility = "hidden";
             if (rollCap.id.includes("dayItem_"))  toggleFlags.rolloutID = null; 
         } else if (heightNow >= rollHeight) {
             console.log('cancel with >=0');

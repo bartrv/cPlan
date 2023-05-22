@@ -164,6 +164,12 @@ function loadUserData() {
     }
 }
 
+function buildDataFromCalander(resetFlag=false) {
+
+
+
+}
+
 function sortActivityList(thisDay = "none") {
     if (thisDay != "none") {
         //let tempVar = activityList[thisDay].schedule[0].match("\\d");
