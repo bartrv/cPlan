@@ -5,7 +5,7 @@
     <meta name='viewport' content='width=device-width, initial-scale=1.0' />
     <style>
         body,html {padding:0px;width:100%;height:100%;margin:0px;}
-        .basicBox {border:#000 solid 1px; background-color:#bbbbff44; width:100%; height:32px; margin-bottom:4px;}
+        .basicBox {border:#000 solid 1px; background-color:#bbbbff44; width:100%; height:38px; margin-bottom:4px;}
         #ddArea {
             border: #007 solid 1px;
             border-radius: 4px;
@@ -22,28 +22,30 @@
             border-radius: 6px;
             background-color: #ccccff22;
             width: calc(100% - 4px);
-            height: 20px;
+            height: 25px;
             cursor: pointer;
             overflow:hidden;
         }
         .dropBar {
             width: calc(100% - 12px);
-            height: 2px;
+            height: 3px;
             background-color: #aa9999;
-            border: #aa9999 1px solid;
+            border: none;
             margin: 0px;
             margin:auto;
             z-index: 20;
         }
     </style>
     <script>
-        var dateStart = 20230501;
+        var dateStart = 20230501; //2023, May, 1st
         var rangeA = 4;
         var itemList = {
-            "0": { "day": 0, "date": 2023505, "text": "Test Item A" },
-            "1": { "day": 1, "date": 2023505, "text": "Test Item B" },
-            "2": { "day": 2, "date": 2023505, "text": "Test Item C" },
-            "3": { "day": 3, "date": 2023505, "text": "Test Item D" }
+            "0": { "day": -1, "date": 20230501, "text": "Test Item A" },
+            "1": { "day": 0, "date": 20230502, "text": "Test Item B" },
+            "2": { "day": 1, "date": 20230503, "text": "Test Item C" },
+            "3": { "day": 2, "date": 20230504, "text": "Test Item D" },
+            "4": { "day": 3, "date": 20230505, "text": "Test Item E" },
+            "5": { "day": 4, "date": 20230506, "text": "Test Item F" }
         };
 
         function showAction(actionType, item, data) {
@@ -55,6 +57,9 @@
                 document.getElementById("actionDisplay").innerHTML = "Item: " + item.id + " was dragged, Data:" + data;
                 document.getElementById("dataDisplay").innerHTML = data + ": Day:" + itemList[data]["day"] + ", date: " + itemList[data]["date"] + ", Info: " + itemList[data]["text"];
             }
+            if (actionType == "moveOverItem") {
+                document.getElementById("actionDisplay").innerHTML = "Item: " + item.id + " is at Y = " + data;
+            }
 
         }
 
@@ -62,74 +67,117 @@
             console.log("test");
             listHTML = "";
             let i = 0;
-            for (const [item, value] of Object.entries(itemList)) {
+            for (const [key, value] of Object.entries(itemList)) {
                 //console.log(value);
-                listHTML += "<div id='divider" + i + "' class='dropBar' ondragover=\"allowDrop(event,this)\" ondragleave=\"dragOut(event,this)\" ondrop=\"dropItem(event,this,'" + i +"')\"></div > ";
-                listHTML += "<div id='displayItem_" + i + "' class='dragItem' onclick=\"showAction('Clicked',this," + i +")\" draggable=\"true\" ondragstart=\"drag(event,this,"+i+")\">";
-                //listHTML += "Item: "+ item;
-                listHTML += "<div id='item" + i + "_day' style='float:left;width:75px;'>Day: " + value['day'] + "</div>";
-                listHTML += "<div id='item" + i + "_date' style='float:left;width:125px;'>Date: " + value['date'] + "</div>";
-                listHTML += "<div id='item" + i + "_text' style='float:left;width:350px;'>Text: " + value['text'] + "</div>";
+                listHTML += "<div id='divider" + key + "' class='dropBar' ondragenter=\"dragIn(event,this,'" + key + "')\" ondragleave=\"dragOut(event,this," + key + ")\" ondragover=\"allowDrop(event,this," + key + ")\" ondrop=\"dropItem(event,this,'" + key + "')\"></div > ";
+                listHTML += "<div id='displayItem_" + key + "' class='dragItem' onclick=\"showAction('Clicked',this," + key + ")\" draggable=\"true\" ondragstart=\"drag(event,this," + key + ")\" ondragover=\"allowDrop(event,this," + key + ")\" ondrop=\"dropItem(event,this,'" + key + "')\">";
+                listHTML += "<div id='item" + key + "_day' style='float:left;width:75px;'>Day: " + value['day'] + "</div>";
+                listHTML += "<div id='item" + key + "_date' style='float:left;width:125px;'>Date: " + value['date'] + "</div>";
+                listHTML += "<div id='item" + key + "_text' style='float:left;width:350px;'>Text: " + value['text'] + "</div>";
                 
                 listHTML += "</div>";
-                i++;
+                i = parseInt(key);
             }
-            listHTML += "<div id='divider" + i + "' class='dropBar' ondragover=\"allowDrop(event,this)\" ondragleave=\"dragOut(event,this)\" ondrop=\"dropItem(event,this,'"+i+"')\"></div > ";
-            //document.getElementById("ddArea").innerHTML = listHTML;
+            listHTML += "<div id='divider" + (i + 1) + "' class='dropBar' ondragenter=\"dragIn(event,this,'" + (i + 1) + "')\" ondragleave=\"dragOut(event,this," + (i + 1) + ")\" ondragover=\"allowDrop(event,this," + (i + 1) + ")\" ondrop=\"dropItem(event,this,'" + (i + 1) + "')\"></div > ";
             document.getElementById("ddArea").innerHTML = listHTML;
         }
 
         function drag(eventData, dragItem, data) {
             let dragField = toString(dragItem.id).substring(12);
-            //document.getElementById("dropBin").style.display = "hidden";
             eventData.dataTransfer.setData("text", data);
             showAction("DragStart", dragItem, data);
         }
 
-        function dragOut(eventData, dropTarget) {
-            dropTarget.style.borderColor = "#aa9999";
+        function dragOut(eventData, dropTarget, key) {
             dropTarget.style.backgroundColor = "#aa9999";
-            dropTarget.style.height = "2px";
+            dropTarget.style.height = "3px";
+
         }
 
-        function allowDrop(eventData,dropTarget) {
-            eventData.preventDefault();
-            dropTarget.style.borderColor = "#ff0000";
+        function mouseYHover(pointEvent, dropTarget, key, midYPoint) {
+            //console.log(pointEvent);
+            dividerBefore = document.getElementById('divider' + key);
+            dividerAfter = document.getElementById('divider' + (parseInt(key) + 1));
+            if (pointEvent.clientY > midYPoint) {
+                dividerBefore.style.backgroundColor = "#aa9999";
+                dividerBefore.style.height = "3px";
+                dividerAfter.style.backgroundColor = "#ff9999";                
+                dividerAfter.style.height = "8px";
+            } else {
+                dividerBefore.style.backgroundColor = "#ff9999";
+                dividerBefore.style.height = "8px";
+                dividerAfter.style.backgroundColor = "#aa9999";
+                dividerAfter.style.height = "3px";
+            }
+        }
+
+        function dragIn(eventData, dropTarget, key) {
             dropTarget.style.backgroundColor = "#ff9999";
-            dropTarget.style.height = "20px";
+            dropTarget.style.height = "8px";
+
+        }
+
+        function allowDrop(eventData,dropTarget,key) {
+            eventData.preventDefault();
+            if (dropTarget.id.substring(0, 7) != "divider") {
+                let dropArea = dropTarget.getBoundingClientRect();
+                let midYPoint = parseInt((dropArea.bottom + dropArea.top) / 2)
+                mouseYHover(eventData, dropTarget, key, midYPoint);
+            }
         }
 
         function dropItem(eventData, dropTarget, data) {
             console.log(data + ", " + eventData.dataTransfer.getData("text"));
             eventData.preventDefault();
+            let dataInsertTarget = parseInt(data) //+ dropTargetSide;
             let dataToMoveIndex = parseInt(eventData.dataTransfer.getData("text"));
-            //let dataToMove = { ...itemList[eventData.dataTransfer.getData("text")] };
-            //let dataToMove = eventData.dataTransfer.getData("text");
-            //dataToMove = itemList[dataToMove];
             let tempList = {};
-            let dateNumber = [itemList[0].day, itemList[0].date];
+            let DataEntryToMove = { ...itemList[dataToMoveIndex.toString()] };
             let listLength = Object.keys(itemList).length;
+            let dropTargetSide;
+
+            if (dropTarget.id.substring(0, 7) != "divider") {
+                let dropTargetRect = dropTarget.getBoundingClientRect();
+                dropTargetSide = (eventData.y > parseInt((dropTargetRect.bottom + dropTargetRect.top) / 2)) ? 1 : 0;
+            } else {
+                if (parseInt(dropTarget.id.substring(7)) < Object.entries(itemList).length) {
+                    dropTargetSide = 0;
+                } else {
+                    dropTargetSide = 1;
+                    dataInsertTarget -= 1;
+                }
+            }
+
             for (let i = 0; i < listLength; i++) {
-                
-                if (i != parseInt(data)) {
-                    if (i != dataToMoveIndex) {
-                            tempList[i.toString()] = { ...itemList[i] };
+                if ((i < dataInsertTarget && i < dataToMoveIndex) || (i > dataInsertTarget && i > dataToMoveIndex)) {
+                    //tempList[i.toString()] = { ...itemList[i.toString()] };
+                    continue;
+                } else {
+                    if (dataToMoveIndex < dataInsertTarget) {
+                        if (i == dataInsertTarget - 1 + dropTargetSide) {
+                            tempList[(i).toString()] = DataEntryToMove;
+                        } else if (i < dataInsertTarget) {
+                            tempList[i.toString()] = { ...itemList[(i+1).toString()] };
+                        } else {
+                            tempList[(i).toString()] = { ...itemList[i.toString()] };
                         }
-
-                    } else if (i == dropTarget) {
-                        tempList[i.toString()] = { ...itemList[eventData.dataTransfer.getData("text")] };
-                    } 
-
-                
-                console.log(tempList[i]);
-                //tempList[i].day = dateNumber[0] + i;
-                //tempList[i].date = dateNumber[1] + i;
+                    } else if (dataToMoveIndex >= dataInsertTarget) {
+                        if (i == dataInsertTarget + dropTargetSide) {
+                            tempList[(i).toString()] = DataEntryToMove;
+                        } else if (i > dataInsertTarget) {
+                            tempList[(i).toString()] = { ...itemList[(i-1).toString()] };
+                        } else {
+                            tempList[(i).toString()] = { ...itemList[i.toString()] };
+                        }
+                    }
+                }
             }
-            ihtml = "";
-            for (const [a, b] of Object.entries(tempList)){
-                ihtml += "Entry: "+a+", Day: "+b.day+", Date=";
+
+            for (const [key, item] of Object.entries(tempList)) {
+                itemList[key].text = tempList[key].text;
             }
-            console.log(tempList+", "+eventData);
+
+            buildList();
         }
     </script>
     
