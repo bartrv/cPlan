@@ -94,6 +94,12 @@
 
         }
 
+        function dragIn(eventData, dropTarget, key) {
+            dropTarget.style.backgroundColor = "#ff9999";
+            dropTarget.style.height = "8px";
+
+        }
+
         function mouseYHover(pointEvent, dropTarget, key, midYPoint) {
             //console.log(pointEvent);
             dividerBefore = document.getElementById('divider' + key);
@@ -109,12 +115,6 @@
                 dividerAfter.style.backgroundColor = "#aa9999";
                 dividerAfter.style.height = "3px";
             }
-        }
-
-        function dragIn(eventData, dropTarget, key) {
-            dropTarget.style.backgroundColor = "#ff9999";
-            dropTarget.style.height = "8px";
-
         }
 
         function allowDrop(eventData,dropTarget,key) {
@@ -136,18 +136,22 @@
             let listLength = Object.keys(itemList).length;
             let dropTargetSide;
 
+            //determine if drop recipient is the divider, or the top/bottom of the display panel
             if (dropTarget.id.substring(0, 7) != "divider") {
                 let dropTargetRect = dropTarget.getBoundingClientRect();
-                dropTargetSide = (eventData.y > parseInt((dropTargetRect.bottom + dropTargetRect.top) / 2)) ? 1 : 0;
+                dropTargetSide = (eventData.y > parseInt((dropTargetRect.bottom + dropTargetRect.top) / 2)) ? 1 : 0;  // is the mouseY > midpoint Y?, y=1, n=0
             } else {
-                if (parseInt(dropTarget.id.substring(7)) < Object.entries(itemList).length) {
+                if (parseInt(dropTarget.id.substring(7)) < Object.entries(itemList).length) { // always divider drop inserts before data index
                     dropTargetSide = 0;
                 } else {
-                    dropTargetSide = 1;
+                    dropTargetSide = 1; //last divider indicates a data index +1 greater than last array index value, reduce to point to last entry index/key 
                     dataInsertTarget -= 1;
                 }
             }
-
+            //insert logic - ignore everything before and after dragged item and insertion point, bubble changes through range, offset by top/bottom insert Y location
+            // data is copied to prevent referance overwriting and duplication
+            // THIS ASSUMES Key/Value array is in CORRECT ORDER, If Array is UnOrdered this will FAIL
+            // This does not re-order the array, only Value REFERANCES WITHIN THE ARRAY
             for (let i = 0; i < listLength; i++) {
                 if ((i < dataInsertTarget && i < dataToMoveIndex) || (i > dataInsertTarget && i > dataToMoveIndex)) {
                     //tempList[i.toString()] = { ...itemList[i.toString()] };
