@@ -19,16 +19,18 @@
 
  */
 /* localStorage data schema:
+ * All data saved and manipulated as text except toggleFlags and cPlanDataSaved flag, numerical/date/time data is converted as needed for
  * cPlanDataSaved = 0 or 1
  * cPlanDataList = JSON.stringified(datalist)
  * dataList = {
  * "isDataSaved": "1" or null (yes/no)
  * "toggleFlags":list, 
- * "tripOvrViewList":list,
- * "portList":array,
- * "activityList":list,
- * "emergencyDataList": array
- * "activityTypeList": array,
+ * "tripOvrViewList":array,  // 1 dimensional
+ * "portList":array,  // {uniqueKey: [cruiseDay, City, Country, Date, Arrival, Departure, Terminal, activityList_uniqueKey]}
+ * "activityList":array,  // uniqueKey: { "cruiseDay": "1", "city": "At Sea", "schedule": [{ "location": "Main Dining Room", "activity": '12', "start": "8:00", "end": "9:30", "notes": "anything noteworthy" }] },
+ * "emergencyDataList": list  // [["Data Set 1", ["title 1", "Information 1"],...], ["Data Set 2", ["title 2", "Information 2"],...],...]
+ * "activityTypeList": list,  // 1 dimensional list to populate drop/select 
+ * "tripCalendar": array // tripDay:[tripDay, calDateYDFormat, cruiseDay, portList_uniqueKey] ==> {"0":["0","2023/07/25","-1","0"]}
  * };
  */
 // https://www.w3schools.com/jsref/prop_win_localstorage.asp
@@ -63,17 +65,13 @@ let portList = {
     "11": ["10", "City / Ship Name", "Country / 'At Sea'", "2020/12/31", "00:00", "24:00", "1A", "11"],
     "12": ["11", "City / Ship Name", "Country / 'At Sea'", "2020/12/31", "00:00", "24:00", "1A", "12"]
 };
-//let portList = [
-    //['-1', 'Lisbon', 'Portugal', '2023/06/14', '18:00', '24:00', '0'],
-    //['0', 'Lisbon', 'Portugal', '2023/06/15', '00:00', '20:00', '12'],
-    //['1', 'At Sea', 'NCL Getaway', '2023/06/16', '00:00', '24:00', '0']
-//];
+
 
 //'-1': { "city": "Lisbon", "schedule": [{ "location": "Beach", "activity": 'Hang Out', "start": "13:00", "end": "18:00", "notes": "anything noteworthy" }
 //usage:
-//activitylist['-1'].city='Lisbon'
-//activitylist['-1'].schedule[0].location='Beach'
-//activitylist['-1'].schedule[1].activity = 'Lunch'
+//activitylist['0'].city == 'Lisbon'
+//activitylist['1'].schedule[0].location == 'Beach'
+//activitylist['2'].schedule[1].activity == '12'  // '12' => activityTypeList[12] == 'Eat/Drink'
 
 let activityList = {'staged':[],
     '0': { "cruiseDay":"-1","city": "Lisbon", "schedule": [{ "location": "Beach", "activity": '10', "start": "13:00", "end": "18:00", "notes": "anything noteworthy" }, { "location": "Hotel Restaurant", "activity": "12", "start": "18:30", 'end': "20:00", "notes":"anything" }] },
@@ -101,7 +99,7 @@ let emergencyDataList = [["Data Set 1", ["title 1", "Information 1"], ["title 2"
     ["Data Set 2", ["title 1", "Information 1"], ["title 2", "Information 2"]],
     ["Data Set 3", ["title 1", "Information 1"]]
 ];
-
+ 
 let activityTypeList = ['Activity...', 'Bus Tour', 'Check-in', 'Check-out', 'Dancing', 'Entertainment', 'Excursion', 'Free time', 'Gambling',
     'Group Tour', 'Hang Out', 'Hiking', 'Eat/Drink', 'Planning', 'Private Tour', 'Reading', 'SCUBA', 'Shopping', 'Sleep',
     'Snorkling', 'Social', 'Swimming', 'Tasting', 'Transit', 'Walking', 'Wiki-Tour', 'Workout'];
