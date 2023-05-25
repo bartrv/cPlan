@@ -244,6 +244,7 @@ function populateConfigPanelData(){
 }
 
 var editInputList = [0];
+
 function initEditPanel(panelID) {
     editInputList=[0];
     if (panelID == 'shipDetails') {
@@ -259,7 +260,8 @@ function initEditPanel(panelID) {
         document.getElementById('btn_Edit' + editInputList[0]).style.display = "none";
     }
     if (panelID == 'config_GeneralInfo') {
-        editInputList = [''];
+        Array.from(document.getElementById('form_generalInfo').elements).forEach((input) => { editInputList.push(input.id)});
+        console.log(editInputList);
     }
 }
 
