@@ -69,7 +69,8 @@
             let i = 0;
             for (const [key, value] of Object.entries(itemList)) {
                 //console.log(value);
-                listHTML += "<div id='divider" + key + "' class='dropBar' ondragenter=\"dragIn(event,this,'" + key + "')\" ondragleave=\"dragOut(event,this," + key + ")\" ondragover=\"allowDrop(event,this," + key + ")\" ondrop=\"dropItem(event,this,'" + key + "')\"></div > ";
+                //listHTML += "<div id='divider" + key + "' class='dropBar' ondragenter=\"dragIn(event,this,'" + key + "')\" ondragleave=\"dragOut(event,this," + key + ")\" ondragover=\"allowDrop(event,this," + key + ")\" ondrop=\"dropItem(event,this,'" + key + "')\"></div > ";
+                listHTML += "<div id='divider" + key + "' class='dropBar' ondragenter=\"dragIn(this)\" ondragleave=\"dragOut(this)\" ondragover=\"allowDrop(event,this," + key + ")\" ondrop=\"dropItem(event,this,'" + key + "')\"></div > ";
                 listHTML += "<div id='displayItem_" + key + "' class='dragItem' onclick=\"showAction('Clicked',this," + key + ")\" draggable=\"true\" ondragstart=\"drag(event,this," + key + ")\" ondragover=\"allowDrop(event,this," + key + ")\" ondrop=\"dropItem(event,this,'" + key + "')\">";
                 listHTML += "<div id='item" + key + "_day' style='float:left;width:75px;'>Day: " + value['day'] + "</div>";
                 listHTML += "<div id='item" + key + "_date' style='float:left;width:125px;'>Date: " + value['date'] + "</div>";
@@ -78,29 +79,33 @@
                 listHTML += "</div>";
                 i = parseInt(key);
             }
-            listHTML += "<div id='divider" + (i + 1) + "' class='dropBar' ondragenter=\"dragIn(event,this,'" + (i + 1) + "')\" ondragleave=\"dragOut(event,this," + (i + 1) + ")\" ondragover=\"allowDrop(event,this," + (i + 1) + ")\" ondrop=\"dropItem(event,this,'" + (i + 1) + "')\"></div > ";
+            //listHTML += "<div id='divider" + (i + 1) + "' class='dropBar' ondragenter=\"dragIn(event,this,'" + (i + 1) + "')\" ondragleave=\"dragOut(event,this," + (i + 1) + ")\" ondragover=\"allowDrop(event,this," + (i + 1) + ")\" ondrop=\"dropItem(event,this,'" + (i + 1) + "')\"></div > ";
+            listHTML += "<div id='divider" + (i + 1) + "' class='dropBar' ondragenter=\"dragIn(this)\" ondragleave=\"dragOut(this)\" ondragover=\"allowDrop(event,this," + (i + 1) + ")\" ondrop=\"dropItem(event,this,'" + (i + 1) + "')\"></div > ";
             document.getElementById("ddArea").innerHTML = listHTML;
         }
 
         function drag(eventData, dragItem, data) {
-            let dragField = toString(dragItem.id).substring(12);
+            //let dragField = toString(dragItem.id).substring(12);
             eventData.dataTransfer.setData("text", data);
-            showAction("DragStart", dragItem, data);
+            //showAction("DragStart", dragItem, data);
         }
 
-        function dragOut(eventData, dropTarget, key) {
+        //function dragOut(eventData, dropTarget, key) {
+        function dragOut(dropTarget) {
             dropTarget.style.backgroundColor = "#aa9999";
             dropTarget.style.height = "3px";
 
         }
 
-        function dragIn(eventData, dropTarget, key) {
+        //function dragIn(eventData, dropTarget, key) {
+        function dragIn(dropTarget) {
             dropTarget.style.backgroundColor = "#ff9999";
             dropTarget.style.height = "8px";
 
         }
 
-        function mouseYHover(pointEvent, dropTarget, key, midYPoint) {
+        //function mouseYHover(pointEvent, dropTarget, key, midYPoint) {
+        function mouseYHover(pointEvent, key, midYPoint) {
             //console.log(pointEvent);
             dividerBefore = document.getElementById('divider' + key);
             dividerAfter = document.getElementById('divider' + (parseInt(key) + 1));
@@ -122,7 +127,8 @@
             if (dropTarget.id.substring(0, 7) != "divider") {
                 let dropArea = dropTarget.getBoundingClientRect();
                 let midYPoint = parseInt((dropArea.bottom + dropArea.top) / 2)
-                mouseYHover(eventData, dropTarget, key, midYPoint);
+                // mouseYHover(eventData, dropTarget, key, midYPoint);
+                mouseYHover(eventData, key, midYPoint);
             }
         }
 
