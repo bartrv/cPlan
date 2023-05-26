@@ -41,12 +41,12 @@ const msPerDay = 86400000;
 const toggleFlags = { "shipDetails": 1, "portOfCallList": 1, "travelInfo": 1, "emergancyInfo": 1, "configOptions": 1, "rolloutID": null };
 
 let tripOverViewList = {
-    "tripName": "Mediterranean Cruise", "duration": "12",
+    "tripName": "Name of My Cruise/Trip", "duration": "12",
     "dateStart": "2023/01/01", "dateEnd": "2023/01/13", "embarkationDate": "2023/01/03",
-    "debarkationDate": "2023/01/10", "cruiseLine": "Norwegian Cruise Line", "cruiseLineCommon": "Norwegian", "cruiseLineAbbr": "NCL", "shipName": "Getaway",
+    "debarkationDate": "2023/01/10", "cruiseLine": "Fun Time Cruise Line", "cruiseLineCommon": "Fun Time", "cruiseLineAbbr": "FTCL", "shipName": "Party Barge",
     "tonnes": "145,655", "guests": "3963","shpLength":"1068'","maxBeam":"170'","crew":"1646","constructed":"2020 (2014)",
-    "embarkatonCity": "Lisbon", "embarkationCountry": "Portugal", "embarkationCountryAbbr": "PRT", "debarkationCity": "Civitavecchia", "debarkationCountry": "Italy", "debarkationCountryAbbr": "ITA",
-    "reservationNumber": "1234567890", "stateRoom": "1403", "travelerFName":"Jim","travelerMI":"C","travelerLName":"Monty","travelerMobileIntnl":"013177011234"
+    "embarkatonCity": "Embark City", "embarkationCountry": "My Embark Country", "embarkationCountryAbbr": "MEC", "debarkationCity": "Debark City", "debarkationCountry": "My Debark Country", "debarkationCountryAbbr": "MDC",
+    "reservationNumber": "1234567890", "stateRoom": "1403", "travelerFName":"Jim","travelerMI":"C","travelerLName":"Monty","travelerMobileIntnl":"011234567890"
 };
 
 // {uniqueKey: [0:cruiseDay, 1:City, 2:Country, 3:Date, 4:Arrival, 5:Departure, 6:Terminal, 7:ActivityKey]}
@@ -162,8 +162,14 @@ function loadUserData() {
     }
 }
 
-function buildDataFromCalander(resetFlag=false) {
-
+function buildDataFromCalander(resetFlag = false) {
+    if (resetFlag == true) {
+        tripOverViewList.dateStart = "2023/01/01";
+        tripOverViewList.dateEnd = "2023/01/13";
+        tripOverViewList.embarkationDate = "2023/01/03";
+        tripOverViewList.debarkationDate = "2023/01/10";
+    }
+    let genStartDate = new date(tripOverViewList.dateStart);
 
 
 }
