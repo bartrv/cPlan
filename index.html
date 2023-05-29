@@ -158,79 +158,79 @@
 					<table style="width:100%; font-size:12px; border-spacing:0px">
 						<tr>
 							<td style="width:40px;padding:2px;text-align:left;">Name:</td>
-							<td style="text-align: left;"><input id="configTravelerFName" class="configText" type="text" value="Name" style="width: calc(100% - 10px);" /></td>
+							<td style="text-align: left;"><input id="config_travelerFName" class="configText" type="text" value="Name" style="width: calc(100% - 10px);" /></td>
 							<td style="width:26px;text-align:right;"><img src="images/xMark.svg" style="height:20px; width:20px; display:none" /></td>
 							<td style="width:26px;text-align:right;"><img src="images/pencilEdit.svg" style="height:20px; width:20px" onclick="" /></td>
 						</tr>
 						<tr>
 							<td style="width: 40px; height: 19px; padding: 2px; text-align: left;">Middle:</td>
-							<td style="text-align:left;"><input id="configTravelerMI" class="configText" type="text" value="M" style="width: calc(100% - 10px);;" /></td>
+							<td style="text-align:left;"><input id="config_travelerMI" class="configText" type="text" value="M" style="width: calc(100% - 10px);;" /></td>
 							<td style="width:26px;text-align:right;">&nbsp;</td>
 							<td style="width:26px;text-align:right;">&nbsp;</td>
 						</tr>
 						<tr>
 							<td style="width: 40px; height: 19px; padding: 2px; text-align: left;">Sirname:</td>
-							<td style="text-align:left;"><input id="configTravelerLName" class="configText" type="text" value="lName" style="width: calc(100% - 10px);" /></td>
+							<td style="text-align:left;"><input id="config_travelerLName" class="configText" type="text" value="lName" style="width: calc(100% - 10px);" /></td>
 							<td style="width:26px;text-align:right;">&nbsp;</td>
 							<td style="width:26px;text-align:right;">&nbsp;</td>
 						</tr>
 						<tr>
 							<td style="width:40px;padding:2px;text-align:left;">Trip:</td>
-							<td style="text-align: left;"><input id="configTripName" type="text" value="Trip Name" style="width: calc(100% - 10px);" /></td>
+							<td style="text-align: left;"><input id="config_tripName" type="text" value="Trip Name" style="width: calc(100% - 10px);" /></td>
 							<td style="width:26px;text-align:right;"><img src="images/xMark.svg" style="height:20px; width:20px; display:none" /></td>
 							<td style="width:26px;text-align:right;"><img src="images/pencilEdit.svg" style="height:20px; width:20px" /></td>
 						</tr>
 						<tr>
 							<td style="width:40px;padding:2px;text-align:left;">Trip start:</td>
-							<td style="text-align: left;"><input id="configTripStart" type="text" value="yyyy/mm/dd" style="width: 100px" /></td>
+							<td style="text-align: left;"><input id="config_dateStart" type="text" value="yyyy/mm/dd" style="width: 100px" oninput="validateForm(this, 'dateAsText'); getDuration(this,'config_embarkationDate','config_duration')" /></td>
 							<td style="width:26px;text-align:right;"><img src="images/xMark.svg" style="height:20px; width:20px; display:none" /></td>
 							<td style="width:26px;text-align:right;"><img src="images/pencilEdit.svg" style="height:20px; width:20px" /></td>
 						</tr>
 						<tr>
 							<td style="width:40px;padding:2px;text-align:left;">Trip end:</td>
-							<td style="text-align: left;"><input id="configTripEnd" type="text" value="yyyy/mm/dd" style="width: 100px" /></td>
+							<td style="text-align: left;"><input id="config_dateEnd" type="text" value="yyyy/mm/dd" style="width: 100px" oninput="validateForm(this, 'dateAsText'); getDuration(this,'config_embarkationDate','config_duration')" /></td>
 							<td style="width:26px;text-align:right;"><img src="images/xMark.svg" style="height:20px; width:20px; display:none" /></td>
 							<td style="width:26px;text-align:right;"><img src="images/pencilEdit.svg" style="height:20px; width:20px" /></td>
 						</tr>
 						<tr>
 							<td style="width:40px;padding:2px;text-align:left;">Duration:</td>
-							<td style="text-align: left;"><input id="configTripDuration" type="text" value="dd" style="width: 50px" /> Days</td>
+							<td style="text-align: left;"><input id="config_duration" type="text" value="dd" style="width: 50px" /> Days</td>
 							<td style="width:26px;text-align:right;"><img src="images/xMark.svg" style="height:20px; width:20px; display:none" /></td>
 							<td style="width:26px;text-align:right;"><img src="images/pencilEdit.svg" style="height:20px; width:20px" /></td>
 						</tr>
 						<tr>
 							<td style="width:40px;padding:2px;text-align:left;">Embarkation:</td>
-							<td style="text-align: left;"><input id="configEmbarkationDate" type="text" value="yyyy/mm/dd" style="width: 100px" /></td>
+							<td style="text-align: left;"><input id="config_embarkationDate" type="text" value="yyyy/mm/dd" style="width: 100px" oninput="validateForm(this, 'dateAsText')" /></td>
 							<td style="width:26px;text-align:right;"><img src="images/xMark.svg" style="height:20px; width:20px; display:none" /></td>
 							<td style="width:26px;text-align:right;"><img src="images/pencilEdit.svg" style="height:20px; width:20px" /></td>
 						</tr>
 						<tr>
 							<td style="width:40px;padding:2px;text-align:left;">Debarkation:</td>
-							<td style="text-align: left;"><input id="configDebarkationDate" type="text" value="yyyy/mm/dd" style="width: 100px" /></td>
+							<td style="text-align: left;"><input id="config_debarkationDate" type="text" value="yyyy/mm/dd" style="width: 100px" oninput="validateForm(this, 'dateAsText')" /></td>
 							<td style="width:26px;text-align:right;"><img src="images/xMark.svg" style="height:20px; width:20px; display:none" /></td>
 							<td style="width:26px;text-align:right;"><img src="images/pencilEdit.svg" style="height:20px; width:20px" /></td>
 						</tr>
 						<tr>
 							<td style="width:40px;padding:2px;text-align:left;">Cruise&nbsp;Length:</td>
-							<td style="text-align: left;"><input id="configCruiseDuration" type="text" value="dd" style="width: 50px" /> Days</td>
+							<td style="text-align: left;"><input id="config_cruiseDuration" type="text" value="dd" style="width: 50px" /> Days</td>
 							<td style="width:26px;text-align:right;"><img src="images/xMark.svg" style="height:20px; width:20px; display:none" /></td>
 							<td style="width:26px;text-align:right;"><img src="images/pencilEdit.svg" style="height:20px; width:20px" /></td>
 						</tr>
 						<tr>
 							<td style="width:40px;padding:2px;text-align:left;">Cruise Line:</td>
-							<td style="text-align: left;"><input id="configCruiseLineNameLong" type="text" value="Fun Time Cruise Line" style="width: calc(100% - 10px);" /></td>
+							<td style="text-align: left;"><input id="config_cruiseLine" type="text" value="Fun Time Cruise Line" style="width: calc(100% - 10px);" /></td>
 							<td style="width:26px;text-align:right;"><img src="images/xMark.svg" style="height:20px; width:20px; display:none" /></td>
 							<td style="width:26px;text-align:right;"><img src="images/pencilEdit.svg" style="height:20px; width:20px" /></td>
 						</tr>
 						<tr>
-							<td style="width:40px;padding:2px;text-align:left;">Name:</td>
-							<td style="text-align: left;"><input id="configCruiseLineNameShort" type="text" value="Fun Time" style="width: calc(100% - 10px);" /></td>
+							<td style="width:40px;padding:2px;text-align:left;">Short:</td>
+							<td style="text-align: left;"><input id="config_cruiseLineCommon" type="text" value="Fun Time" style="width: calc(100% - 10px);" /></td>
 							<td style="width:26px;text-align:right;"><img src="images/xMark.svg" style="height:20px; width:20px; display:none" /></td>
 							<td style="width:26px;text-align:right;"><img src="images/pencilEdit.svg" style="height:20px; width:20px" /></td>
 						</tr>
 						<tr>
 							<td style="width:40px;padding:2px;text-align:left;">Abbreviation:</td>
-							<td style="text-align: left;"><input id="configCruiseLineNameAbbr" type="text" value="FTCL" style="width: 50px" /></td>
+							<td style="text-align: left;"><input id="config_cruiseLineAbbr" type="text" value="FTCL" style="width: 50px" /></td>
 							<td style="width:26px;text-align:right;"><img src="images/xMark.svg" style="height:20px; width:20px; display:none" /></td>
 							<td style="width:26px;text-align:right;"><img src="images/pencilEdit.svg" style="height:20px; width:20px" /></td>
 						</tr>

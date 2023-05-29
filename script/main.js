@@ -239,14 +239,31 @@ function generateEmergencyPanel() {
     return true;
 }
 
-function populateConfigPanelData(){
+function populateConfigPanelData() {
+    let popConfigPanelList = [];
+    Array.from(document.getElementById('form_generalInfo').elements).forEach((input) => { popConfigPanelList.push((input.id).substring(7)) });
+    for (configItem of popConfigPanelList) {
+        if (configItem != "duration" && configItem != "cruiseDuration") {
+            document.getElementById("config_" + configItem).value = tripOverViewList[configItem];
+        } else if (configItem == "duration") {
+            document.getElementById("config_duration").value = calcDuration(tripOverViewList["dateStart"], tripOverViewList["dateEnd"]);
+        } else if (configItem == "cruiseDuration") {
+            document.getElementById("config_cruiseDuration").value = calcDuration(tripOverViewList['embarkationDate'], tripOverViewList['debarkationDate']);
+        }
+    }
+    
     return true;
 }
 
-var editInputList = [0];
+function calcDuration(dateA, dateB) {
+    let msA = new Date(dateA);
+    let msB = new Date(dateB);
+        return Math.abs(msA - msB) / msPerDay;
+}
 
+var editInputList = [0];
 function initEditPanel(panelID) {
-    editInputList=[0];
+    editInputList=[];
     if (panelID == 'shipDetails') {
         editInputList = ["shipInfo", "cruiseLine", "shipName", "stateRoom", "embarkationDate", "embarkatonCity", "embarkationCountry",
             "debarkationDate", "debarkationCity", "debarkationCountry", "tonnes", "guests", "shpLength", "maxBeam", "crew", "constructed", "reservationNumber"];
@@ -255,13 +272,21 @@ function initEditPanel(panelID) {
         for (let i = 2; i < editInputList.length; i++) {
             document.getElementById(editInputList[0] + editInputList[i]).disabled = false;
         }
-        document.getElementById('btn_Edit'+editInputList[0]+'Accept').style.display = "inline";
+        document.getElementById('btn_Edit' + editInputList[0]+'Accept').style.display = "inline";
         document.getElementById('btn_Edit' + editInputList[0] +'Cancel').style.display = "inline";
         document.getElementById('btn_Edit' + editInputList[0]).style.display = "none";
     }
     if (panelID == 'config_GeneralInfo') {
         Array.from(document.getElementById('form_generalInfo').elements).forEach((input) => { editInputList.push(input.id)});
         console.log(editInputList);
+        for (item of editInputList) {
+            if (item != "duration" || item != "cruiseDuration") {
+                document.getElementById(item).disabled = false;
+            }
+        }
+        document.getElementById('btn_EditGeneralInfo_Accept').style.display = "inline";
+        document.getElementById('btn_EditGeneralInfo_Cancel').style.display = "inline";
+        document.getElementById('btn_EditGeneralInfo').style.display = "none";
     }
 }
 
@@ -273,10 +298,20 @@ function acceptEditPanel(panelID) {
             tripOverViewList[editInputList[i]] = document.getElementById(editInputList[0] + editInputList[i]).value;
             document.getElementById(editInputList[0] + editInputList[i]).disabled = true;
         }
-
         document.getElementById('btn_Edit' + editInputList[0] + 'Accept').style.display = "none";
         document.getElementById('btn_Edit' + editInputList[0] + 'Cancel').style.display = "none";
         document.getElementById('btn_Edit' + editInputList[0]).style.display = "inline";
+    }
+    if (panelID == 'config_GeneralInfo') {
+        Array.from(document.getElementById('form_generalInfo').elements).forEach((input) => { editInputList.push((input.id).substring(7)) });
+        console.log(editInputList);
+        for (item of editInputList) {
+            tripOverViewList[item] = document.getElementById("config_" + item).value;
+            document.getElementById("config_" + item).disabled = true;
+        }
+        document.getElementById('btn_EditGeneralInfo_Accept').style.display = "none";
+        document.getElementById('btn_EditGeneralInfo_Cancel').style.display = "none";
+        document.getElementById('btn_EditGeneralInfo').style.display = "inline";
     }
     editInputList = [0];
     toggleFlags[panelID] = 1;
@@ -292,11 +327,21 @@ function cancelEditPanel(panelID) {
             document.getElementById(editInputList[0] + editInputList[i]).value = tripOverViewList[editInputList[i]];
             document.getElementById(editInputList[0] + editInputList[i]).disabled = true;
         }
-
         document.getElementById('btn_Edit' + editInputList[0] + 'Accept').style.display = "none";
         document.getElementById('btn_Edit' + editInputList[0] + 'Cancel').style.display = "none";
         document.getElementById('btn_Edit' + editInputList[0]).style.display = "inline";
 
+    }
+    if (panelID == 'config_GeneralInfo') {
+        Array.from(document.getElementById('form_generalInfo').elements).forEach((input) => { editInputList.push((input.id).substring(7)) });
+        console.log(editInputList);
+        for (item of editInputList) {
+            document.getElementById("config_"+item).value = tripOverViewList[item];
+            document.getElementById("config_"+item).disabled = true;
+        }
+        document.getElementById('btn_EditGeneralInfo_Accept').style.display = "none";
+        document.getElementById('btn_EditGeneralInfo_Cancel').style.display = "none";
+        document.getElementById('btn_EditGeneralInfo').style.display = "inline";
     }
     editInputList = [0];
 }

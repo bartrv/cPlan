@@ -49,7 +49,7 @@ let tripOverViewList = {
     "reservationNumber": "1234567890", "stateRoom": "1403", "travelerFName":"Jim","travelerMI":"C","travelerLName":"Monty","travelerMobileIntnl":"011234567890"
 };
 
-// {uniqueKey: [0:cruiseDay, 1:City, 2:Country, 3:Date, 4:Arrival, 5:Departure, 6:Terminal, 7:ActivityKey]}
+// {uniqueKey[string->int]: [0:cruiseDay[string], 1:City[string], 2:Country[string], 3:Date[string->"yyyy/mm/dd"], 4:Arrival[string->hh:mm(24h)], 5:Departure[string->hh:mm(24h)], 6:Terminal[string], 7:ActivityKey[string->int],}
 let portList = {
     "0": ["-1", "City / Ship Name", "Country / 'At Sea'", "2020/12/31", "00:00", "24:00", "0", "0"],
     "1": ["0", "City / Ship Name", "Country / 'At Sea'", "2020/12/31", "00:00", "24:00", "0", "1"],
@@ -162,16 +162,35 @@ function loadUserData() {
     }
 }
 
-function buildDataFromCalander(resetFlag = false) {
-    if (resetFlag == true) {
-        tripOverViewList.dateStart = "2023/01/01";
-        tripOverViewList.dateEnd = "2023/01/13";
-        tripOverViewList.embarkationDate = "2023/01/03";
-        tripOverViewList.debarkationDate = "2023/01/10";
+function buildPortListFromCalander(resetPortList = false, resetActivityList = false) {
+    if (resetPortList == true) {
+        //default_POC_Data ["0", "City / Ship Name", "Country / 'At Sea'", "2020/12/31", "00:00", "24:00", "0", "0"];
+        //{uniqueKey[string->int]: [0:cruiseDay[string->int], 1:City[string], 2:Country[string], 3:Date[string->"yyyy/mm/dd"], 4:Arrival[string->hh:mm(24h)], 5:Departure[string->hh:mm(24h)], 6:Terminal[string], 7:ActivityKey[string->int],}
+        let tempActivityKeys = {};
+        for (var [key, item] of Object.entries(portList)) {
+            tempActivityKeys[key]=""+ item[7];
+        }
+        portList = {};
+        if (resetActivityList == true) {
+            const activitySeed = { "cruiseDay": "0", "city": "Port City", "schedule": [{ "location": "Location", "activity": '10', "start": "09:00", "end": "12:00", "notes": "Short note or description..." }] };
+            activityList = { 'staged': [] };
+        }
+        // tripCalander {tripDay:[tripDay, calDateYDFormat, cruiseDay, portKey]}
+        for (const [key, value] of Object.entries(tripCalendar)) {
+            portList["" + value[3]] = [...default_POC_Data];
+            portList["" + value[3]][0] = ""+value[2];
+            portList["" + value[3]][3] = ""+value[1];
+            if (resetActivityList == true) {
+                portList["" + value[3]][7] = ""+value[3];
+            } else {
+                if (typeof tempActivityKeys["" + value[3]] != "undefined") {
+                    portList["" + value[3]][7] = "" + tempActivityKeys["" + value[3]];
+                } else {
+                    portList["" + value[3]][7] = ""+value[3];
+                }
+            }
+        }    
     }
-    let genStartDate = new date(tripOverViewList.dateStart);
-
-
 }
 
 function sortActivityList(thisDay = "none") {
@@ -292,6 +311,23 @@ function validateForm(frmItem, type, charLimit = 12) {
     if (tempMatch != null) validOutput = tempMatch[0];
 
     frmItem.value = validOutput;
+    //if date configuration...
+    if (type == 'dateAsText' && validOutput.length == 10) {
+        switch (frmItem.id) {
+            case "config_dateStart":
+                document.getElementById("config_duration").value = calcDuration(validOutput, document.getElementById("config_dateEnd").value);
+                break;
+            case "config_dateEnd":
+                document.getElementById("config_duration").value = calcDuration(validOutput, document.getElementById("config_dateStart").value);
+                break;
+            case "config_embarkationDate":
+                document.getElementById("config_cruiseDuration").value = calcDuration(validOutput, document.getElementById("config_debarkationDate").value);
+                break;
+            case "config_debarkationDate":
+                document.getElementById("config_cruiseDuration").value = calcDuration(validOutput, document.getElementById("config_embarkationDate").value);
+                break;
+        }
+    }
 }
 
 function enforceTimeFormat(tElement) {
