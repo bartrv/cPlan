@@ -157,88 +157,251 @@
 				<form name="form_generalInfo" id="form_generalInfo">
 					<table style="width:100%; font-size:12px; border-spacing:0px">
 						<tr>
-							<td style="width:40px;padding:2px;text-align:left;">Name:</td>
-							<td style="text-align: left;"><input id="config_travelerFName" class="configText" type="text" value="Name" style="width: calc(100% - 10px);" /></td>
+							<td style="width:40px;padding:2px;text-align:left;"><span class="configRolloutLabels">Name:</span></td>
+							<td style="text-align: left;"><input id="config_travelerFName" class="configText" type="text" value="Name" style="width: calc(100% - 10px);" oninput="validateForm(this, 'plainText',12);" disabled /></td>
 							<td style="width:26px;text-align:right;"><img src="images/xMark.svg" style="height:20px; width:20px; display:none" /></td>
 							<td style="width:26px;text-align:right;"><img src="images/pencilEdit.svg" style="height:20px; width:20px" onclick="" /></td>
 						</tr>
 						<tr>
 							<td style="width: 40px; height: 19px; padding: 2px; text-align: left;">Middle:</td>
-							<td style="text-align:left;"><input id="config_travelerMI" class="configText" type="text" value="M" style="width: calc(100% - 10px);;" /></td>
+							<td style="text-align:left;"><input id="config_travelerMI" class="configText" type="text" value="M" style="width: calc(100% - 10px);" oninput="validateForm(this, 'plainText',2);" disabled /></td>
 							<td style="width:26px;text-align:right;">&nbsp;</td>
 							<td style="width:26px;text-align:right;">&nbsp;</td>
 						</tr>
 						<tr>
 							<td style="width: 40px; height: 19px; padding: 2px; text-align: left;">Sirname:</td>
-							<td style="text-align:left;"><input id="config_travelerLName" class="configText" type="text" value="lName" style="width: calc(100% - 10px);" /></td>
+							<td style="text-align:left;"><input id="config_travelerLName" class="configText" type="text" value="lName" style="width: calc(100% - 10px);" oninput="validateForm(this, 'plainText',16);" disabled /></td>
 							<td style="width:26px;text-align:right;">&nbsp;</td>
 							<td style="width:26px;text-align:right;">&nbsp;</td>
 						</tr>
 						<tr>
-							<td style="width:40px;padding:2px;text-align:left;">Trip:</td>
-							<td style="text-align: left;"><input id="config_tripName" type="text" value="Trip Name" style="width: calc(100% - 10px);" /></td>
+							<td style="width:40px;padding:2px;text-align:left;">Trip Name:</td>
+							<td style="text-align: left;"><input id="config_tripName" type="text" value="Trip Name" style="width: calc(100% - 10px);" oninput="validateForm(this, 'plainText',32);" disabled /></td>
 							<td style="width:26px;text-align:right;"><img src="images/xMark.svg" style="height:20px; width:20px; display:none" /></td>
 							<td style="width:26px;text-align:right;"><img src="images/pencilEdit.svg" style="height:20px; width:20px" /></td>
 						</tr>
 						<tr>
 							<td style="width:40px;padding:2px;text-align:left;">Trip start:</td>
-							<td style="text-align: left;"><input id="config_dateStart" type="text" value="yyyy/mm/dd" style="width: 100px" oninput="validateForm(this, 'dateAsText'); getDuration(this,'config_embarkationDate','config_duration')" /></td>
+							<td style="text-align: left;"><input id="config_dateStart" type="text" value="yyyy/mm/dd" style="width: 100px" oninput="validateForm(this, 'dateAsText'); getDuration(this,'config_embarkationDate','config_duration')" disabled /></td>
 							<td style="width:26px;text-align:right;"><img src="images/xMark.svg" style="height:20px; width:20px; display:none" /></td>
 							<td style="width:26px;text-align:right;"><img src="images/pencilEdit.svg" style="height:20px; width:20px" /></td>
 						</tr>
 						<tr>
 							<td style="width:40px;padding:2px;text-align:left;">Trip end:</td>
-							<td style="text-align: left;"><input id="config_dateEnd" type="text" value="yyyy/mm/dd" style="width: 100px" oninput="validateForm(this, 'dateAsText'); getDuration(this,'config_embarkationDate','config_duration')" /></td>
+							<td style="text-align: left;"><input id="config_dateEnd" type="text" value="yyyy/mm/dd" style="width: 100px" oninput="validateForm(this, 'dateAsText'); getDuration(this,'config_embarkationDate','config_duration')" disabled /></td>
 							<td style="width:26px;text-align:right;"><img src="images/xMark.svg" style="height:20px; width:20px; display:none" /></td>
 							<td style="width:26px;text-align:right;"><img src="images/pencilEdit.svg" style="height:20px; width:20px" /></td>
 						</tr>
 						<tr>
 							<td style="width:40px;padding:2px;text-align:left;">Duration:</td>
-							<td style="text-align: left;"><input id="config_duration" type="text" value="dd" style="width: 50px" /> Days</td>
+							<td style="text-align: left;"><input id="config_duration" type="text" value="dd" style="width: 50px" disabled/> Days</td>
 							<td style="width:26px;text-align:right;"><img src="images/xMark.svg" style="height:20px; width:20px; display:none" /></td>
 							<td style="width:26px;text-align:right;"><img src="images/pencilEdit.svg" style="height:20px; width:20px" /></td>
 						</tr>
 						<tr>
 							<td style="width:40px;padding:2px;text-align:left;">Embarkation:</td>
-							<td style="text-align: left;"><input id="config_embarkationDate" type="text" value="yyyy/mm/dd" style="width: 100px" oninput="validateForm(this, 'dateAsText')" /></td>
+							<td style="text-align: left;"><input id="config_embarkationDate" type="text" value="yyyy/mm/dd" style="width: 100px" oninput="validateForm(this, 'dateAsText')" disabled /></td>
 							<td style="width:26px;text-align:right;"><img src="images/xMark.svg" style="height:20px; width:20px; display:none" /></td>
 							<td style="width:26px;text-align:right;"><img src="images/pencilEdit.svg" style="height:20px; width:20px" /></td>
 						</tr>
 						<tr>
 							<td style="width:40px;padding:2px;text-align:left;">Debarkation:</td>
-							<td style="text-align: left;"><input id="config_debarkationDate" type="text" value="yyyy/mm/dd" style="width: 100px" oninput="validateForm(this, 'dateAsText')" /></td>
+							<td style="text-align: left;"><input id="config_debarkationDate" type="text" value="yyyy/mm/dd" style="width: 100px" oninput="validateForm(this, 'dateAsText')" disabled /></td>
 							<td style="width:26px;text-align:right;"><img src="images/xMark.svg" style="height:20px; width:20px; display:none" /></td>
 							<td style="width:26px;text-align:right;"><img src="images/pencilEdit.svg" style="height:20px; width:20px" /></td>
 						</tr>
 						<tr>
 							<td style="width:40px;padding:2px;text-align:left;">Cruise&nbsp;Length:</td>
-							<td style="text-align: left;"><input id="config_cruiseDuration" type="text" value="dd" style="width: 50px" /> Days</td>
+							<td style="text-align: left;"><input id="config_cruiseDuration" type="text" value="dd" style="width: 50px" disabled /> Days</td>
 							<td style="width:26px;text-align:right;"><img src="images/xMark.svg" style="height:20px; width:20px; display:none" /></td>
 							<td style="width:26px;text-align:right;"><img src="images/pencilEdit.svg" style="height:20px; width:20px" /></td>
 						</tr>
 						<tr>
 							<td style="width:40px;padding:2px;text-align:left;">Cruise Line:</td>
-							<td style="text-align: left;"><input id="config_cruiseLine" type="text" value="Fun Time Cruise Line" style="width: calc(100% - 10px);" /></td>
+							<td style="text-align: left;"><input id="config_cruiseLine" type="text" value="Fun Time Cruise Line" style="width: calc(100% - 10px);" oninput="validateForm(this, 'plainText',30);" disabled/></td>
 							<td style="width:26px;text-align:right;"><img src="images/xMark.svg" style="height:20px; width:20px; display:none" /></td>
 							<td style="width:26px;text-align:right;"><img src="images/pencilEdit.svg" style="height:20px; width:20px" /></td>
 						</tr>
 						<tr>
 							<td style="width:40px;padding:2px;text-align:left;">Short:</td>
-							<td style="text-align: left;"><input id="config_cruiseLineCommon" type="text" value="Fun Time" style="width: calc(100% - 10px);" /></td>
+							<td style="text-align: left;"><input id="config_cruiseLineCommon" type="text" value="Fun Time" style="width: calc(100% - 10px);" oninput="validateForm(this, 'plainText', 20);" disabled/></td>
 							<td style="width:26px;text-align:right;"><img src="images/xMark.svg" style="height:20px; width:20px; display:none" /></td>
 							<td style="width:26px;text-align:right;"><img src="images/pencilEdit.svg" style="height:20px; width:20px" /></td>
 						</tr>
 						<tr>
 							<td style="width:40px;padding:2px;text-align:left;">Abbreviation:</td>
-							<td style="text-align: left;"><input id="config_cruiseLineAbbr" type="text" value="FTCL" style="width: 50px" /></td>
+							<td style="text-align: left;"><input id="config_cruiseLineAbbr" type="text" value="FTCL" style="width: 50px" oninput="validateForm(this, 'plainText',5);" disabled/></td>
 							<td style="width:26px;text-align:right;"><img src="images/xMark.svg" style="height:20px; width:20px; display:none" /></td>
 							<td style="width:26px;text-align:right;"><img src="images/pencilEdit.svg" style="height:20px; width:20px" /></td>
 						</tr>
 					</table>
 				</form>
 			</div>
-			<div id="configTravel" class="configRolloutHeading" onclick="toggleRollout(this,200)">Travel Information</div>
-			<div id="configTravelRollout" class="configRolloutPanel"></div>
+			<div id="configTravel" class="configRolloutHeading" onclick="toggleRollout(this,'auto')">Travel Information</div>
+			<div id="configTravelRollout" class="configRolloutPanel">
+				<form name="form_TravelInformation" class="configRolloutLabels">
+					<table class="configForm_Input" style=" width: calc(100% - 22px); margin:auto">
+						<tr>
+							<td style="background-color: #ffffff22;">
+								<div style="font-size: 20px; color: #EEE; text-align:center;margin:0px;border:none;padding:0px;">- Flight out -</div>
+								<table style="width:100%;border:none;margin:0px;padding:0px;">
+									<tr><td colspan="3" style="text-align:center"><input id="config_flight1CNo" type="text" value="1234567890" style="width:150px" /><br /><label for="config_flightCNo1">Flight Confirmation #</label></td></tr>
+									<tr><td colspan="3" style="text-align:center"><input id="config_flight1Date" type="text" value="2023/01/01" style="width:75px" /><br /><label for="config_flight1Date">Date of Travel</label></td></tr>
+									<tr><td><input id="config_flightOutCityFrom" type="text" value="-" style="width:100px" /><br />City (From)</td><td><input id="config_flight1Date" type="text" value="Indiana" style="width:75px" /><br />State/Province</td><td><input id="config_flight1Date" type="text" value="USA" style="width:35px" /><br />Country</td></tr>
+									<tr><td><input id="config_flightOutCityTo" type="text" value="-" style="width:100px" /><br />City (To)</td><td><input id="config_flight1Date" type="text" value="Quebec" style="width:75px" /><br />State/Province</td><td><input id="config_flight1Date" type="text" value="CDA" style="width:35px" /><br />Country</td></tr>
+									<tr><td><input id="config_flightOutAirline" type="text" value="-" style="width:100px" /><br />Airline</td><td><input id="config_flightOutDepart" type="text" value="00:00" style="width:45px; text-align:center;" /><br />Depart (24h)</td><td><input id="config_flightOutArrive" type="text" value="00:00" style="width:45px; text-align:center" /><br />Arrive (24h)</td></tr>
+								</table>
+								<table style="width:100%;border:none;margin:0px;padding:0px;margin-top:7px;">
+									<tr><td colspan="4" style="text-align:center;font-size:12px;background-color:#ffffff50">Connection 1</td></tr>
+									<tr>
+										<td><input id="config_flightOutAirline" type="text" value="00:00" style="width:45px; text-align:center;" /><br />Bording</td>
+										<td><input id="config_flightOutAirline" type="text" value="-" style="width:35px" /><br />Seat #</td>
+										<td><input id="config_flightOutAirline" type="text" value="00:00" style="width:45px; text-align:center;" /><br />Depart</td>
+										<td><input id="config_flightOutAirline" type="text" value="00:00" style="width:45px; text-align:center;" /><br />Arrive</td>
+									</tr>
+									<tr>
+										<td><input id="config_flightOutAirline" type="text" value="-" style="width:55px" /><br />Flight #</td>
+										<td colspan="2"><input id="config_flightOutAirline" type="text" value="-" style="width:125px" /><br />Carrier</td>
+										<td><input id="config_flightOutAirline" type="text" value="-" style="width:45px" /><br />Luggage</td>
+									</tr>
+									<tr>
+										<td colspan="3"><input id="config_flightOutAirline" type="text" value="-" style="width:188px" /><br />City (From)</td>
+										<td><input id="config_flightOutAirline" type="text" value="-" style="width:35px" /><br />Country</td>
+									</tr>
+									<tr>
+										<td colspan="3"><input id="config_flightOutAirline" type="text" value="-" style="width: 188px" /><br />City (To):</td>
+										<td><input id="config_flightOutAirline" type="text" value="-" style="width:35px" /><br />Country</td>
+									</tr>
+								</table>
+								<table style="width:100%;border:none;margin:0px;padding:0px;margin-top:7px;">
+									<tr><td colspan="4" style="text-align:center;font-size:12px;background-color:#ffffff50">Connection 2</td></tr>
+									<tr>
+										<td><input id="config_flightOutAirline" type="text" value="00:00" style="width:45px; text-align:center;" /><br />Bording</td>
+										<td><input id="config_flightOutAirline" type="text" value="-" style="width:35px" /><br />Seat #</td>
+										<td><input id="config_flightOutAirline" type="text" value="00:00" style="width:45px; text-align:center;" /><br />Depart</td>
+										<td><input id="config_flightOutAirline" type="text" value="00:00" style="width:45px; text-align:center;" /><br />Arrive</td>
+									</tr>
+									<tr>
+										<td><input id="config_flightOutAirline" type="text" value="-" style="width:55px" /><br />Flight #</td>
+										<td colspan="2"><input id="config_flightOutAirline" type="text" value="-" style="width:125px" /><br />Carrier</td>
+										<td><input id="config_flightOutAirline" type="text" value="-" style="width:45px" /><br />Luggage</td>
+									</tr>
+									<tr>
+										<td colspan="3"><input id="config_flightOutAirline" type="text" value="-" style="width:188px" /><br />City (From)</td>
+										<td><input id="config_flightOutAirline" type="text" value="-" style="width:35px" /><br />Country</td>
+									</tr>
+									<tr>
+										<td colspan="3"><input id="config_flightOutAirline" type="text" value="-" style="width: 188px" /><br />City (To):</td>
+										<td><input id="config_flightOutAirline" type="text" value="-" style="width:35px" /><br />Country</td>
+									</tr>
+								</table>
+								<table style="width:100%;border:none;margin:0px;padding:0px;margin-top:7px;">
+									<tr><td colspan="4" style="text-align:center;font-size:12px;background-color:#ffffff50">Connection 3</td></tr>
+									<tr>
+										<td><input id="config_flightOutAirline" type="text" value="00:00" style="width:45px; text-align:center;" /><br />Bording</td>
+										<td><input id="config_flightOutAirline" type="text" value="-" style="width:35px" /><br />Seat #</td>
+										<td><input id="config_flightOutAirline" type="text" value="00:00" style="width:45px; text-align:center;" /><br />Depart</td>
+										<td><input id="config_flightOutAirline" type="text" value="00:00" style="width:45px; text-align:center;" /><br />Arrive</td>
+									</tr>
+									<tr>
+										<td><input id="config_flightOutAirline" type="text" value="-" style="width:55px" /><br />Flight #</td>
+										<td colspan="2"><input id="config_flightOutAirline" type="text" value="-" style="width:125px" /><br />Carrier</td>
+										<td><input id="config_flightOutAirline" type="text" value="-" style="width:45px" /><br />Luggage</td>
+									</tr>
+									<tr>
+										<td colspan="3"><input id="config_flightOutAirline" type="text" value="-" style="width:188px" /><br />City (From)</td>
+										<td><input id="config_flightOutAirline" type="text" value="-" style="width:35px" /><br />Country</td>
+									</tr>
+									<tr>
+										<td colspan="3"><input id="config_flightOutAirline" type="text" value="-" style="width: 188px" /><br />City (To):</td>
+										<td><input id="config_flightOutAirline" type="text" value="-" style="width:35px" /><br />Country</td>
+									</tr>
+								</table>
+							</td>
+						</tr>
+					</table>
+					<table class="configForm_Input" style=" width: calc(100% - 22px); margin:auto">
+						<tr>
+							<td style="background-color: #ffffff22;">
+								<div style="font-size: 20px; color: #EEE; text-align:center;margin:0px;border:none;padding:0px;">- Flight Back -</div>
+								<table style="width:100%;border:none;margin:0px;padding:0px;">
+									<tr><td colspan="3" style="text-align:center"><input id="config_flightBackCNo" type="text" value="1234567890" style="width:150px" /><br /><label for="config_flightBackCNo">Flight Confirmation #</label></td></tr>
+									<tr><td colspan="3" style="text-align:center"><input id="config_flightBackDate" type="text" value="2023/01/01" style="width:75px" /><br /><label for="config_flightBackDate">Date of Travel</label></td></tr>
+									<tr><td><input id="config_flightBackCityFrom" type="text" value="-" style="width:100px" /><br />City (From)</td><td><input id="config_flightBackStateFrom" type="text" value="Indiana" style="width:75px" /><br />State/Province</td><td><input id="config_flightBackCountryFrom" type="text" value="USA" style="width:35px" /><br />Country</td></tr>
+									<tr><td><input id="config_flightBackCityTo" type="text" value="-" style="width:100px" /><br />City (To)</td><td><input id="config_flightBackStateTo" type="text" value="Quebec" style="width:75px" /><br />State/Province</td><td><input id="config_flightBackCountryTo" type="text" value="CDA" style="width:35px" /><br />Country</td></tr>
+									<tr><td><input id="config_flightBackAirline" type="text" value="-" style="width:100px" /><br />Airline</td><td><input id="config_flightBackDepart" type="text" value="00:00" style="width:45px; text-align:center;" /><br />Depart (24h)</td><td><input id="config_flightBackArrive" type="text" value="00:00" style="width:45px; text-align:center" /><br />Arrive (24h)</td></tr>
+								</table>
+								<table style="width:100%;border:none;margin:0px;padding:0px;margin-top:7px;">
+									<tr><td colspan="4" style="text-align:center;font-size:12px;background-color:#ffffff50">Connection 1</td></tr>
+									<tr>
+										<td><input id="config_flightOutAirline" type="text" value="00:00" style="width:45px; text-align:center;" /><br />Bording</td>
+										<td><input id="config_flightOutAirline" type="text" value="-" style="width:35px" /><br />Seat #</td>
+										<td><input id="config_flightOutAirline" type="text" value="00:00" style="width:45px; text-align:center;" /><br />Depart</td>
+										<td><input id="config_flightOutAirline" type="text" value="00:00" style="width:45px; text-align:center;" /><br />Arrive</td>
+									</tr>
+									<tr>
+										<td><input id="config_flightOutAirline" type="text" value="-" style="width:55px" /><br />Flight #</td>
+										<td colspan="2"><input id="config_flightOutAirline" type="text" value="-" style="width:125px" /><br />Carrier</td>
+										<td><input id="config_flightOutAirline" type="text" value="-" style="width:45px" /><br />Luggage</td>
+									</tr>
+									<tr>
+										<td colspan="3"><input id="config_flightOutAirline" type="text" value="-" style="width:188px" /><br />City (From)</td>
+										<td><input id="config_flightOutAirline" type="text" value="-" style="width:35px" /><br />Country</td>
+									</tr>
+									<tr>
+										<td colspan="3"><input id="config_flightOutAirline" type="text" value="-" style="width: 188px" /><br />City (To):</td>
+										<td><input id="config_flightOutAirline" type="text" value="-" style="width:35px" /><br />Country</td>
+									</tr>
+								</table>
+								<table style="width:100%;border:none;margin:0px;padding:0px;margin-top:7px;">
+									<tr><td colspan="4" style="text-align:center;font-size:12px;background-color:#ffffff50">Connection 2</td></tr>
+									<tr>
+										<td><input id="config_flightOutAirline" type="text" value="00:00" style="width:45px; text-align:center;" /><br />Bording</td>
+										<td><input id="config_flightOutAirline" type="text" value="-" style="width:35px" /><br />Seat #</td>
+										<td><input id="config_flightOutAirline" type="text" value="00:00" style="width:45px; text-align:center;" /><br />Depart</td>
+										<td><input id="config_flightOutAirline" type="text" value="00:00" style="width:45px; text-align:center;" /><br />Arrive</td>
+									</tr>
+									<tr>
+										<td><input id="config_flightOutAirline" type="text" value="-" style="width:55px" /><br />Flight #</td>
+										<td colspan="2"><input id="config_flightOutAirline" type="text" value="-" style="width:125px" /><br />Carrier</td>
+										<td><input id="config_flightOutAirline" type="text" value="-" style="width:45px" /><br />Luggage</td>
+									</tr>
+									<tr>
+										<td colspan="3"><input id="config_flightOutAirline" type="text" value="-" style="width:188px" /><br />City (From)</td>
+										<td><input id="config_flightOutAirline" type="text" value="-" style="width:35px" /><br />Country</td>
+									</tr>
+									<tr>
+										<td colspan="3"><input id="config_flightOutAirline" type="text" value="-" style="width: 188px" /><br />City (To):</td>
+										<td><input id="config_flightOutAirline" type="text" value="-" style="width:35px" /><br />Country</td>
+									</tr>
+								</table>
+								<table style="width:100%;border:none;margin:0px;padding:0px;margin-top:7px;">
+									<tr><td colspan="4" style="text-align:center;font-size:12px;background-color:#ffffff50">Connection 3</td></tr>
+									<tr>
+										<td><input id="config_flightOutAirline" type="text" value="00:00" style="width:45px; text-align:center;" /><br />Bording</td>
+										<td><input id="config_flightOutAirline" type="text" value="-" style="width:35px" /><br />Seat #</td>
+										<td><input id="config_flightOutAirline" type="text" value="00:00" style="width:45px; text-align:center;" /><br />Depart</td>
+										<td><input id="config_flightOutAirline" type="text" value="00:00" style="width:45px; text-align:center;" /><br />Arrive</td>
+									</tr>
+									<tr>
+										<td><input id="config_flightOutAirline" type="text" value="-" style="width:55px" /><br />Flight #</td>
+										<td colspan="2"><input id="config_flightOutAirline" type="text" value="-" style="width:125px" /><br />Carrier</td>
+										<td><input id="config_flightOutAirline" type="text" value="-" style="width:45px" /><br />Luggage</td>
+									</tr>
+									<tr>
+										<td colspan="3"><input id="config_flightOutAirline" type="text" value="-" style="width:188px" /><br />City (From)</td>
+										<td><input id="config_flightOutAirline" type="text" value="-" style="width:35px" /><br />Country</td>
+									</tr>
+									<tr>
+										<td colspan="3"><input id="config_flightOutAirline" type="text" value="-" style="width: 188px" /><br />City (To):</td>
+										<td><input id="config_flightOutAirline" type="text" value="-" style="width:35px" /><br />Country</td>
+									</tr>
+								</table>
+							</td>
+						</tr>
+					</table>
+				</form>
+			</div>
 			<div id="configCruise" class="configRolloutHeading" onclick="toggleRollout(this,200)">Cruise Information</div>
 			<div id="configCruiseRollout" class="configRolloutPanel"></div>
 			<div id="configShareLoad" class="configRolloutHeading" onclick="toggleRollout(this,250)">Share / Load Data</div>

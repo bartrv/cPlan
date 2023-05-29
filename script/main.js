@@ -347,6 +347,9 @@ function cancelEditPanel(panelID) {
 }
 
 function toggleRollout(rollCap, rollHeight, portListIndex = null) {   
+    if (rollHeight == 'auto') {
+        rollHeight = document.getElementById(rollCap.id + "Rollout").scrollHeight;
+    }
     let rollDir;
     let heightNow;
     stopPOCTimer(); // Clear countdown timer to prevent duplicates - countdown is relative to .now so restarting is ok
